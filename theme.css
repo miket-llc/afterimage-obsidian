@@ -4599,7 +4599,7 @@ body {
      row rhythm Obsidian actually gives the file explorer. */
   --after-ui-size: 14.5px;
   /* Technical labels — status segments, chips, rail text. */
-  --after-label-size: 12.5px;
+  --after-label-size: 13.5px;
 
   /* PROPERTIES have their own scale, because the panel has a real hierarchy
      and one "small text" size for all three parts flattened it:
@@ -4609,7 +4609,7 @@ body {
                to look subordinate rather than shrunken
        LEGEND  chrome you read once — the only genuinely small thing here */
   --after-prop-value-size: 15px;
-  --after-prop-key-size: 13px;
+  --after-prop-key-size: 15px;
   --after-prop-legend-size: 11.5px;
   --after-code-size: 13.5px;
   --after-heading-scale: 1;
@@ -4694,10 +4694,17 @@ body.after-vga-narrow { --after-font-body: var(--after-face-vga-n); }
 ) {
   font-family: var(--after-font-display);
 }
-/* Property keys and the section legend are SMALL text and stay on 3270.
-   A bitmap display face at 11px is not a style choice, it is a legibility
-   bug — which is exactly how it read at 1x. */
-:is(.theme-dark, .theme-light) :is(.metadata-property-key-input, .metadata-properties-title) {
+/* Property legends ride the DISPLAY face — the same IBM VGA the heading
+   plates use. At 15px its strokes are heavy enough to hold a plate, and it
+   ties the legends to the headings, which is the theme's own logic: plates
+   carry the display face. (At 11px it was the opposite — a bitmap face below
+   its native cell is a legibility bug, not a style choice, which is how the
+   first pass read.) The section legend stays on 3270: it is chrome you read
+   once, and small. */
+:is(.theme-dark, .theme-light) .metadata-property-key-input {
+  font-family: var(--after-font-display);
+}
+:is(.theme-dark, .theme-light) .metadata-properties-title {
   font-family: var(--after-font-label);
 }
 
@@ -5892,8 +5899,9 @@ body :is(
      LEGEND  11.5px — chrome you read once. The only genuinely small thing.  */
 :is(.theme-dark, .theme-light) .metadata-property-key-input {
   font-size: var(--after-prop-key-size);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.01em;   /* the pixel face has its own built-in sidebearing */
   padding: 2px 7px;
+  background-image: none;   /* no plate raster under 15px lettering */
 }
 :is(.theme-dark, .theme-light) :is(
   .metadata-property-value, .metadata-input, .metadata-input-text,
@@ -5916,6 +5924,143 @@ body :is(
 :is(.theme-dark, .theme-light) .metadata-property { padding: 3px 10px; }
 :is(.theme-dark, .theme-light) .metadata-property-key { padding-right: 14px; }
 :is(.theme-dark, .theme-light) .metadata-add-button { font-size: var(--after-prop-legend-size); }
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — SPACING SCALE AND CHROME GEOMETRY
+   ═══════════════════════════════════════════════════════════════════════════
+   The chrome had accumulated ad-hoc values — 3px here, 6px there, an
+   asymmetric 8px 4px 8px 6px on the ribbon — and it showed: the ribbon pill
+   was barely wider than its icons and sat visibly off-centre in its column.
+
+   One 4px scale, used everywhere. Not a style preference: a shared scale is
+   what makes separate components look like they were drawn by the same hand,
+   and it is the thing whose absence reads as "off" even when no single value
+   is obviously wrong.
+   ═══════════════════════════════════════════════════════════════════════════ */
+body {
+  --after-s1: 4px;
+  --after-s2: 8px;
+  --after-s3: 12px;
+  --after-s4: 16px;
+  --after-s5: 24px;
+  /* One icon box everywhere, so every clickable glyph occupies the same
+     square whatever pane it lives in. */
+  --after-icon-box: 30px;
+  --after-icon-glyph: 17px;
+}
+
+/* ── RIBBON ───────────────────────────────────────────────────────────────
+   The pill is sized from the icon box plus a symmetric inset, so the icons
+   are centred by construction rather than by a margin that happened to look
+   right. Column width follows the pill instead of the pill being squeezed
+   into whatever the column already was.                                    */
+body:not(.is-mobile) .workspace-ribbon.mod-left {
+  width: calc(var(--after-icon-box) + var(--after-s2) * 2 + var(--after-s3));
+  min-width: calc(var(--after-icon-box) + var(--after-s2) * 2 + var(--after-s3));
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;          /* centres the pill in the column */
+}
+body:not(.is-mobile) .side-dock-actions {
+  margin: var(--after-s2) 0;
+  padding: var(--after-s2) var(--after-s1);
+  gap: var(--after-s1);
+  width: calc(var(--after-icon-box) + var(--after-s1) * 2);
+  box-sizing: border-box;
+  align-items: center;
+}
+body:not(.is-mobile) .side-dock-settings {
+  padding: 0 0 var(--after-s2);
+  display: flex;
+  justify-content: center;
+}
+body:not(.is-mobile) :is(.side-dock-actions, .side-dock-settings) :is(.clickable-icon, .side-dock-ribbon-action) {
+  width: var(--after-icon-box);
+  height: var(--after-icon-box);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+}
+body :is(.side-dock-ribbon-action, .workspace-ribbon .clickable-icon) svg {
+  width: var(--after-icon-glyph);
+  height: var(--after-icon-glyph);
+}
+
+/* ── TABS ─────────────────────────────────────────────────────────────────
+   Padding from the scale, a real gap between tabs, and the strip's leading
+   edge aligned with the note card beneath it — they were a few pixels apart,
+   which is the kind of misalignment you feel before you can name.          */
+.workspace-tab-header-inner { padding: var(--after-s1) var(--after-s3); }
+.mod-root .workspace-tab-header-container-inner { gap: var(--after-s1); }
+.mod-root .workspace-tab-header { min-width: 0; }
+.mod-root .workspace-tab-header-inner-title {
+  font-size: var(--after-ui-size);
+  letter-spacing: 0.04em;
+}
+.mod-root .workspace-tab-header-inner-icon svg { width: 15px; height: 15px; }
+.workspace-tab-header-new-tab,
+.workspace-tab-header-container .clickable-icon {
+  width: var(--after-icon-box);
+  height: var(--after-icon-box);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── VAULT SWITCHER ───────────────────────────────────────────────────────
+   The row below the explorer. Its name and its two actions now sit on the
+   same inset as every other card, and the actions share the icon box.      */
+.workspace-sidedock-vault-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--after-s2);
+  padding: var(--after-s1) var(--after-s2);
+  min-height: calc(var(--after-icon-box) + var(--after-s2));
+}
+.workspace-sidedock-vault-profile .workspace-drawer-vault-switcher {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--after-s1);
+  padding: 0;
+}
+.workspace-sidedock-vault-profile .workspace-drawer-vault-name {
+  font-size: var(--after-ui-size);
+  letter-spacing: 0.03em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workspace-sidedock-vault-profile .clickable-icon {
+  width: var(--after-icon-box);
+  height: var(--after-icon-box);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+/* ── NAV HEADER ───────────────────────────────────────────────────────────
+   The action row above the file tree was a tall band of loose icons. Same
+   icon box, scale padding, so it reads as a toolbar rather than a gap.     */
+.nav-header { padding: var(--after-s1) var(--after-s2) 0; }
+.nav-buttons-container { gap: 0; justify-content: flex-start; }
+.nav-header .clickable-icon,
+.nav-action-button {
+  width: var(--after-icon-box);
+  height: var(--after-icon-box);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-header .clickable-icon svg,
+.nav-action-button svg { width: var(--after-icon-glyph); height: var(--after-icon-glyph); }
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -6260,7 +6405,7 @@ settings:
     title: Technical label size
     description: Size of the small stamped labels — property keys, status segments, code-language chips, rail text.
     type: variable-number-slider
-    default: 12.5
+    default: 13.5
     min: 9
     max: 15
     step: 0.5
@@ -6278,7 +6423,7 @@ settings:
     title: Property key size
     description: "Size of the stamped property legends. Set in caps with tracking, which reads visually smaller than its nominal size — so it deliberately sits close to the value size rather than well below it."
     type: variable-number-slider
-    default: 13
+    default: 15
     min: 10
     max: 18
     step: 0.5
