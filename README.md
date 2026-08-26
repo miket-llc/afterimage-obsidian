@@ -67,8 +67,8 @@ stacking bloom and afterimage on top turns long prose to mush — which is why
 it is one keystroke away rather than the default.
 
 <table>
-<tr><td><img src="screenshots/preset-3270.webp" alt="3270 preset"><br><sub><b>3270</b></sub></td>
-    <td><img src="screenshots/preset-typewriter.webp" alt="Typewriter preset"><br><sub><b>Typewriter</b></sub></td></tr>
+<tr><td><img src="screenshots/preset-ibm-dos.webp" alt="IBM DOS preset"><br><sub><b>IBM DOS</b></sub></td>
+    <td><img src="screenshots/preset-3270.webp" alt="3270 preset"><br><sub><b>3270</b></sub></td></tr>
 </table>
 
 Two things about the IBM DOS preset are worth knowing if you switch to it:
