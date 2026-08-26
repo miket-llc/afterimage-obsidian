@@ -1,22 +1,22 @@
-# Contributing to Bureau
+# Contributing to Afterimage
 
-Thanks for prying the lid off. Bureau is a small, opinionated room, and it stays
+Thanks for prying the lid off. Afterimage is a small, opinionated room, and it stays
 livable because the rules are few and held to. Here's how to file a report, send
 a change, and not break the lights on your way out.
 
 ## Reporting a problem
 
-Open an [issue](https://github.com/Sonophage/Bureau/issues). The useful ones tell
+Open an [issue](https://github.com/mdt/afterimage-obsidian/issues). The useful ones tell
 me:
 
-- **Obsidian version** (Settings → About) and **Bureau version** (`manifest.json`, or the *What's new* note in Style Settings).
+- **Obsidian version** (Settings → About) and **Afterimage version** (`manifest.json`, or the *What's new* note in Style Settings).
 - **Platform** — desktop (and OS) or mobile.
-- Whether the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin is installed, and which Bureau options you've changed.
+- Whether the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin is installed, and which Afterimage options you've changed.
 - What you saw vs. what you expected. A screenshot is worth a paragraph.
 - The smallest steps that reproduce it. "It's broken" is a mood, not a bug report.
 
 If it only happens with a *particular* plugin or another theme element layered on
-top, say so — Bureau aims for a plugin-independent baseline, so those cases are
+top, say so — Afterimage aims for a plugin-independent baseline, so those cases are
 worth knowing about.
 
 ## Sending a change
@@ -42,7 +42,7 @@ reviewers happy. Hold to them:
 
 ## The `@settings` block
 
-Every Bureau option lives in one `@settings` YAML block at the **foot** of
+Every Afterimage option lives in one `@settings` YAML block at the **foot** of
 `theme.css`. It looks like a comment and it is not — it's parsed by the Style
 Settings plugin, and a malformed block silently kills the whole panel. Two scars
 worth not reopening:
@@ -65,5 +65,5 @@ prefix** — Obsidian matches them to the manifest.
 
 ## License
 
-Bureau is [MIT](LICENSE). By contributing, you agree your work ships under the
+Afterimage is [MIT](LICENSE). By contributing, you agree your work ships under the
 same. Take it apart, build your own room.

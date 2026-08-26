@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Bureau release tool — one command to cut a release with every doc in sync.
+Afterimage release tool — one command to cut a release with every doc in sync.
 
 THE ONE MANUAL STEP
   Add the new entry to README.md, directly under the "## Changelog" line, newest first:
@@ -48,18 +48,18 @@ WHATSNEW_FOOTER = (
     "Full release history is at the foot of this panel. **Updates:** install via the "
     "community-themes browser or [BRAT](https://github.com/TfTHacker/obsidian42-brat) to be "
     "notified automatically; otherwise re-download `theme.css` from the "
-    "[releases page](https://github.com/Sonophage/Bureau)."
+    "[releases page](https://github.com/mdt/afterimage-obsidian)."
 )
 
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 
-# Creator Settings: the author's live Bureau config, embedded as an importable JSON blob in the
+# Creator Settings: the author's live Afterimage config, embedded as an importable JSON blob in the
 # bu-creator-note info-text (users paste it into Style Settings → Import). Read from the vault's
-# Style Settings data.json; override the path with BUREAU_VAULT_SS_DATA. Best-effort: if the file
+# Style Settings data.json; override the path with AFTERIMAGE_VAULT_SS_DATA. Best-effort: if the file
 # isn't present (a fresh clone, CI, another machine) the sync is skipped and the last-synced blob
 # is left untouched, so the release never fails on account of it.
 VAULT_SS_DATA = os.environ.get(
-    "BUREAU_VAULT_SS_DATA",
+    "AFTERIMAGE_VAULT_SS_DATA",
     os.path.expanduser(
         "~/Documents/vaults/harker/.obsidian/plugins/obsidian-style-settings/data.json"
     ),
@@ -139,7 +139,7 @@ def set_line(block, key, new_value_literal):
 
 def sync_settings(theme, version, bullets):
     # 1) What's new — regenerate title + description
-    whatsnew_desc = f"**Bureau v{version}**\n\n{bullets}\n\n{WHATSNEW_FOOTER}"
+    whatsnew_desc = f"**Afterimage v{version}**\n\n{bullets}\n\n{WHATSNEW_FOOTER}"
     s, e = block_bounds(theme, "bu-whatsnew-note")
     block = theme[s:e]
     block = set_line(block, "title", f"What's new — v{version}")
@@ -172,22 +172,22 @@ def sync_creator(theme):
         data = json.loads(read(VAULT_SS_DATA))
     except Exception as e:
         die(f"Creator Settings: could not parse {VAULT_SS_DATA}: {e}")
-    bureau = {k: v for k, v in data.items() if k.startswith("bureau@@")}
-    if not bureau:
-        step("Creator Settings: no bureau@@ keys in the vault, keeping the last-synced blob")
+    own = {k: v for k, v in data.items() if k.startswith("afterimage@@") or k.startswith("bureau@@")}
+    if not own:
+        step("Creator Settings: no afterimage@@ keys in the vault, keeping the last-synced blob")
         return theme
-    blob = json.dumps(bureau, indent=2, ensure_ascii=False)
+    blob = json.dumps(own, indent=2, ensure_ascii=False)
     desc = (
-        "**Bureau, as its author runs it.** A snapshot of my own live setup, refreshed each "
+        "**Afterimage, as its author runs it.** A snapshot of my own live setup, refreshed each "
         "release. To adopt it: copy the block below, open Style Settings' **Import** control "
         "(the import icon at the top of the Style Settings pane), and paste; it overwrites only "
-        "your Bureau settings, nothing else.\n\n```json\n" + blob + "\n```"
+        "your Afterimage settings, nothing else.\n\n```json\n" + blob + "\n```"
     )
     s, e = block_bounds(theme, "bu-creator-note")
     block = theme[s:e]
     block = set_line(block, "description", yaml_dquote(desc))
     theme = theme[:s] + block + theme[e:]
-    step(f"synced Creator Settings from vault ({len(bureau)} keys)")
+    step(f"synced Creator Settings from vault ({len(own)} keys)")
     return theme
 
 
@@ -222,7 +222,7 @@ def main():
         die("usage: ./release.py X.Y.Z [--dry-run] [--yes]")
     version = args[0]
 
-    print(f"\nBureau release · v{version}{'  (dry run)' if dry else ''}\n")
+    print(f"\nAfterimage release · v{version}{'  (dry run)' if dry else ''}\n")
 
     # preflight
     if not (os.path.exists(THEME) and os.path.exists(MANIFEST)):
@@ -284,7 +284,7 @@ def main():
     r = run(["git", "commit", "-m", msg])
     if r.returncode:
         die(f"git commit failed:\n{r.stderr or r.stdout}")
-    run(["git", "tag", "-a", version, "-m", f"Bureau {version}"]).check_returncode()
+    run(["git", "tag", "-a", version, "-m", f"Afterimage {version}"]).check_returncode()
     step("committed + tagged")
     for push in (["git", "push", "origin", "main"], ["git", "push", "origin", version]):
         r = run(push)

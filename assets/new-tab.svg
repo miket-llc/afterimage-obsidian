@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" width="480" height="300">
+  <title>Afterimage — raster test pattern</title>
+  <defs>
+    <pattern id="r" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="2" fill="#6f93b8" opacity=".30"/>
+    </pattern>
+    <linearGradient id="burn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6f93b8" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#6f93b8" stop-opacity=".06"/>
+    </linearGradient>
+    <clipPath id="cp"><rect x="40" y="34" width="400" height="232"/></clipPath>
+  </defs>
+
+  <!-- registration marks, one per corner -->
+  <g stroke="#6f93b8" stroke-width="2" fill="none" opacity=".85">
+    <path d="M16 34v-18h18M464 34v-18h-18M16 266v18h18M464 266v18h-18"/>
+  </g>
+
+  <!-- the burned-in ghost: a window that sat here too long -->
+  <g clip-path="url(#cp)">
+    <rect x="40" y="34" width="400" height="232" fill="none" stroke="#6f93b8" stroke-width="1.5" opacity=".55"/>
+    <rect x="86" y="72" width="196" height="120" fill="url(#burn)"/>
+    <rect x="86" y="72" width="196" height="14" fill="#6f93b8" opacity=".40"/>
+    <rect x="98" y="104" width="120" height="4" fill="#6f93b8" opacity=".26"/>
+    <rect x="98" y="118" width="152" height="4" fill="#6f93b8" opacity=".26"/>
+    <rect x="98" y="132" width="96"  height="4" fill="#6f93b8" opacity=".26"/>
+
+    <!-- monoscope centre -->
+    <circle cx="240" cy="150" r="58" fill="none" stroke="#6f93b8" stroke-width="1.5" opacity=".42"/>
+    <path d="M240 82v136M172 150h136" stroke="#6f93b8" stroke-width="1" opacity=".30"/>
+
+    <!-- greyscale step wedge -->
+    <g>
+      <rect x="310" y="196" width="26" height="46" fill="#6f93b8" opacity=".85"/>
+      <rect x="336" y="196" width="26" height="46" fill="#6f93b8" opacity=".62"/>
+      <rect x="362" y="196" width="26" height="46" fill="#6f93b8" opacity=".42"/>
+      <rect x="388" y="196" width="26" height="46" fill="#6f93b8" opacity=".26"/>
+      <rect x="414" y="196" width="26" height="46" fill="#6f93b8" opacity=".13"/>
+    </g>
+
+    <!-- convergence grid, lower left -->
+    <g stroke="#6f93b8" stroke-width="1" opacity=".28">
+      <path d="M62 196h60M62 212h60M62 228h60M62 244h60"/>
+      <path d="M62 196v48M82 196v48M102 196v48M122 196v48"/>
+    </g>
+
+    <!-- the raster itself, over everything inside the frame -->
+    <rect x="40" y="34" width="400" height="232" fill="url(#r)"/>
+  </g>
+</svg>
