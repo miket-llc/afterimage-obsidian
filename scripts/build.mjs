@@ -91,7 +91,7 @@ function artworkBlock() {
     .replace(/%2C/g, ',');
   return `/* BUILD:ARTWORK:START — generated from assets/new-tab.svg */
 body {
-  --bu-new-tab-default-image: url("data:image/svg+xml,${uri}");
+  --after-new-tab-default-image: url("data:image/svg+xml,${uri}");
 }
 /* BUILD:ARTWORK:END — ${(uri.length/1024).toFixed(1)} KB */`;
 }
