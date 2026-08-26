@@ -94,6 +94,36 @@ For **display text** the enumeration problem disappears: the inline title,
 H1–H6, property keys, tab labels and rail labels are a small, closed set that
 the theme fully controls. There D's higher fidelity is worth having.
 
+## How G is actually implemented (a correction)
+
+The spike page draws method G with the plate on the parent and the glyph
+raster on a child `<span>`. That works in a hand-authored page, but Obsidian
+gives you an `<h1>` with a bare text node inside — there is no span to reach
+for, and no way to add one from CSS.
+
+The first attempt in the theme put the plate on a pseudo-element behind the
+text (`::after`, `z-index: -1`) so the element's own background was free to be
+clipped into the glyphs. **That fails, and the failure is instructive:** the
+glyph raster *is* the element's background, and a negative-z-index child paints
+**above** its parent's background. The plate covered the letters completely —
+the headings rendered as blank striped slabs.
+
+What actually ships is per-layer background clipping, which needs no
+pseudo-element at all:
+
+```css
+background-color: var(--plate);
+background-image: <glyph raster>, <plate raster>;
+background-clip:  text,           padding-box;
+color: transparent;
+```
+
+`background-clip` accepts one value per background layer. Layer 1 is clipped to
+the letterforms, layer 2 fills the plate, the colour sits behind both, and all
+of them share an origin — so the bands run unbroken across substrate and
+character. `::before` stays free for the level chip and `::after` for the H3
+rule. Verified in Chromium at 4×.
+
 ## Why G makes the heading work
 
 The brief's hardest requirement is that the heading plate and its lettering

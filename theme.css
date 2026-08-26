@@ -208,7 +208,10 @@ body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-r
   --background-modifier-border-focus: var(--bu-accent);
   --background-modifier-hover: #18150f;
   --background-modifier-active-hover: #221d12;
-  --text-normal: var(--bu-text);
+  /* Prose ink runs through --ai-ink so the Text contrast slider can soften it
+     without touching the palette. It also has to rest BELOW full brightness for
+     emphasis-by-brightness to have anywhere to go. */
+  --text-normal: var(--ai-ink);
   --text-muted: var(--bu-muted);
   --text-faint: var(--bu-faint);
   --text-accent: var(--bu-accent-ink);
@@ -1059,8 +1062,14 @@ body:not(.bu-ruler) { --bu-ruler-on: 0; }
 
 /* CALLOUTS ══════════════════════════════════════════════════════════════════════════════ */
 .callout {
-  background-color: var(--bu-label-bg);
-  color: var(--bu-label-fg);
+  /* Afterimage: a RAISED PANEL, not a paper memo. Bureau filled callouts with
+     the plate colour, which read as a case-file card on a desk. On a tube there
+     is no paper, and a light fill is also the one thing the multiply raster
+     punishes — it only bites bright pixels, so a light slab becomes a striped
+     one. Dark panel, coloured edge, coloured title chip: same structural
+     strength, coherent material. */
+  background-color: var(--bu-raised);
+  color: var(--bu-text);
   border: none;
   border-left: 4px solid rgb(var(--callout-color));
   border-radius: 0 3px 3px 0;
@@ -1072,17 +1081,21 @@ body:not(.bu-ruler) { --bu-ruler-on: 0; }
   mix-blend-mode: normal;
 }
 .callout-content,
-.callout-content > *,
-.callout-content em { color: var(--bu-label-fg); }
+.callout-content > * { color: var(--bu-text); }
+.callout-content em { color: var(--ai-ink-em); }
 /* Bold in callouts = a redaction stamp (inverted chip: ink bar, paper text), per the redaction
    rules — solid, never blurred. Auto-inverts with the label tokens in light mode. */
+/* Bold inside a callout follows the same rule as bold everywhere in
+   Afterimage: brighter, not fatter, and tinted toward the callout's own
+   colour so the emphasis belongs to the panel it sits in. */
 .callout-content strong,
 .callout-content b {
-  background-color: var(--bu-label-fg);
-  color: var(--bu-label-bg);
-  padding: 0 0.3em;
-  border-radius: 2px;
-  font-weight: 700;
+  background: none;
+  color: var(--bu-text-hi);
+  padding: 0;
+  font-weight: 400;
+  text-shadow: 0 0 calc(var(--ai-bloom) * 0.8)
+               color-mix(in srgb, rgb(var(--callout-color)) 55%, transparent);
 }
 .callout-content > :first-child { margin-top: 0; }
 .callout-content > :last-child { margin-bottom: 0; }
@@ -1153,15 +1166,19 @@ body:not(.bu-ruler) { --bu-ruler-on: 0; }
   overflow: hidden;
   font-family: var(--bu-font-body);
 }
+/* A solid accent bar across every table header is the accent decorating
+   rather than signalling. The header is structure: surface fill, an accent
+   rule beneath it, bright ink. */
 .markdown-rendered th,
 .markdown-source-view.mod-cm6 th {
-  background-color: var(--bu-accent);
-  color: var(--bu-on-accent);
+  background-color: var(--bu-surface);
+  color: var(--bu-text-hi);
+  border-bottom: 2px solid var(--bu-accent) !important;
   font-family: var(--bu-font-label);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-weight: 700;
-  border-color: var(--bu-accent);
+  font-weight: 400;
+  border-color: var(--bu-border-hi);
 }
 .markdown-rendered td,
 .markdown-source-view.mod-cm6 td {
@@ -4449,6 +4466,467 @@ body:not(.after-font-type) .cm-em {
 body.after-font-type { font-synthesis: auto; }
 
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — CRT GLYPH RENDERING
+   ═══════════════════════════════════════════════════════════════════════════
+
+   The whole point of the theme. Three cooperating layers, per experiments/:
+
+     1. FONT SHAPE      an IBM-DOS pixel face (typography section above)
+     2. GLYPH RASTER    horizontal scan structure visible INSIDE the characters
+     3. OPTICAL RESPONSE bloom, afterimage, and slight registration error
+
+   TWO MECHANISMS, chosen per surface — see experiments/README.md for the
+   comparison that settled this.
+
+   (A) MULTIPLY RASTER — everywhere text is live: Reading View, Live Preview,
+       source mode, sidebars. A striped overlay in mix-blend-mode:multiply.
+       Multiply scales each channel, so the darkening is PROPORTIONAL to how
+       bright a pixel already is:
+
+           surface #04090f x .66 -> #030609    delta ~ 3/255   invisible
+           glyph   #cbe0f0 x .66 -> #86939e    delta ~66/255   obvious
+
+       The stripes therefore appear only where light is emitted — inside the
+       glyphs. That is the correct physical model: the dark gap between scan
+       lines can only subtract light the phosphor actually emitted.
+
+       Crucially the text element is NEVER touched — no transparent colour, no
+       clip, no filter — so caret, selection, IME composition, spellcheck,
+       search-match highlighting and the clipboard all behave normally, and
+       every descendant is covered automatically, including inline elements
+       Obsidian has not invented yet.
+
+   (B) CLIPPED GLYPH RASTER — display text only: the inline title, H1-H6 and
+       property keys. background-clip:text paints the raster INTO the
+       letterform at much higher fidelity. It is confined to display text
+       because an inline child renders SOLID unless it too is clipped, so a
+       link inside a clipped paragraph visibly breaks the effect and any new
+       Obsidian inline span breaks it silently. Display text is a small closed
+       set the theme fully controls, so the enumeration problem disappears.
+
+   The raster is anchored to the SCROLLING CONTENT, not the viewport. A real
+   tube's scan lines stay put while the picture moves, but at a 2px period that
+   reads as crawling during a scroll. Locking the raster to the text keeps it
+   still, and because the line box is an integer 24px the bands tile exactly.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body {
+  /* ── grid ─────────────────────────────────────────────────────────────
+     2px = one lit row + one dark row. At 16px the pixel fonts put exactly
+     one font pixel per CSS pixel, so the bands land on pixel boundaries. */
+  --ai-raster-period: 2px;
+
+  /* ── strength, per surface ────────────────────────────────────────────
+     Display text can take much more than prose: it is large, static, and
+     you are not reading a thousand words of it. */
+  --ai-display-raster: 0.5;    /* title, H1-H6, property keys      */
+  --ai-prose-raster: 0.22;     /* Reading View                     */
+  --ai-edit-raster: 0.14;      /* Live Preview / source            */
+  --ai-chrome-raster: 0.1;     /* sidebars, tabs, status           */
+
+  /* ── optical response ─────────────────────────────────────────────────
+     Defaults follow cool-retro-term's IBM-DOS profile: bloom 0.2, burnIn
+     0.1, rgbShift 0.1 — i.e. modest, slight, and slight. */
+  --ai-bloom: 4px;             /* faceplate scatter                */
+  --ai-ghost: 0.28;            /* phosphor decay tail opacity      */
+  --ai-ghost-offset: 1px;      /* how far the tail falls           */
+  --ai-rgb-split: 0px;         /* convergence error; 0 by default  */
+
+  /* ── ink ──────────────────────────────────────────────────────────────
+     Body rests BELOW full brightness so bold has somewhere brighter to go.
+     This is what makes emphasis-by-brightness work. */
+  --ai-text-contrast: 100;
+  --ai-ink: color-mix(in oklab, var(--bu-text) calc(var(--ai-text-contrast) * 1%), var(--bu-bg));
+  --ai-ink-hi: var(--bu-text-hi);
+  --ai-ink-em: color-mix(in oklab, var(--bu-text) 84%, var(--bu-accent));
+
+  /* Blend mode flips per appearance: on a dark surface the raster SUBTRACTS
+     light (multiply); on paper the ink is the dark thing, so it must ADD
+     (screen). Declared once here and read by every raster layer below. */
+  --ai-raster-blend: multiply;
+  --ai-raster-color: 0, 0, 0;
+  --ai-raster-scale: 1;
+}
+body.theme-light {
+  --ai-raster-blend: screen;
+  --ai-raster-color: 255, 255, 255;
+  /* Paper does not glow. Half strength, or the page reads as a fault. */
+  --ai-raster-scale: 0.55;
+}
+
+/* ═══ (A) MULTIPLY RASTER ═════════════════════════════════════════════════ */
+
+/* One reusable stripe. --ai-r-strength is set by each consumer below. */
+.markdown-preview-sizer::after,
+.markdown-source-view.mod-cm6 .cm-content::after,
+.workspace-split.mod-left-split .nav-files-container::after,
+.workspace-split.mod-right-split .view-content > *::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;   /* never intercept a click */
+  z-index: 5;
+  mix-blend-mode: var(--ai-raster-blend);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(var(--ai-raster-color), calc(var(--ai-r-strength) * var(--ai-raster-scale))) 0,
+    rgba(var(--ai-raster-color), calc(var(--ai-r-strength) * var(--ai-raster-scale))) calc(var(--ai-raster-period) / 2),
+    rgba(var(--ai-raster-color), 0) calc(var(--ai-raster-period) / 2),
+    rgba(var(--ai-raster-color), 0) var(--ai-raster-period));
+  background-position: 0 0;
+}
+
+/* READING VIEW — full prose strength. */
+.markdown-preview-sizer {
+  position: relative;
+  --ai-r-strength: var(--ai-prose-raster);
+}
+/* LIVE PREVIEW / SOURCE — reduced. Editing reliability wins, and the caret
+   shares this surface. Related to Reading View, not identical to it. */
+.markdown-source-view.mod-cm6 .cm-content {
+  position: relative;
+  --ai-r-strength: var(--ai-edit-raster);
+}
+/* CHROME — the sidebars are part of the same machine. */
+.workspace-split.mod-left-split .nav-files-container { position: relative; }
+.workspace-split.mod-left-split .nav-files-container,
+.workspace-split.mod-right-split .view-content > * { --ai-r-strength: var(--ai-chrome-raster); }
+
+/* ── OPTICAL RESPONSE on live text ────────────────────────────────────────
+   Bloom and afterimage are text-shadow: no layout cost, no compositing
+   layer, no interference with hit-testing. The ghost is a dim copy one
+   pixel BELOW the glyph — a decay tail, not a drop shadow. */
+.markdown-preview-view .markdown-preview-sizer,
+.markdown-source-view.mod-cm6 .cm-content,
+.markdown-preview-view .markdown-preview-sizer .cm-content {
+  /* One shadow stack carries all three optical effects, so they compose
+     instead of overwriting one another:
+       1. bloom  — faceplate scatter, a soft same-colour halo
+       2. ghost  — phosphor decay, a dim copy one pixel below
+       3. split  — convergence error, sub-pixel red/blue fringes (default 0)
+     text-shadow costs no layout and creates no compositing layer, so none of
+     this touches scroll performance or hit-testing. */
+  text-shadow:
+    0 0 var(--ai-bloom) color-mix(in oklab, var(--ai-ink) 34%, transparent),
+    0 var(--ai-ghost-offset) 0 color-mix(in oklab, var(--ai-ink) calc(var(--ai-ghost) * 100%), transparent),
+    calc(var(--ai-rgb-split) * -1) 0 0 rgba(255, 70, 70, calc(var(--ai-rgb-split) * 0.55)),
+    var(--ai-rgb-split) 0 0 rgba(70, 150, 255, calc(var(--ai-rgb-split) * 0.55));
+}
+
+/* ═══ (B) CLIPPED GLYPH RASTER — display text ═════════════════════════════
+   The plate moves to ::after (absolutely positioned, behind the text) so the
+   element's own background is free to be clipped into the glyphs. The level
+   chip stays on ::before and re-declares its colour, because pseudo-elements
+   would otherwise inherit `color: transparent`.
+
+   Two cooperating rasters on ONE grid, because substrate and ink sit on
+   opposite sides of the brightness midpoint:
+     · the PLATE is light, so a darkening stripe shows on it;
+     · the INK is dark, so its stripe must LIGHTEN to be visible.
+   Both anchor to the same origin, so the bands run unbroken across substrate
+   and letterform and the heading reads as ONE physical display object.       */
+
+.after-clip-raster {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ai-clip-ink) 0,
+    var(--ai-clip-ink) calc(var(--ai-raster-period) / 2),
+    var(--ai-clip-lit) calc(var(--ai-raster-period) / 2),
+    var(--ai-clip-lit) var(--ai-raster-period));
+  background-position: 0 0;
+  background-repeat: repeat;
+}
+/* Selected display text renders solid and crisp: ::selection{color} DOES
+   override a transparent fill in Chromium. Verified, not assumed. */
+.after-clip-raster::selection { background: var(--bu-accent); color: var(--bu-on-accent); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — TITLE AND HEADING SYSTEM
+   ═══════════════════════════════════════════════════════════════════════════
+   Bureau's plate architecture is kept — headings stay graphical landmarks, not
+   enlarged text — but THE SIX LEVELS GET SIX SILHOUETTES rather than one plaque
+   at six sizes. At 20% scale you should be able to tell an H2 from an H4 by
+   shape alone.
+
+     title  full plate, largest, offset registration ghost
+     H1     plate with a signal edge and a level chip
+     H2     keyed band — solid key block, then a dim field to the measure
+     H3     compact terminal block with a rule running off to the right
+     H4     rule-based, with a marker; no plate
+     H5     bracketed side-key; no plate
+     H6     micro-heading, letterspaced, leading tick
+
+   HOW PLATE AND GLYPH SHARE ONE RASTER
+   Two background layers on the SAME element, with per-layer clipping:
+
+       background-image: <glyph raster>, <plate raster>;
+       background-clip:  text,           padding-box;
+       color: transparent;
+
+   Layer 1 is clipped to the letterforms, layer 2 fills the plate, and both are
+   anchored to the same origin with the same period — so the bands run unbroken
+   across substrate and character and the heading reads as ONE display object.
+
+   The obvious alternative — plate on a pseudo-element behind the text — does
+   not work: the glyph raster IS the element's background, and a negative
+   z-index child paints ABOVE its parent's background, so the plate covers the
+   letters. Per-layer background-clip is the mechanism that makes this possible.
+
+   Only plated levels carry the clipped glyph raster. H4-H6 are small enough
+   that a 2px raster inside the letterform would read as damage, not structure.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── shared plate machinery ───────────────────────────────────────────────── */
+:is(.theme-dark, .theme-light) :is(.markdown-rendered h1, .markdown-rendered h2, .markdown-rendered h3, .inline-title) {
+  position: relative;
+  color: transparent;
+  background-color: var(--ai-plate);
+  background-image:
+    /* 1 — glyph raster, clipped into the letterforms */
+    repeating-linear-gradient(to bottom,
+      var(--ai-plate-ink) 0,
+      var(--ai-plate-ink) calc(var(--ai-raster-period) / 2),
+      color-mix(in oklab, var(--ai-plate-ink) calc(100% - var(--ai-display-raster) * 100%), var(--ai-plate)) calc(var(--ai-raster-period) / 2),
+      color-mix(in oklab, var(--ai-plate-ink) calc(100% - var(--ai-display-raster) * 100%), var(--ai-plate)) var(--ai-raster-period)),
+    /* 2 — substrate raster, filling the plate on the same grid */
+    repeating-linear-gradient(to bottom,
+      rgba(0, 0, 0, calc(var(--ai-display-raster) * 0.34)) 0,
+      rgba(0, 0, 0, calc(var(--ai-display-raster) * 0.34)) calc(var(--ai-raster-period) / 2),
+      rgba(0, 0, 0, 0) calc(var(--ai-raster-period) / 2),
+      rgba(0, 0, 0, 0) var(--ai-raster-period));
+  -webkit-background-clip: text, padding-box;
+  background-clip: text, padding-box;
+  background-position: 0 0;
+  background-repeat: repeat;
+  text-shadow: none;
+  --ai-plate: var(--bu-label-bg);
+  --ai-plate-ink: var(--bu-label-fg);
+}
+/* Level chips and any other pseudo-element would inherit `color: transparent`
+   and the clipped background. Both are taken back explicitly. */
+:is(.theme-dark, .theme-light) .markdown-rendered :is(h1, h2, h3)::before {
+  color: var(--bu-label-tag);
+  background-image: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+/* Selected display text renders solid: ::selection{color} DOES override a
+   transparent fill in Chromium. Verified in the spike, not assumed. */
+:is(.theme-dark, .theme-light) :is(.markdown-rendered h1, .markdown-rendered h2, .markdown-rendered h3, .inline-title)::selection {
+  background: var(--bu-accent);
+  color: var(--bu-on-accent);
+  -webkit-text-fill-color: var(--bu-on-accent);
+}
+
+/* ── INLINE TITLE — the largest object on the page ────────────────────────── */
+:is(.theme-dark, .theme-light) .inline-title {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  font-size: var(--inline-title-size);
+  line-height: 1.25;
+  padding: 0.12em 0.44em 0.14em;
+  letter-spacing: 0.01em;
+  /* registration ghost: a mis-struck second impression, then the tube shadow */
+  filter: drop-shadow(-2px 1px 0 color-mix(in srgb, var(--bu-accent) 40%, transparent))
+          drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
+}
+
+/* ── H1 — substantial, but clearly not the title ──────────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered h1 {
+  font-size: var(--h1-size);
+  width: fit-content;
+  padding: 0.1em 0.46em 0.12em;
+  margin-top: 1.5em;
+  /* the signal edge — the only accent in the whole heading set */
+  border-left: 4px solid var(--bu-accent);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.42);
+}
+
+/* ── H2 — a KEYED BAND, not a fitted plate. Different silhouette entirely:
+      a bright key block at the head, then a dim field running to the measure,
+      with the lettering in ink rather than on ceramic. ─────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered h2 {
+  font-size: var(--h2-size);
+  display: block;
+  width: 100%;
+  padding: 0.18em 0.5em 0.2em 0.72em;
+  margin-top: 1.7em;
+  border-left: 10px solid var(--bu-label-bg);
+  border-bottom: 1px solid var(--bu-border-hi);
+  box-shadow: none;
+  --ai-plate: var(--bu-surface);
+  --ai-plate-ink: var(--bu-text-hi);
+}
+
+/* ── H3 — compact terminal block, with a rule running off to the right ────── */
+:is(.theme-dark, .theme-light) .markdown-rendered h3 {
+  font-size: var(--h3-size);
+  width: fit-content;
+  padding: 0.1em 0.44em 0.12em;
+  margin-top: 1.5em;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+:is(.theme-dark, .theme-light) .markdown-rendered h3::after {
+  content: '';
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  width: 100vw;
+  height: 1px;
+  background: var(--bu-border-hi);
+  pointer-events: none;
+}
+
+/* ── H4 — rule-based with a marker. No plate. ─────────────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered h4 {
+  font-size: var(--h4-size);
+  background: none;
+  color: var(--bu-text-hi);
+  width: 100%;
+  padding: 0 0 0.24em 0;
+  margin-top: 1.55em;
+  border: none;
+  border-bottom: 2px solid var(--bu-border-hi);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered h4::before {
+  content: '\25B8';                       /* ▸ */
+  color: var(--bu-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  position: static;
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+/* ── H5 — side-key. No plate, no rule. ────────────────────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered h5 {
+  font-size: var(--h5-size);
+  background: none;
+  color: var(--bu-muted);
+  width: fit-content;
+  padding: 0;
+  margin-top: 1.45em;
+  border: none;
+  box-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered h5::before {
+  content: '';
+  width: 3px;
+  height: 0.95em;
+  background: var(--bu-border-hi);
+  border: none;
+  padding: 0;
+  position: static;
+  flex: 0 0 auto;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered h5::after { content: none; }
+
+/* ── H6 — micro-heading for dense technical notes ─────────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered h6 {
+  font-size: var(--h6-size);
+  background: none;
+  color: var(--bu-faint);
+  width: fit-content;
+  padding: 0;
+  margin-top: 1.35em;
+  border: none;
+  box-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 400;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered h6::before {
+  content: '\00B7\00B7';                  /* ·· */
+  color: var(--bu-border-hi);
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 0.5em;
+  position: static;
+  letter-spacing: 0.1em;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered h6::after { content: none; }
+
+/* ── PROPERTY KEYS — the same clipped raster, at label scale ──────────────── */
+:is(.theme-dark, .theme-light) .metadata-property-key-input {
+  color: transparent;
+  background-color: var(--bu-label-bg);
+  background-image:
+    repeating-linear-gradient(to bottom,
+      var(--bu-label-fg) 0,
+      var(--bu-label-fg) calc(var(--ai-raster-period) / 2),
+      color-mix(in oklab, var(--bu-label-fg) calc(100% - var(--ai-display-raster) * 70%), var(--bu-label-bg)) calc(var(--ai-raster-period) / 2),
+      color-mix(in oklab, var(--bu-label-fg) calc(100% - var(--ai-display-raster) * 70%), var(--bu-label-bg)) var(--ai-raster-period)),
+    repeating-linear-gradient(to bottom,
+      rgba(0, 0, 0, calc(var(--ai-display-raster) * 0.28)) 0,
+      rgba(0, 0, 0, calc(var(--ai-display-raster) * 0.28)) calc(var(--ai-raster-period) / 2),
+      rgba(0, 0, 0, 0) calc(var(--ai-raster-period) / 2),
+      rgba(0, 0, 0, 0) var(--ai-raster-period));
+  -webkit-background-clip: text, padding-box;
+  background-clip: text, padding-box;
+  background-position: 0 0;
+  -webkit-text-fill-color: transparent;
+}
+/* An input's caret follows caret-color, which is independent of a transparent
+   fill — but the key is editable, so the raster is dropped while it is focused
+   and the text returns to solid ink. Editing wins over effect, every time. */
+:is(.theme-dark, .theme-light) .metadata-property-key-input:focus {
+  background-image: none;
+  color: var(--bu-label-fg);
+  -webkit-text-fill-color: var(--bu-label-fg);
+  caret-color: var(--bu-accent);
+}
+
+/* ── LIVE PREVIEW — related, not identical ────────────────────────────────────
+   Editor heading lines keep the plate and its substrate raster, but NOT the
+   clipped glyph raster: `color: transparent` on a line the caret sits in is a
+   risk that buys little, since a heading is only briefly in view while being
+   edited. This is the trade the brief allows — editing reliability wins.     */
+.markdown-source-view.mod-cm6 :is(.cm-header-1, .cm-header-2, .cm-header-3) {
+  color: var(--bu-label-fg);
+  background-color: var(--bu-label-bg);
+  background-image: repeating-linear-gradient(to bottom,
+    rgba(0, 0, 0, calc(var(--ai-display-raster) * 0.3)) 0,
+    rgba(0, 0, 0, calc(var(--ai-display-raster) * 0.3)) calc(var(--ai-raster-period) / 2),
+    rgba(0, 0, 0, 0) calc(var(--ai-raster-period) / 2),
+    rgba(0, 0, 0, 0) var(--ai-raster-period));
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+.markdown-source-view.mod-cm6 :is(.cm-header-4, .cm-header-5, .cm-header-6) {
+  background-color: transparent;
+  background-image: none;
+  color: var(--bu-text-hi);
+}
+.markdown-source-view.mod-cm6 .cm-header-6 { color: var(--bu-faint); }
+
+/* ── Headings that wrap ───────────────────────────────────────────────────────
+   The plate is the element's own background, so it grows with the box. clone
+   keeps padding on every fragment of an inline-wrapped heading, not just the
+   first, so a two-line heading does not lose its left inset on line two.     */
+:is(.theme-dark, .theme-light) .markdown-rendered :is(h1, h2, h3) {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+
 /* ───────────────────────────  SCROLLBARS — width, colour, fade, hide  ─────────────────────────── */
 
 /* Width — Obsidian (Chromium) has no width variable, so size the webkit scrollbar directly. Prefixed
@@ -4801,6 +5279,97 @@ settings:
     min: 0
     max: 300
     step: 5
+
+  - id: ai-glyph-heading
+    title: Glyph rendering
+    description: "The CRT effect itself. These control how far the raster, the bloom and the afterimage reach into the type — not a film laid over it. Every one of them can be taken to zero, which leaves the layout and typography intact."
+    type: heading
+    level: 2
+    collapsed: true
+  - id: ai-display-raster
+    title: Display-text raster
+    description: "Scan structure inside the inline title, H1–H3 and property keys, and across their plates. Because plate and lettering share one grid, raising this strengthens both together and they stay fused as one object."
+    type: variable-number-slider
+    default: 0.5
+    min: 0
+    max: 1
+    step: 0.02
+  - id: ai-prose-raster
+    title: Reading View raster
+    description: "Scan structure inside body prose while reading. A `multiply` layer, so it only darkens what is already bright — the glyphs — and leaves the page behind them alone."
+    type: variable-number-slider
+    default: 0.22
+    min: 0
+    max: 0.6
+    step: 0.01
+  - id: ai-edit-raster
+    title: Live Preview raster
+    description: "The same effect while editing, held lower on purpose: the caret shares this surface, and text you are actively changing wants to be easier to read than text you are only looking at. Reading View and Live Preview are meant to feel related, not identical."
+    type: variable-number-slider
+    default: 0.14
+    min: 0
+    max: 0.5
+    step: 0.01
+  - id: ai-chrome-raster
+    title: Interface raster
+    description: Scan structure in the sidebars and utility panes, so the chrome belongs to the same machine as the note.
+    type: variable-number-slider
+    default: 0.1
+    min: 0
+    max: 0.4
+    step: 0.01
+  - id: ai-raster-period
+    title: Raster spacing
+    description: "Distance from one scan line to the next. **2px is the correct value for the IBM DOS preset** — that font puts exactly one font pixel per screen pixel at 16px, so a 2px period lands every band on a pixel boundary. Other values will look softer."
+    type: variable-number-slider
+    default: 2
+    min: 2
+    max: 8
+    step: 1
+    format: px
+  - id: ai-bloom
+    title: Bloom
+    description: "Light scattering inside the faceplate: a soft same-colour halo just beyond each stroke. A little reads as *emission*; too much reads as *blur*, and blur is the one thing a page of text cannot afford. The slider stops below the point where commas and full stops stop being distinguishable."
+    type: variable-number-slider
+    default: 4
+    min: 0
+    max: 7
+    step: 0.5
+    format: px
+  - id: ai-ghost
+    title: Afterimage
+    description: "Phosphor persistence — a dim copy of each glyph trailing just below it. Short enough to be felt rather than watched. This is the effect the theme is named after."
+    type: variable-number-slider
+    default: 0.28
+    min: 0
+    max: 0.7
+    step: 0.02
+  - id: ai-ghost-offset
+    title: ↳ Afterimage offset
+    description: How far the decay tail falls below the glyph.
+    type: variable-number-slider
+    default: 1
+    min: 0
+    max: 3
+    step: 0.5
+    format: px
+  - id: ai-rgb-split
+    title: Chromatic misregistration
+    description: "Convergence error — the three beams not landing on quite the same spot, so white strokes pick up a faint red edge on one side and blue on the other. **Ships at 0.** Sub-pixel amounts read as a tube; anything at or above 1px reads as a printing fault."
+    type: variable-number-slider
+    default: 0
+    min: 0
+    max: 0.8
+    step: 0.1
+    format: px
+  - id: ai-text-contrast
+    title: Text contrast
+    description: "Softens the prose ink toward the page without touching the palette. Body text deliberately rests just below full brightness so that **bold has somewhere brighter to go** — that is how emphasis works in these single-weight terminal fonts. Lowering this further suits long night sessions."
+    type: variable-number-slider
+    default: 100
+    min: 55
+    max: 100
+    step: 1
 
   - id: bu-atmos-heading
     title: Atmosphere
