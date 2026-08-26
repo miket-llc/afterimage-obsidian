@@ -153,39 +153,39 @@ body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-r
      sliders re-tints the whole theme. oklch chroma stays perceptible at near-black lightness, so the
      dark backgrounds actually take the colour. Defaults (hue 0 / strength 0) round-trip to the original;
      the plain literal above each oklch() is the fallback for engines without relative-colour syntax. */
-  --bu-bg: var(--bu-black-level, #04090f);
-  --bu-bg: oklch(from var(--bu-black-level, #04090f) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-bg-alt: #01060d;
-  --bu-bg-alt: oklch(from #01060d l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-surface: #071119;
-  --bu-surface: oklch(from #071119 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-raised: #0c1a24;
-  --bu-raised: oklch(from #0c1a24 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-border: #1d323f;
-  --bu-border: oklch(from #1d323f l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-border-hi: #2c4a5c;
-  --bu-border-hi: oklch(from #2c4a5c l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-bg: var(--bu-black-level, var(--ai-p-bg, #04090f));
+  --bu-bg: oklch(from var(--bu-black-level, var(--ai-p-bg, #04090f)) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-bg-alt: var(--ai-p-chassis, #01060d);
+  --bu-bg-alt: oklch(from var(--ai-p-chassis, #01060d) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-surface: var(--ai-p-surface, #071119);
+  --bu-surface: oklch(from var(--ai-p-surface, #071119) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-raised: var(--ai-p-raised, #0c1a24);
+  --bu-raised: oklch(from var(--ai-p-raised, #0c1a24) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-border: var(--ai-p-border, #1d323f);
+  --bu-border: oklch(from var(--ai-p-border, #1d323f) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-border-hi: var(--ai-p-border-hi, #2c4a5c);
+  --bu-border-hi: oklch(from var(--ai-p-border-hi, #2c4a5c) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   /* Resize handles — the sidebar split divider lines. Follows --bu-border by default; the Resize
      handles settings below retarget it (remove / recolour). */
   --bu-handle-border: var(--bu-border);
   /* Pill-terminal floating editor card — its own border-colour lever (rounding lever is by --bu-pill-editor-radius). */
   --bu-pill-editor-border: var(--bu-line);
-  --bu-text: var(--bu-text-dark, #cbe0f0);
-  --bu-text: oklch(from var(--bu-text-dark, #cbe0f0) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-text: var(--bu-text-dark, var(--ai-p-ink, #cbe0f0));
+  --bu-text: oklch(from var(--bu-text-dark, var(--ai-p-ink, #cbe0f0)) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-text-hi: #ffffff;
   --bu-text-hi: oklch(from #ffffff l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-muted: #8ba6bd;
-  --bu-muted: oklch(from #8ba6bd l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-faint: #6d879c;   /* was #5f594e (2.8:1 — failed WCAG); now ~5.3:1 on the dark bg */
-  --bu-faint: oklch(from #6d879c l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-muted: var(--ai-p-muted, #8ba6bd);
+  --bu-muted: oklch(from var(--ai-p-muted, #8ba6bd) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-faint: var(--ai-p-faint, #6d879c);   /* was #5f594e (2.8:1 — failed WCAG); now ~5.3:1 on the dark bg */
+  --bu-faint: oklch(from var(--ai-p-faint, #6d879c) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-brass: #ffb74d;
   --bu-teal: #4ee6c0;
-  --bu-label-bg: #b9cbd8;
-  --bu-label-fg: #06121c;
+  --bu-label-bg: var(--ai-p-plate, #b9cbd8);
+  --bu-label-fg: var(--ai-p-plate-ink, #06121c);
   --bu-on-accent: #ffffff;
   --bu-veil: #ffffff;
-  --bu-code-bg: #010509;
-  --bu-code-bg: oklch(from #010509 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-code-bg: var(--ai-p-code-bg, #010509);
+  --bu-code-bg: oklch(from var(--ai-p-code-bg, #010509) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
 
   /* NB: the accent palette is NOT defined here — it lives in the mode/pane-agnostic :where(body)
      rule just above this block. Re-declaring --bu-accent in here (which the inverted-editor pane
@@ -4927,6 +4927,124 @@ body.theme-light {
 }
 
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — DISPLAY PROFILES
+   ═══════════════════════════════════════════════════════════════════════════
+   Six complete presets. Each tunes the palette, the glyph raster, bloom,
+   persistence, chromatic offset and material contrast TOGETHER, because those
+   things are not independent on a real tube: a long-persistence phosphor is
+   also a dimmer, warmer, softer one.
+
+   Profiles set the --ai-p-* levers that the dark token block reads with
+   fallbacks, so they propagate into the per-pane rows too and survive the
+   inverted-editor split.
+
+   CUSTOM PRESERVES YOUR SETTINGS. Style Settings writes slider values to
+   `body`; a profile class is `body.after-profile-x`, which out-specifies it
+   while the profile is active. Selecting Custom removes the class, the
+   overrides stop applying, and your own values come straight back — nothing
+   was ever overwritten.
+
+   Light mode takes the accent and the optical settings from the profile but
+   keeps its own cool-display-film surfaces: an amber or green PAPER is a
+   different and much worse idea than an amber or green tube.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── COBALT — the default. Declared explicitly rather than left implicit, so
+      switching back to it from another profile actually restores it. ──────── */
+body.after-profile-cobalt {
+  --ai-p-bg: #04090f;        --ai-p-chassis: #01060d;
+  --ai-p-surface: #071119;   --ai-p-raised: #0c1a24;
+  --ai-p-border: #1d323f;    --ai-p-border-hi: #2c4a5c;
+  --ai-p-ink: #cbe0f0;       --ai-p-muted: #8ba6bd;   --ai-p-faint: #6d879c;
+  --ai-p-plate: #b9cbd8;     --ai-p-plate-ink: #06121c;
+  --ai-p-code-bg: #010509;
+  --bu-accent: var(--bu-cobalt);
+  --ai-display-raster: 0.5;  --ai-prose-raster: 0.22;  --ai-edit-raster: 0.14;
+  --ai-bloom: 4px;           --ai-ghost: 0.28;         --ai-ghost-offset: 1px;
+  --ai-rgb-split: 0px;
+}
+
+/* ── AMBER — P3 amber phosphor on a neutral black chassis. Warmer, and a
+      longer decay, because that is what amber tubes actually did. ─────────── */
+body.after-profile-amber {
+  --ai-p-bg: #070502;        --ai-p-chassis: #030201;
+  --ai-p-surface: #0e0a04;   --ai-p-raised: #171006;
+  --ai-p-border: #3a2a12;    --ai-p-border-hi: #56401d;
+  --ai-p-ink: #ffc46a;       --ai-p-muted: #c0913f;   --ai-p-faint: #9a7434;
+  --ai-p-plate: #e8c489;     --ai-p-plate-ink: #1a1004;
+  --ai-p-code-bg: #050301;
+  --bu-accent: #ffb000;
+  --bu-text-hi: #fff0d0;
+  --ai-display-raster: 0.52; --ai-prose-raster: 0.24;  --ai-edit-raster: 0.15;
+  --ai-bloom: 5px;           --ai-ghost: 0.4;          --ai-ghost-offset: 1px;
+  --ai-rgb-split: 0px;
+}
+body.theme-light.after-profile-amber { --bu-accent: #8a5a00; }
+
+/* ── GHOST — P1 green phosphor, deeper surface, the longest persistence that
+      is still readable. Mild terminal character, not a costume. ───────────── */
+body.after-profile-ghost {
+  --ai-p-bg: #020603;        --ai-p-chassis: #010301;
+  --ai-p-surface: #051009;   --ai-p-raised: #08190f;
+  --ai-p-border: #16351f;    --ai-p-border-hi: #22502f;
+  --ai-p-ink: #9df5bd;       --ai-p-muted: #57b47a;   --ai-p-faint: #479362;
+  --ai-p-plate: #a9dcb9;     --ai-p-plate-ink: #04140a;
+  --ai-p-code-bg: #010502;
+  --bu-accent: #43ff7d;
+  --bu-text-hi: #dcffe8;
+  --ai-display-raster: 0.55; --ai-prose-raster: 0.26;  --ai-edit-raster: 0.16;
+  --ai-bloom: 5px;           --ai-ghost: 0.46;         --ai-ghost-offset: 1px;
+  --ai-rgb-split: 0px;
+}
+body.theme-light.after-profile-ghost { --bu-accent: #046a53; }
+
+/* ── ULTRAVIOLET — muted violet-blue signal, ice-grey text, and the only
+      profile that ships with convergence error on. No gradients: this is a
+      badly converged monitor, not a synthwave poster. ─────────────────────── */
+body.after-profile-uv {
+  --ai-p-bg: #05060f;        --ai-p-chassis: #020310;
+  --ai-p-surface: #0a0b1a;   --ai-p-raised: #101228;
+  --ai-p-border: #262a4a;    --ai-p-border-hi: #3a3f68;
+  --ai-p-ink: #dde1f2;       --ai-p-muted: #9298c0;   --ai-p-faint: #7a80a8;
+  --ai-p-plate: #c3c7de;     --ai-p-plate-ink: #0a0b1a;
+  --ai-p-code-bg: #030410;
+  --bu-accent: #8b7dff;
+  --bu-text-hi: #ffffff;
+  --ai-display-raster: 0.46; --ai-prose-raster: 0.2;   --ai-edit-raster: 0.13;
+  --ai-bloom: 4.5px;         --ai-ghost: 0.24;         --ai-ghost-offset: 1px;
+  --ai-rgb-split: 0.4px;
+}
+body.theme-light.after-profile-uv { --bu-accent: #4a3cc8; }
+
+/* ── MONO — black, ivory, steel. Minimal chroma, full graphical structure:
+      the test that the theme's personality is material and typography rather
+      than colour. Raster and bloom stay, so it is still a tube. ───────────── */
+body.after-profile-mono {
+  --ai-p-bg: #050505;        --ai-p-chassis: #000000;
+  --ai-p-surface: #0d0d0d;   --ai-p-raised: #161616;
+  --ai-p-border: #2b2b2b;    --ai-p-border-hi: #444444;
+  --ai-p-ink: #e4e4e4;       --ai-p-muted: #9e9e9e;   --ai-p-faint: #7c7c7c;
+  --ai-p-plate: #d2d2d2;     --ai-p-plate-ink: #0a0a0a;
+  --ai-p-code-bg: #020202;
+  --bu-accent: #c3ccd4;
+  --bu-teal: #a9b4bd;        /* minimal chroma means tags too */
+  --bu-on-accent: #050505;
+  --bu-text-hi: #ffffff;
+  --ai-display-raster: 0.56; --ai-prose-raster: 0.24;  --ai-edit-raster: 0.15;
+  --ai-bloom: 3px;           --ai-ghost: 0.22;         --ai-ghost-offset: 1px;
+  --ai-rgb-split: 0px;
+}
+body.theme-light.after-profile-mono { --bu-accent: #3c4650; --bu-on-accent: #ffffff; }
+
+/* ── CUSTOM — deliberately sets nothing. The class exists only so Style
+      Settings has a value to write; because it declares no overrides, every
+      slider the user has set applies directly. That is the whole mechanism by
+      which switching profiles never destroys their work. ──────────────────── */
+body.after-profile-custom { --ai-profile: custom; }
+
+
 /* ───────────────────────────  SCROLLBARS — width, colour, fade, hide  ─────────────────────────── */
 
 /* Width — Obsidian (Chromium) has no width variable, so size the webkit scrollbar directly. Prefixed
@@ -5049,6 +5167,32 @@ settings:
         value: bu-mode-medium
       - label: Custom
         value: bu-mode-custom
+
+  - id: ai-profile-heading
+    title: Display profile
+    description: "Complete presets. Each one tunes the palette, the glyph raster, bloom, persistence and chromatic offset **together**, because on a real tube those are not independent: a long-persistence phosphor is also a dimmer, warmer, softer one."
+    type: heading
+    level: 2
+    collapsed: false
+  - id: ai-profile
+    title: Profile
+    description: "**Cobalt** — cold blue-black chassis, cool ivory text, electric cobalt signal.\n**Amber** — warm amber phosphor on a neutral black chassis, with a longer decay.\n**Ghost** — P1 green phosphor, deeper surface, the longest persistence that stays readable.\n**Ultraviolet** — muted violet-blue signal, ice-grey text, and the only profile shipping with convergence error on.\n**Mono** — black, ivory and steel. Minimal chroma, full graphical structure.\n**Custom** — your own settings.\n\n**Switching profiles never destroys your Custom work.** A profile simply out-specifies your sliders while it is active; choosing Custom removes it and your values come straight back. Nothing is overwritten.\n\nLight mode takes the profile's accent and optics but keeps its own cool display-film surfaces — an amber or green *paper* is a much worse idea than an amber or green tube."
+    type: class-select
+    default: after-profile-cobalt
+    allowEmpty: false
+    options:
+      - label: Cobalt (default)
+        value: after-profile-cobalt
+      - label: Amber
+        value: after-profile-amber
+      - label: Ghost (green phosphor)
+        value: after-profile-ghost
+      - label: Ultraviolet
+        value: after-profile-uv
+      - label: Mono
+        value: after-profile-mono
+      - label: Custom — use my own settings
+        value: after-profile-custom
 
   - id: ai-typography-heading
     title: Typography
