@@ -5803,7 +5803,17 @@ body.theme-light .cm-s-obsidian .cm-highlight {
    the tree reading as small text adrift in tall rows — lots of air, nothing
    anchoring it. Bigger type, tighter leading, and a smaller indent step: the
    list should read as a dense register, which is the whole point of it.     */
-body :is(.workspace-leaf-content[data-type="file-explorer"], .nav-files-container) {
+/* EVERY side-dock pane, not just the file explorer. Obsidian builds the tag
+   pane, outline, backlinks, bookmarks, search results and All Properties from
+   the same .tree-item scaffolding, and they all inherit its loose default
+   spacing. Scoping the rhythm to the file explorer alone — which is what the
+   first pass did — left every other pane in the sidebar at roughly a 2.5
+   ratio while the tree sat at 1.5. The panes have to agree, or the sidebar
+   reads as several different applications stacked up. */
+body :is(
+  .workspace-split.mod-left-split, .workspace-split.mod-right-split,
+  .workspace-drawer, .nav-files-container
+) {
   --nav-item-size: var(--after-ui-size);
   --nav-item-weight: 400;
   --nav-item-padding: 1px 6px 1px 9px;
@@ -5816,11 +5826,44 @@ body :is(.workspace-leaf-content[data-type="file-explorer"], .nav-files-containe
    height has to be set here rather than inferred: at 14.5px type a 22px row
    is a ratio of about 1.5, which reads as a dense list. Left to Obsidian's
    defaults it lands near 2.0 and the tree reads as small text adrift in air. */
-:is(.theme-dark, .theme-light) :is(.nav-file-title, .nav-folder-title) {
+:is(.theme-dark, .theme-light) :is(
+  .nav-file-title, .nav-folder-title,
+  .workspace-split.mod-left-split .tree-item-self,
+  .workspace-split.mod-right-split .tree-item-self,
+  .workspace-drawer .tree-item-self,
+  .tag-pane-tag, .outline-view .tree-item-self, .backlink-pane .tree-item-self,
+  .bookmark-item, .search-result-file-title
+) {
   line-height: 1.3;
   min-height: var(--after-tree-row-height, 22px);
   align-items: center;
   border-radius: 2px;
+  font-size: var(--after-ui-size);
+}
+/* Obsidian pads several of these panes on the row's own element rather than
+   through --nav-item-padding, so the padding has to be set here too or the
+   variable above is quietly ignored. */
+:is(.theme-dark, .theme-light) :is(
+  .workspace-split.mod-left-split .tree-item-self,
+  .workspace-split.mod-right-split .tree-item-self,
+  .workspace-drawer .tree-item-self,
+  .tag-pane-tag, .bookmark-item
+) {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+/* Counts and flair sit quiet and right; they are reference, not content. */
+:is(.theme-dark, .theme-light) :is(.tree-item-flair, .tag-pane-tag-count) {
+  font-family: var(--after-font-label);
+  font-size: var(--after-label-size);
+  color: var(--after-faint);
+}
+:is(.theme-dark, .theme-light) :is(.tag-pane-tag-text, .tree-item-inner) {
+  color: var(--after-muted);
+}
+:is(.theme-dark, .theme-light) .tree-item-self:hover .tree-item-inner,
+:is(.theme-dark, .theme-light) .tag-pane-tag:hover .tag-pane-tag-text {
+  color: var(--after-text);
 }
 /* The folder row is the structural line in the list, so it gets the weight
    the type can no longer supply — these faces have a single weight. */

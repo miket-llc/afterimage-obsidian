@@ -90,6 +90,34 @@ const copied = await page.evaluate(() => {
 ok('a raster-rendered heading copies as real text, not blank',
    copied.trim().toLowerCase().startsWith('heading 1'), JSON.stringify(copied.slice(0, 40)));
 
+// ── Sidebar panes must agree ────────────────────────────────────────────────
+// Obsidian builds the file explorer, tag pane, outline and backlinks from the
+// same .tree-item scaffolding. Styling one and not the others makes the
+// sidebar read as several different applications stacked up — which is exactly
+// what happened when the row rhythm was first scoped to the file explorer
+// alone. This asserts they stay in step.
+console.log('\nSidebar — pane consistency');
+const panes = await page.evaluate(() => {
+  const pitch = (s) => { const n = [...document.querySelectorAll(s)]; return n.length < 2 ? null
+    : Math.round(n[1].getBoundingClientRect().top - n[0].getBoundingClientRect().top); };
+  const fs = (s) => { const e = document.querySelector(s); return e ? parseFloat(getComputedStyle(e).fontSize) : null; };
+  return {
+    'file explorer': [pitch('.nav-file-title'), fs('.nav-file-title-content')],
+    'tag pane':      [pitch('.tag-pane-tag .tree-item-self'), fs('.tag-pane-tag-text')],
+    'outline':       [pitch('.outline-view .tree-item-self'), fs('.outline-view .tree-item-inner')],
+    'backlinks':     [pitch('.backlink-pane .tree-item-self'), fs('.search-result-file-title')],
+  };
+});
+const pitches = Object.values(panes).map((p) => p[0]).filter((n) => n != null);
+const sizes = Object.values(panes).map((p) => p[1]).filter((n) => n != null);
+for (const [name, [p, f]] of Object.entries(panes))
+  ok(`${name} present and measured`, p != null && f != null, JSON.stringify(panes[name]));
+ok('every sidebar pane uses the same type size', new Set(sizes).size === 1, JSON.stringify(panes));
+ok('every sidebar row pitch is within 4px', Math.max(...pitches) - Math.min(...pitches) <= 4,
+   `pitches ${pitches.join(', ')}`);
+ok('sidebar rows are dense (pitch < 1.9x the type size)', Math.max(...pitches) < sizes[0] * 1.9,
+   `max pitch ${Math.max(...pitches)} vs ${sizes[0]}px type`);
+
 // ── Live Preview harness ────────────────────────────────────────────────────
 console.log('\nLive Preview');
 await page.goto(`${BASE}/test/harness/editor.html`, { waitUntil: 'networkidle' });

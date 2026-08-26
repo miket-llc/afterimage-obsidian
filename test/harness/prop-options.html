@@ -1,0 +1,49 @@
+<!doctype html><meta charset="utf-8"><body class="theme-dark mod-macos is-focused">
+<link rel="stylesheet" href="reset.css"><link rel="stylesheet" href="../../theme.css">
+<style>
+ body{padding:20px 26px;display:block;overflow:auto}
+ .opt{margin-bottom:22px;border-bottom:1px solid var(--after-border);padding-bottom:18px}
+ .hd{font-family:var(--after-font-label);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+     color:var(--after-accent);margin-bottom:3px}
+ .note{font-family:var(--after-font-label);font-size:12.5px;color:var(--after-faint);margin:0 0 11px;max-width:92ch;line-height:1.5}
+ .panel{background:var(--after-surface);border:1px solid var(--after-border);border-radius:3px;max-width:760px;padding:4px 0}
+ .row{display:flex;align-items:center;gap:8px;padding:3px 10px}
+ .ico{color:var(--after-faint);font-family:var(--after-font-label);font-size:13px;width:14px;flex:0 0 14px}
+ .k{flex:0 0 168px}
+ .v{font-family:var(--after-font-body);font-size:15px;color:var(--after-text);flex:1;min-width:0}
+ /* base key = current shipping treatment */
+ .k{font-family:var(--after-font-label);font-size:13px;letter-spacing:.05em;text-transform:uppercase;
+    background-color:var(--after-label-bg);color:var(--after-label-fg);padding:2px 7px;border-radius:2px;
+    background-image:repeating-linear-gradient(to bottom,rgba(0,0,0,.14) 0,rgba(0,0,0,.14) 1px,rgba(0,0,0,0) 1px,rgba(0,0,0,0) 3px)}
+ /* 2 — bigger + DOS-bold, no plate raster */
+ .o2 .k{font-size:14px;background-image:none;text-shadow:.6px 0 0 currentColor;letter-spacing:.04em}
+ /* 3 — display face (IBM VGA) */
+ .o3 .k{font-family:var(--after-font-display);font-size:15px;background-image:none;letter-spacing:.01em}
+ /* 4 — sentence case, larger */
+ .o4 .k{text-transform:none;font-size:15px;background-image:none;letter-spacing:.01em}
+ /* 5 — Courier Prime bold (the only real bold face shipped) */
+ .o5 .k{font-family:'Courier Prime',monospace;font-weight:700;font-size:15px;text-transform:none;
+        background-image:none;letter-spacing:0}
+ /* 6 — no plate: heavy ink label + rule */
+ .o6 .k{background:none;background-image:none;color:var(--after-text-hi);text-transform:none;
+        font-family:var(--after-font-label);font-size:15px;letter-spacing:.01em;padding:2px 0;
+        border-bottom:1px solid var(--after-border-hi);border-radius:0;text-shadow:.6px 0 0 currentColor}
+</style>
+<div id="w"></div>
+<script>
+const ROWS=[['T','status','in-review'],['#','priority','2'],['≡','operators','Operator A, Nadeem Syed'],
+            ['🗓','reviewed','2026-08-26T09:30'],['T','professional_services','Ellucian PS'],['T','confidence','medium']];
+const OPTS=[
+ ['1 · Current (shipping)','3270 at 13px, uppercase, tracked, on a rastered plate. Uppercase plus tracking reads visually smaller than its nominal size, and the plate raster competes with the letterforms at this scale.'],
+ ['2 · Bigger + DOS-bold','Same face and case, 14px, plate raster off, and the terminal bold trick — a 0.6px horizontal double-strike — since 3270 ships no bold. Keeps the stamped legend idea, just makes it hold together.'],
+ ['3 · Display face (IBM VGA)','The heading font at 15px. Much chunkier strokes, strong machine character, and it ties the legends to the heading plates. Bitmap face, so it wants whole-pixel sizes.'],
+ ['4 · Sentence case','3270 at 15px with the uppercase dropped. Lowercase has ascenders and descenders — real word-shapes — so it reads faster at small sizes than caps ever will. Least "stamped", most legible.'],
+ ['5 · Courier Prime Bold','The only genuinely bold face in the bundle. Sentence case, 15px. Matches the body face, so the panel reads as part of the note rather than as chrome.'],
+ ['6 · No plate','Rethink: drop the plate entirely. Bright ink, a hairline rule under each key, value carries the weight. Quietest and the most room for long key names.'],
+];
+document.getElementById('w').innerHTML=OPTS.map(([t,n],i)=>`
+<div class="opt o${i+1}"><div class="hd">${t}</div><div class="note">${n}</div>
+<div class="panel">${ROWS.map(([ic,k,v])=>
+  `<div class="row"><span class="ico">${ic}</span><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}
+</div></div>`).join('');
+</script>

@@ -1,0 +1,67 @@
+<!doctype html><meta charset="utf-8"><body class="theme-dark mod-macos is-focused">
+<link rel="stylesheet" href="reset.css"><link rel="stylesheet" href="../../theme.css">
+<style>
+ body{padding:22px 26px;display:block;overflow:auto}
+ .opt{margin-bottom:26px;border-bottom:1px solid var(--after-border);padding-bottom:20px}
+ .hd{font-family:var(--after-font-label);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+     color:var(--after-accent);margin-bottom:3px}
+ .note{font-family:var(--after-font-label);font-size:12px;color:var(--after-faint);margin-bottom:11px;max-width:80ch}
+ .prose{font-family:var(--after-font-body);font-size:16px;line-height:1.5;color:var(--after-text);max-width:78ch;margin:0 0 10px}
+ .prow{display:flex;align-items:center;gap:8px;background:var(--after-surface);
+       border:1px solid var(--after-border);border-radius:3px;padding:5px 10px;max-width:640px}
+ .pk{font-family:var(--after-font-label);font-size:13px;letter-spacing:.05em;text-transform:uppercase;
+     background:var(--after-label-bg);color:var(--after-label-fg);padding:2px 7px;border-radius:2px;flex:0 0 128px}
+ .pills{display:flex;gap:6px;flex-wrap:wrap}
+ /* ── 1 CURRENT ─────────────────────────────────────────────── */
+ .o1 .tag,.o1 .pill{background:color-mix(in srgb,var(--after-teal) 12%,transparent);color:var(--after-teal);
+   border:1px solid color-mix(in srgb,var(--after-teal) 38%,transparent);border-radius:2px;padding:0 .34em;
+   font-family:var(--after-font-label);font-size:.88em;text-decoration:none}
+ .o1 .pill{font-size:13.5px;padding:1px 7px}
+ /* ── 2 BIGGER + DOS-BOLD ───────────────────────────────────── */
+ .o2 .tag,.o2 .pill{background:color-mix(in srgb,var(--after-teal) 14%,transparent);color:#8ff5da;
+   border:1px solid color-mix(in srgb,var(--after-teal) 55%,transparent);border-radius:2px;padding:1px .42em;
+   font-family:var(--after-font-label);font-size:1em;text-decoration:none;
+   text-shadow:.6px 0 0 currentColor}
+ .o2 .pill{font-size:14.5px;padding:2px 8px}
+ /* ── 3 DISPLAY FACE (IBM VGA) ──────────────────────────────── */
+ .o3 .tag,.o3 .pill{background:color-mix(in srgb,var(--after-teal) 14%,transparent);color:#8ff5da;
+   border:1px solid color-mix(in srgb,var(--after-teal) 50%,transparent);border-radius:2px;padding:1px .38em;
+   font-family:var(--after-font-display);font-size:1em;text-decoration:none;letter-spacing:.01em}
+ .o3 .pill{font-size:15px;padding:2px 8px}
+ /* ── 4 INVERTED LEGEND CHIP ────────────────────────────────── */
+ .o4 .tag,.o4 .pill{background:var(--after-label-bg);color:var(--after-label-fg);border:none;border-radius:2px;
+   padding:1px .42em;font-family:var(--after-font-label);font-size:.94em;text-decoration:none;letter-spacing:.03em;
+   box-shadow:0 1px 0 rgba(0,0,0,.45)}
+ .o4 .pill{font-size:14px;padding:2px 8px}
+ /* ── 5 SOLID SIGNAL ────────────────────────────────────────── */
+ .o5 .tag,.o5 .pill{background:var(--after-teal);color:#04141024;color:#041410;border:none;border-radius:2px;
+   padding:1px .42em;font-family:var(--after-font-label);font-size:.94em;text-decoration:none;letter-spacing:.03em}
+ .o5 .pill{font-size:14px;padding:2px 8px}
+ /* ── 6 KEYED TRACE, NO CHIP ────────────────────────────────── */
+ .o6 .tag,.o6 .pill{background:none;border:none;padding:0;color:var(--after-text);
+   font-family:var(--after-font-label);font-size:1em;text-decoration:none;
+   box-shadow:inset 0 -1px 0 var(--after-teal)}
+ .o6 .tag .h,.o6 .pill .h{color:var(--after-teal)}
+ .o6 .pill{font-size:14.5px;box-shadow:inset 0 -1px 0 var(--after-border-hi)}
+</style>
+<div id="w"></div>
+<script>
+const OPTS=[
+ ['1 · Current','3270 at 0.88em, mint ink on a 12% tint. Small, and the ink and its border are close in value.'],
+ ['2 · Bigger + DOS-bold','Same idea, tuned: full size, brighter ink, stronger border, and the terminal bold trick (a 0.6px horizontal double-strike) since 3270 ships no bold face.'],
+ ['3 · Display face','The heading font (IBM VGA) at full size. Chunkier letterforms, more machine character — but it is a bitmap face, so it is only crisp at whole-pixel sizes.'],
+ ['4 · Inverted legend chip','The property-key treatment: pale plate, dark ink. The most legible option by a distance, and it ties tags to the panel legends.'],
+ ['5 · Solid signal','Filled with the live signal colour, dark ink. Loud — reads as a state, which may be more emphasis than a tag deserves.'],
+ ['6 · Keyed trace','No chip at all. Body ink with a phosphor underline and the hash in the signal colour. Quietest; relies on the trace to mark it.'],
+];
+document.getElementById('w').innerHTML=OPTS.map(([t,n],i)=>`
+<div class="opt o${i+1}">
+ <div class="hd">${t}</div><div class="note">${n}</div>
+ <p class="prose">A note about <a class="tag" href="#"><span class="h">#</span>ai-automation</a> and
+ <a class="tag" href="#"><span class="h">#</span>seton-hall</a>, filed under
+ <a class="tag" href="#"><span class="h">#</span>professional-services</a> for the quarter.</p>
+ <div class="prow"><span class="pk">operators</span><div class="pills">
+   <span class="pill">Operator A</span><span class="pill">Operator B</span><span class="pill">Nadeem Syed</span>
+ </div></div>
+</div>`).join('');
+</script>
