@@ -31,6 +31,27 @@ const page = await browser.newPage({
   reducedMotion: has('--reduced-motion') ? 'reduce' : 'no-preference',
 });
 await page.goto(url, { waitUntil: 'networkidle' });
+
+// --body-class "a b c"   set theme classes (presets, profiles, toggles)
+// --body-class-remove "x" strip classes (e.g. theme-dark)
+const addCls = get('--body-class', null);
+const rmCls = get('--body-class-remove', null);
+if (addCls || rmCls) {
+  await page.evaluate(({ addCls, rmCls }) => {
+    if (rmCls) rmCls.split(/\s+/).filter(Boolean).forEach(c => document.body.classList.remove(c));
+    if (addCls) addCls.split(/\s+/).filter(Boolean).forEach(c => document.body.classList.add(c));
+  }, { addCls, rmCls });
+}
+// --var "--name:value;--n2:v2"  set inline custom properties on body
+const varStr = get('--var', null);
+if (varStr) {
+  await page.evaluate((v) => {
+    v.split(';').filter(Boolean).forEach(pair => {
+      const i = pair.indexOf(':');
+      document.body.style.setProperty(pair.slice(0, i).trim(), pair.slice(i + 1).trim());
+    });
+  }, varStr);
+}
 await page.evaluate(() => document.fonts.ready);
 await page.waitForTimeout(+get('--wait', 250));
 
