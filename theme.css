@@ -432,7 +432,7 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
 /* On-accent ink is auto-derived for contrast: white stays on dark accents (signal red, terminal green),
    black flips in on the LIGHT presets (amber / P1 green / gold) where forced white dropped to
    ~1.3–1.8:1 and made every accent-filled chip — notably editor URL chips (.cm-url) under the
-   phosphor presets — read as a solid redaction bar. Fixes the lot at the token, so callout titles,
+   phosphor presets — read as a solid unreadable bar. Fixes the lot at the token, so callout titles,
    Bases headers and link chips all follow. @supports-gated; older engines keep the #ffffff fallback
    set in the token blocks above. Selector mirrors the dark block (incl. both inverted-editor panes)
    so it wins by source order in every mode and pane. */
@@ -517,7 +517,9 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
 .inline-title { font-family: var(--bu-font-label); }
 .markdown-source-view.mod-cm6 .HyperMD-header { margin-bottom: 0.45em; }
 
-/* INLINE TEXT — bold · italic · links (redaction chips) · strikethrough · external-link tags ════════ */
+/* INLINE TEXT — Bureau's base layer. The Afterimage motifs that supersede it
+   (phosphor traces, brightness-bold, readable strikethrough) are in the
+   AFTERIMAGE — INLINE MOTIFS section near the foot of this file. ════════ */
 .markdown-rendered strong,
 .cm-s-obsidian .cm-strong {
   color: var(--bu-text-hi);
@@ -536,7 +538,7 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
   font-style: italic;
 }
 /* Bold italic — a readable stamp: paper fill, accent ink, accent hairline ring (the strikethrough
-   redaction stamp's outline, but un-blacked so the text reads). */
+   outline, un-blacked so the text reads. Superseded by the motifs section. */
 .markdown-rendered strong em,
 .markdown-rendered em strong,
 .cm-s-obsidian .cm-strong.cm-em {
@@ -555,7 +557,7 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
   background-color: transparent;
 }
 
-/* ───────────────────────────  LINKS & INLINE — redaction chips, external www tag, strikethrough  ─────────────────────────── */
+/* ───────────────────────────  LINKS & INLINE — base layer, superseded belohips, external www tag, strikethrough  ─────────────────────────── */
 .markdown-rendered a.internal-link,
 .markdown-rendered a.external-link,
 .cm-s-obsidian .cm-hmd-internal-link,
@@ -703,7 +705,7 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
 }
 
 /* Unresolved internal links — the name exists but its file doesn't yet. Sibling treatment to the
-   strikethrough redaction, but blurred instead of blacked: the record is on the desk, just not yet
+   strikethrough, but blurred instead of struck: the record is on the desk, just not yet
    filed, so the type sits out of focus until you lean in. Transparent glyphs + a text-shadow smear
    only the type (not a chip); hover pulls it sharp. No chip fill — an unfiled name isn't a link yet. */
 .markdown-rendered a.internal-link.is-unresolved,
@@ -1083,7 +1085,9 @@ body:not(.bu-ruler) { --bu-ruler-on: 0; }
 .callout-content,
 .callout-content > * { color: var(--bu-text); }
 .callout-content em { color: var(--ai-ink-em); }
-/* Bold in callouts = a redaction stamp (inverted chip: ink bar, paper text), per the redaction
+/* Bureau made bold in callouts an inverted chip (ink bar, paper text). Afterimage
+   replaces it with brightness — see the motifs section. Original note follows:
+   (inverted chip: ink bar, paper text), per the inline
    rules — solid, never blurred. Auto-inverts with the label tokens in light mode. */
 /* Bold inside a callout follows the same rule as bold everywhere in
    Afterimage: brighter, not fatter, and tinted toward the callout's own
@@ -1976,7 +1980,7 @@ body.bu-new-tab-custom .workspace-leaf-content[data-type="empty"] .empty-state-c
 .workspace-leaf-content[data-type="empty"] .empty-state-action:last-child {
   border-right: none;
 }
-/* "Redaction" hover theatre — hover the bar and the OTHER tiles get a censor stripe swept across them
+/* Sweep hover theatre — hover the bar and the OTHER tiles get a dark stripe swept across them
    (skewed, like it was drawn by hand), while the hovered tile lifts, glows accent, and its icon scales
    up. The label is shown by Obsidian's own tooltip (the action's aria-label) — rendered at the body
    level so it never clips — which is why the labels stay font-size:0'd here. overflow:visible just
@@ -1998,7 +2002,7 @@ body.bu-new-tab-custom .workspace-leaf-content[data-type="empty"] .empty-state-c
   transition: transform 160ms cubic-bezier(.2, .7, .2, 1);
 }
 /* hovered tile: lift + accent glow (transparent, overriding the generic light-fill hover so the
-   censored neighbours read against it). */
+   swept neighbours read against it). */
 .workspace-leaf-content[data-type="empty"] .empty-state-action:hover {
   background: transparent;
   color: var(--bu-accent-ink);
@@ -2007,7 +2011,7 @@ body.bu-new-tab-custom .workspace-leaf-content[data-type="empty"] .empty-state-c
 .workspace-leaf-content[data-type="empty"] .empty-state-action:hover::before {
   transform: scale(1.08);
 }
-/* the censor stripe */
+/* the blanking stripe — a beam interruption sweeping across the tile */
 .workspace-leaf-content[data-type="empty"] .empty-state-action::after {
   content: "";
   position: absolute;
@@ -4466,17 +4470,6 @@ body:not(.after-font-type) {
   font-synthesis-weight: none;
   font-synthesis-style: auto;
 }
-body:not(.after-font-type) .markdown-rendered strong,
-body:not(.after-font-type) .cm-strong {
-  font-weight: 400;
-  color: var(--ai-ink-hi, var(--bu-text-hi, #fff));
-  text-shadow: 0 0 calc(var(--ai-bloom, 4px) * 0.8)
-               color-mix(in oklab, var(--ai-ink-hi, #fff) 42%, transparent);
-}
-body:not(.after-font-type) .markdown-rendered em,
-body:not(.after-font-type) .cm-em {
-  color: var(--ai-ink-em, var(--bu-text, inherit));
-}
 body.after-font-type { font-synthesis: auto; }
 
 
@@ -5146,6 +5139,206 @@ body.after-profile-custom { --ai-profile: custom; }
   padding: 6px 12px 2px;
 }
 :is(.theme-dark, .theme-light) .metadata-add-button:hover { color: var(--bu-accent); }
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — INLINE MOTIFS
+   ═══════════════════════════════════════════════════════════════════════════
+   Bureau's inline vocabulary was the case file's: bold as a highlighter swipe,
+   links as redaction chips, strikethrough as a censor bar you hover to reveal,
+   unresolved links as an unfiled record out of focus. Every one of those is a
+   *paper* metaphor, and none of them survives the move to a tube.
+
+   Afterimage's vocabulary is light:
+     bold          brighter, not fatter, plus a little bloom
+     italic        a cooler cast, no chip
+     link          a PHOSPHOR TRACE — a lit underline under ordinary text
+     unresolved    an AFTERIMAGE — the ghost of a note that is not there yet
+     strikethrough struck and dimmed, and still readable
+     highlight     a lit band, as if that run of phosphor were driven harder
+
+   None of these hide text. Bureau's redaction bar required a hover to read
+   what it covered; that is a good joke in a case file and an obstacle in a
+   knowledge tool.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── BOLD — brightness, not weight ────────────────────────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered strong,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-strong {
+  background: none;
+  padding: 0;
+  color: var(--ai-ink-hi);
+  font-weight: var(--ai-bold-weight, 400);
+  text-shadow: 0 0 calc(var(--ai-bloom) * 0.9)
+               color-mix(in oklab, var(--ai-ink-hi) 45%, transparent);
+}
+/* Courier Prime has a real bold face, so the Typewriter preset uses it. */
+body.after-font-type { --ai-bold-weight: 700; }
+
+/* ── ITALIC — a cooler cast. No accent: emphasis is not a signal. ─────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered em,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-em {
+  color: var(--ai-ink-em);
+  font-style: italic;
+  background: none;
+}
+
+/* ── BOLD ITALIC — brightest, with a trace beneath ────────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered strong em,
+:is(.theme-dark, .theme-light) .markdown-rendered em strong,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-strong.cm-em {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--ai-ink-hi);
+  -webkit-text-fill-color: var(--ai-ink-hi);
+  border-bottom: 1px solid color-mix(in srgb, var(--bu-accent) 55%, transparent);
+  text-shadow: 0 0 calc(var(--ai-bloom) * 1.1)
+               color-mix(in oklab, var(--ai-ink-hi) 55%, transparent);
+}
+
+/* ── LINKS — the phosphor trace ───────────────────────────────────────────
+   Ordinary text, legible at full contrast, sitting on a lit underline. The
+   trace is the link; the words stay words. Hover drives the trace harder,
+   which is what a link should do on a display made of light.               */
+:is(.theme-dark, .theme-light) .markdown-rendered a.internal-link,
+:is(.theme-dark, .theme-light) .markdown-source-view.mod-cm6 .cm-hmd-internal-link,
+:is(.theme-dark, .theme-light) .markdown-rendered a.external-link,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-link,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-url {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--ai-ink);
+  -webkit-text-fill-color: var(--ai-ink);
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 0 var(--bu-accent);
+  transition: box-shadow 110ms ease-out, color 110ms ease-out;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered a.internal-link:hover,
+:is(.theme-dark, .theme-light) .markdown-rendered a.external-link:hover,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-link:hover,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-url:hover {
+  color: var(--ai-ink-hi);
+  -webkit-text-fill-color: var(--ai-ink-hi);
+  box-shadow: inset 0 -2px 0 0 var(--bu-accent),
+              0 1px 8px -2px color-mix(in srgb, var(--bu-accent) 55%, transparent);
+}
+/* External links get a dotted trace instead of a solid one — the same
+   grammar, one degree less certain, because the destination is off-vault. */
+:is(.theme-dark, .theme-light) .markdown-rendered a.external-link {
+  box-shadow: none;
+  border-bottom: 1px dotted var(--bu-accent);
+}
+:is(.theme-dark, .theme-light) .markdown-rendered a.external-link:hover {
+  box-shadow: 0 1px 8px -2px color-mix(in srgb, var(--bu-accent) 55%, transparent);
+  border-bottom-style: solid;
+}
+/* The "www" tag becomes a quiet technical mark in steel, not an accent chip. */
+:is(.theme-dark, .theme-light) .markdown-rendered a.external-link::after {
+  content: '\2197';                       /* ↗ */
+  color: var(--bu-faint);
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0.22em;
+  font-size: 0.8em;
+  vertical-align: 0.15em;
+  letter-spacing: 0;
+}
+
+/* ── UNRESOLVED LINK — the afterimage of a note that does not exist yet ────
+   Not blurred-and-hidden. A dim glyph with its own decay tail slightly
+   offset, so it reads as something that was on the screen a moment ago and
+   has not been written yet. Hover resolves it.                             */
+:is(.theme-dark, .theme-light) .markdown-rendered a.internal-link.is-unresolved,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-hmd-internal-link.is-unresolved {
+  background: none;
+  box-shadow: none;
+  border-bottom: 1px dashed color-mix(in srgb, var(--bu-faint) 60%, transparent);
+  color: var(--bu-faint);
+  -webkit-text-fill-color: var(--bu-faint);
+  text-shadow: 0 1px 0 color-mix(in oklab, var(--bu-faint) 40%, transparent),
+               0 2px 3px color-mix(in oklab, var(--bu-faint) 22%, transparent);
+  text-decoration: none;
+  padding: 0;
+  transition: color 130ms ease-out, text-shadow 130ms ease-out;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered a.internal-link.is-unresolved:hover,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-hmd-internal-link.is-unresolved:hover {
+  color: var(--ai-ink);
+  -webkit-text-fill-color: var(--ai-ink);
+  text-shadow: 0 0 var(--ai-bloom) color-mix(in oklab, var(--ai-ink) 40%, transparent);
+  border-bottom-color: var(--bu-accent);
+}
+
+/* ── STRIKETHROUGH — struck, dimmed, and still readable ───────────────────
+   Bureau blacked it out and made you hover to read it. In a knowledge tool
+   that is an obstacle: struck text is usually struck for a reason you still
+   need to see.                                                             */
+:is(.theme-dark, .theme-light) .markdown-rendered del,
+:is(.theme-dark, .theme-light) .markdown-rendered s,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-strikethrough {
+  background: none;
+  box-shadow: none;
+  color: var(--bu-faint);
+  -webkit-text-fill-color: var(--bu-faint);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--bu-accent) 70%, transparent);
+  text-decoration-thickness: 1px;
+  text-shadow: none;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered del:hover,
+:is(.theme-dark, .theme-light) .markdown-rendered s:hover,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-strikethrough:hover {
+  background: none;
+  color: var(--bu-muted);
+  -webkit-text-fill-color: var(--bu-muted);
+}
+
+/* ── HIGHLIGHT — a run of phosphor driven harder ──────────────────────────── */
+:is(.theme-dark, .theme-light) .markdown-rendered mark,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-highlight {
+  background-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
+  color: var(--ai-ink-hi);
+  -webkit-text-fill-color: var(--ai-ink-hi);
+  padding: 0 0.22em;
+  border-radius: 1px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bu-accent) 28%, transparent);
+  text-shadow: 0 0 calc(var(--ai-bloom) * 0.7)
+               color-mix(in oklab, var(--bu-accent) 40%, transparent);
+}
+
+/* ── TAGS — a bordered technical chip, in the live/secondary signal ───────── */
+:is(.theme-dark, .theme-light) .markdown-rendered a.tag,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-hashtag {
+  background: color-mix(in srgb, var(--bu-teal) 12%, transparent);
+  color: var(--bu-teal);
+  border: 1px solid color-mix(in srgb, var(--bu-teal) 38%, transparent);
+  border-radius: 2px;
+  padding: 0 0.34em;
+  font-family: var(--ai-font-label);
+  font-size: 0.88em;
+  text-decoration: none;
+  box-shadow: none;
+}
+:is(.theme-dark, .theme-light) .markdown-rendered a.tag:hover {
+  border-color: var(--bu-teal);
+  color: var(--bu-text-hi);
+}
+
+/* Headings own their emphasis: bold inside a heading must not re-brighten or
+   bloom, or the plate lettering breaks up. */
+:is(.theme-dark, .theme-light) .markdown-rendered :is(h1, h2, h3, h4, h5, h6) strong,
+:is(.theme-dark, .theme-light) .markdown-rendered :is(h1, h2, h3, h4, h5, h6) em {
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+  background: none;
+  text-shadow: none;
+  border-bottom: none;
+}
 
 
 /* ───────────────────────────  SCROLLBARS — width, colour, fade, hide  ─────────────────────────── */
