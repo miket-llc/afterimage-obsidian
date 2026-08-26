@@ -1,12 +1,19 @@
 # Contributing to Afterimage
 
+> **Afterimage is a derivative of [Bureau](https://github.com/Sonophage/Bureau)
+> by [Sonophage](https://github.com/Sonophage)** (MIT). Much of the
+> architecture — and this contributing guide's original text — is Sonophage's.
+> Bug reports about behaviour Afterimage inherited unchanged may belong
+> upstream; [`UPSTREAM.md`](UPSTREAM.md) records where the line falls.
+
+
 Thanks for prying the lid off. Afterimage is a small, opinionated room, and it stays
 livable because the rules are few and held to. Here's how to file a report, send
 a change, and not break the lights on your way out.
 
 ## Reporting a problem
 
-Open an [issue](https://github.com/mdt/afterimage-obsidian/issues). The useful ones tell
+Open an [issue](https://github.com/miket-llc/afterimage-obsidian/issues). The useful ones tell
 me:
 
 - **Obsidian version** (Settings → About) and **Afterimage version** (`manifest.json`, or the *What's new* note in Style Settings).

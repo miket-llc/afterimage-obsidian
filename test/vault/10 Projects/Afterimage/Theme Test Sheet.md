@@ -1,5 +1,5 @@
 ---
-title: Bureau — Theme Test Sheet
+title: Afterimage — Theme Test Sheet
 status: ACTIVE
 clearance: 4
 verified: true
@@ -9,15 +9,15 @@ operators:
   - Operator A
   - Operator B
 link: "[[Example Note]]"
-url: https://github.com/Sonophage/Bureau
+url: https://github.com/Sonophage/Afterimage
 tags:
-  - bureau
+  - afterimage
   - calibration
   - qa
 ---
 
-> [!quote] Bureau — Display Calibration
-> Every surface the theme touches, on one page. Flip through it in **dark**, **paper (light)**, and **inverted-editor**, in both **reading** and **live-preview**, then run the matrix at the foot of the file. The frontmatter above doubles as the **Properties** test: text (`title`/`status`), number (`clearance`), boolean (`verified`), date (`opened`), datetime (`reviewed`), list (`operators`), internal-link (`link`), URL (`url`), and tags.
+> [!quote] Afterimage — Display Calibration
+> Every surface the theme touches, on one page. Flip through it in **dark**, **light**, and **inverted-editor**, in both **reading** and **live-preview**, then run the matrix at the foot of the file. The frontmatter above doubles as the **Properties** test: text (`title`/`status`), number (`clearance`), boolean (`verified`), date (`opened`), datetime (`reviewed`), list (`operators`), internal-link (`link`), URL (`url`), and tags.
 
 > [!warning] Two surfaces need a target from *your* vault
 > This sheet ships standalone, so a few blocks reference placeholder names that won't resolve in a fresh vault. To test them fully:
@@ -31,9 +31,9 @@ tags:
 
 ## 1 · Typography
 
-Body text — set in Courier Prime, the operator's typewriter. It should sit at a comfortable measure and line height (both adjustable in **Style Settings → Cards & layout**). A run of plain prose to check line-height, measure, and the phosphor text-glow at default strength. Secondary detail in a smaller voice leans on the faint/muted tokens — make sure it stays legible.
+Body text — set in whichever typography preset is active (IBM DOS 9x16 by default). It should sit at a comfortable measure and line height (both adjustable in **Style Settings → Cards & layout**). A run of plain prose to check line-height, measure, and the phosphor text-glow at default strength. Secondary detail in a smaller voice leans on the faint/muted tokens — make sure it stays legible.
 
-Here is **bold text** (the highlighter swipe), *italic text* (sepia/brass ink), ***bold italic*** (the un-blacked accent-ring stamp), ~~struck-through text~~ (the solid redaction bar — hover to reveal), ==highlighted text==, and `inline code` (a small inset chip). This sentence should survive a soft  
+Here is **bold text** (brighter, not fatter — bold is brightness in a single-weight terminal font), *italic text* (a cooler cast), ***bold italic*** (brightest, with an accent trace beneath), ~~struck-through text~~ (struck, dimmed, and still readable — nothing is hidden), ==highlighted text==, and `inline code` (a small inset chip). This sentence should survive a soft  
 line break (two trailing spaces) without becoming a new paragraph.
 
 HTML inline atoms the theme styles directly: a <kbd>Ctrl</kbd> + <kbd>K</kbd> key-cap, an H<sub>2</sub>O subscript, an E=mc<sup>2</sup> superscript, and an <del>HTML strike</del>.
@@ -43,19 +43,19 @@ HTML inline atoms the theme styles directly: a <kbd>Ctrl</kbd> + <kbd>K</kbd> ke
 ##### Heading 5 — chip should read "H5"
 ###### Heading 6 — chip should read "H6"
 
-Every heading is a stamped label with its level-tag. In dark = paper chip on black; in paper = dark stamp on paper. An external link riding inside a heading ↓
+Six levels, six silhouettes: plate, keyed band, terminal block, rule, side-key, micro-heading. The raster runs through plate **and** glyphs on the plated levels. An external link riding inside a heading ↓
 
-### See also: [the Control wiki](https://controlgame.com)
+### See also: [the font pack](https://int10h.org/oldschool-pc-fonts/)
 
 ---
 
 ## 2 · Links — connected vs. severed
 
-- **Resolved internal link** (label chip — needs `Example Note` to exist; see note up top): [[Example Note]]
-- **Unresolved internal link** (note does *not* exist) — should render as **blurred/smeared transparent type** that snaps sharp on hover, *not* a chip: [[Nonexistent Dossier 7-A]]
+- **Resolved internal link** (phosphor trace — needs `Example Note` to exist; see note up top): [[Example Note]]
+- **Unresolved internal link** (note does *not* exist) — should render as an **afterimage** — dim, with its own decay tail and a dashed trace — resolving on hover: [[Nonexistent Note 7-A]]
 - **Internal link with alias**: [[Example Note|an aliased reference]]
 - **Heading link** (jump within file): [[#1 · Typography|↑ back to Typography]]
-- **External link** (accent fill + "www" tag): [the Bureau repo](https://github.com/Sonophage/Bureau)
+- **External link** (dotted trace + a steel ↗): [the Afterimage repo](https://github.com/miket-llc/afterimage-obsidian)
 - **Bare URL** (also gets the www tag): https://obsidian.md
 - **Markdown anchor**: [an in-page anchor](#9--math)
 
@@ -87,7 +87,7 @@ Internal link riding inside a heading (should **invert** to label-fg fill, disti
 ## 4 · Blockquote & rule
 
 > The rain hit like a dropped pallet of bricks. No mist, no polite warning — just the sky opening its payload bay and dumping.
-> — someone in the Bureau
+> — someone in the Afterimage
 
 The three divider syntaxes below should all render as the ❖ filing-tab ornament:
 
@@ -101,7 +101,7 @@ ___
 
 ## 5 · Callouts
 
-Note the Bureau treatment: **no left icon** — the title is a small uppercase **stamp tab pinned to the top-right** of the block. The set below spans all six of the theme's colour families (note/info · tip/success · question · warning/important · danger · example/quote).
+Note the Afterimage treatment: **no left icon** — the title is a small uppercase **stamp tab pinned to the top-right** of the block. The set below spans all six of the theme's colour families (note/info · tip/success · question · warning/important · danger · example/quote).
 
 Standard, titled, with body:
 
@@ -109,7 +109,7 @@ Standard, titled, with body:
 > Title text rides on the accent/colour bar — check legibility in both modes.
 
 > [!tip] Tip callout
-> With **bold** that renders as a redaction stamp.
+> With **bold** that renders brighter, tinted toward the callout colour.
 
 > [!warning] Warning callout
 > Amber / attention styling.
@@ -176,7 +176,7 @@ Alignment (left / center / right):
 ## 7 · Code fences (language chips)
 
 ```js
-const bureau = { mode: "noir", crt: true };
+const afterimage = { mode: "noir", crt: true };
 function open(file) { return `OPENED: ${file}`; }
 ```
 
@@ -194,11 +194,11 @@ gh release create 2.8.0 theme.css manifest.json
 ```
 
 ```json
-{ "accent": "control-red", "phosphor": false }
+{ "accent": "cobalt", "phosphor": false }
 ```
 
 ```typescript
-const accent: string = "control-red"; // chip → "TS"
+const accent: string = "cobalt"; // chip → "TS"
 ```
 
 ```sql
@@ -206,13 +206,13 @@ SELECT designation FROM specimens WHERE clearance >= 4; -- chip → "SQL"
 ```
 
 ```yaml
-accent: control-red   # chip → "YAML"
+accent: cobalt   # chip → "YAML"
 phosphor: false
 ```
 
 ```toml
 # Unmapped language — chip should fall back to "CODE", not break.
-accent = "control-red"
+accent = "cobalt"
 ```
 
 ```
@@ -257,7 +257,7 @@ Remote image with alt text (works as-is):
 
 ## 11 · Tags, comment & footnotes
 
-Inline tags: #bureau #calibration #specimen and a #nested/tag for good measure.
+Inline tags: #afterimage #calibration #specimen and a #nested/tag for good measure.
 
 Here is an inline comment that should be invisible in reading view: %%redacted operator note%%
 
@@ -270,17 +270,17 @@ A claim that needs a citation.[^1] And a second claim.[^2]
 
 ## 12 · Verification matrix
 
-Tick each once it reads cleanly in **all three** palettes (dark · paper · inverted-editor). While here, also flip **Effects Mode** (Low / Medium / High), the **accent presets** (control-red / amber / P1 / deus-gold), the **`bu-phosphor`** toggle, and **`bu-print-link-urls`** (raw URLs should print after links).
+Tick each once it reads cleanly in **all three** palettes (dark · light · inverted-editor). While here, also flip **Effects Mode** (Low / Medium / High), the **accent presets** (cobalt / amber / P1 / deus-gold), the **`bu-phosphor`** toggle, and **`bu-print-link-urls`** (raw URLs should print after links).
 
 - [ ] **Properties panel** — keys render as uppercase label chips; list/tag values as multi-select pills (frontmatter above)
-- [ ] §1 Typography — emphasis, bold-italic stamp, redaction-bar-on-hover, soft break, kbd/sub/sup, heading chips
+- [ ] §1 Typography — emphasis by brightness, bold-italic trace, readable strikethrough, soft break, kbd/sub/sup, heading chips
 - [ ] §2 Links — resolved chip / **unresolved blur→sharp** / alias / heading **inversion** / external "www" tag / bare URL
 - [ ] §3 Lists & tasks — nesting guides, printed checkbox, accent tick
 - [ ] §4 Blockquote & the ❖ dividers
 - [ ] §5 Callouts — **top-right stamp title, no icon**, all six colour families, fold open/collapsed, nested, unknown-type fallback
 - [ ] §6 Table — header accent fill, zebra rows, hover, alignment
 - [ ] §7 Code — chip gallery (JS/PY/CSS/SH/JSON/TS/SQL/YAML) + **unmapped → "CODE"** fallback
-- [ ] §8 Bases — Table / Cards / List views (dossier styling)
+- [ ] §8 Bases — Table / Cards / List views (panel styling)
 - [ ] §9 Math — inline + block
 - [ ] §10 Embeds — note transclusion, sized local image, remote image
 - [ ] §11 Tags / comment hidden in reading / footnotes + backref

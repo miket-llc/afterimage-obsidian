@@ -1,7 +1,7 @@
 {
   "name": "afterimage-obsidian",
   "version": "0.1.0",
-  "description": "Afterimage — a CRT-terminal Obsidian theme, derived from Bureau by Sonophage.",
+  "description": "Afterimage \u2014 a CRT-terminal Obsidian theme, derived from Bureau by Sonophage.",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -11,10 +11,12 @@
     "lint": "node scripts/lint.mjs",
     "audit": "node scripts/audit.mjs",
     "audit:fonts": "node scripts/audit.mjs --fonts-only",
-    "check": "npm run build && npm run lint && npm run audit",
+    "check": "npm run build && npm run lint && npm run audit && node scripts/sync-fixtures.mjs --check",
     "install:vault": "node scripts/install-local.mjs",
     "shots": "node scripts/screenshot.mjs",
-    "preview": "python3 -m http.server 8817 --bind 127.0.0.1"
+    "preview": "python3 -m http.server 8817 --bind 127.0.0.1",
+    "test": "node scripts/test-editing.mjs",
+    "vault:sync": "node scripts/sync-fixtures.mjs"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

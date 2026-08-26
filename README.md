@@ -170,6 +170,13 @@ directly, but let the build own the regions between its `BUILD:` markers.
 
 Release: `python3 release.py <version>`.
 
+`npm test` runs 18 editing-behaviour checks in real Chromium against the DOM
+harness. [`docs/TESTING.md`](docs/TESTING.md) records exactly what has been
+verified in Obsidian itself, what was only verified in the harness, and what
+has not been tested at all.
+
+Repository: <https://github.com/miket-llc/afterimage-obsidian>
+
 ## Licensing
 
 Afterimage is **MIT**, as Bureau is. See [`LICENSE`](LICENSE) — Sonophage's

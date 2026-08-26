@@ -9,6 +9,13 @@ All font files live under [`fonts/`](fonts/) as real, inspectable binaries
 with their licence text alongside. The build (`npm run build`) embeds them
 into `theme.css` as base64 `data:` URIs; nothing is fetched at runtime.
 
+**Embedding is not a preference, it is a requirement.** Obsidian injects a
+theme as an inline `<style>` element, so a relative `url()` inside `theme.css`
+has no theme-folder base to resolve against and simply fails. Shipping the
+fonts as separate files alongside `theme.css` would silently produce a theme
+with no typography. (This is documented in Bureau's own source, where the same
+constraint forced its new-tab artwork inline.)
+
 Run `npm run audit:fonts` to re-verify every claim on this page against the
 files actually present — it reads each font's own internal name table rather
 than trusting this document.
@@ -33,6 +40,7 @@ IBM-DOS-derived preset (see [§ cool-retro-term](#relationship-to-cool-retro-ter
 | Licence | **CC BY-SA 4.0** — [`fonts/oldschool-pc-font-pack/LICENSE.txt`](fonts/oldschool-pc-font-pack/LICENSE.txt) |
 | Licence URL | <https://creativecommons.org/licenses/by-sa/4.0/> |
 | Redistribution | **Permitted**, with attribution and licence notice (§3(a)). |
+| Bundled as | base64 `data:` URI inside `theme.css` (see above) |
 | Modification | Permitted, but any *Adapted Material* must be released under CC BY-SA 4.0 or a compatible licence (§3(b)). |
 | **Modified by Afterimage?** | **No.** Shipped byte-for-byte as downloaded. |
 

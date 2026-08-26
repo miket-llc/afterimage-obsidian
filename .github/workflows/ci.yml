@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: build · lint · audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Regenerates the BUILD: regions, then fails if theme.css changed —
+      # a committed theme.css must always match its sources.
+      - name: build (and prove theme.css is not stale)
+        run: |
+          npm run build
+          git diff --exit-code -- theme.css \
+            || { echo "::error::theme.css is stale — run 'npm run build' and commit"; exit 1; }
+
+      - run: npm run lint
+      - run: npm run audit
+      - name: fixtures are in sync
+        run: node scripts/sync-fixtures.mjs --check
+
+  behaviour:
+    name: editing behaviour (Chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: serve the harness
+        run: |
+          python3 -m http.server 8817 --bind 127.0.0.1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8817/ >/dev/null && break; sleep 1; done
+      - env:
+          AI_BASE: http://127.0.0.1:8817
+        run: npm test

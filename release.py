@@ -48,7 +48,7 @@ WHATSNEW_FOOTER = (
     "Full release history is at the foot of this panel. **Updates:** install via the "
     "community-themes browser or [BRAT](https://github.com/TfTHacker/obsidian42-brat) to be "
     "notified automatically; otherwise re-download `theme.css` from the "
-    "[releases page](https://github.com/mdt/afterimage-obsidian)."
+    "[releases page](https://github.com/miket-llc/afterimage-obsidian)."
 )
 
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
