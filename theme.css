@@ -3308,10 +3308,24 @@ body.theme-dark .markdown-reading-view::after {
   z-index: 4;
   background: var(--bu-scanlines);
 }
+/* ONE optical stack. Afterimage's bloom / afterimage / misregistration and
+   Bureau's accent phosphor-glow are composed into a single text-shadow,
+   because text-shadow does not accumulate across rules: whichever rule wins
+   replaces the whole list. Bureau's glow rule targets .cm-line, p and li,
+   which are descendants of the elements carrying Afterimage's stack, so it
+   was silently wiping bloom and afterimage from precisely the text that
+   matters most. --bu-glow-text still means what it meant. */
 body.theme-dark .markdown-source-view.mod-cm6 .cm-line,
 body.theme-dark .markdown-rendered p,
-body.theme-dark .markdown-rendered li {
-  text-shadow: 0 0 calc(var(--bu-glow-text, 55) * 0.08px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 55) * 1%), transparent);
+body.theme-dark .markdown-rendered li,
+body.theme-dark .markdown-rendered td,
+body.theme-dark .markdown-rendered blockquote {
+  text-shadow:
+    0 0 var(--ai-bloom) color-mix(in oklab, var(--ai-ink) 34%, transparent),
+    0 var(--ai-ghost-offset) 0 color-mix(in oklab, var(--ai-ink) calc(var(--ai-ghost) * 100%), transparent),
+    calc(var(--ai-rgb-split) * -1) 0 0 rgba(255, 70, 70, calc(var(--ai-rgb-split) * 0.55)),
+    var(--ai-rgb-split) 0 0 rgba(70, 150, 255, calc(var(--ai-rgb-split) * 0.55)),
+    0 0 calc(var(--bu-glow-text, 22) * 0.08px) color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-text, 22) * 1%), transparent);
 }
 /* PHOSPHOR TERMINAL — collapse the page to one glowing hue, the way a vintage tube only ever emitted
    its own colour. Pair the toggle with the Amber or Green (P1) accent preset (any accent works): the
@@ -4566,7 +4580,7 @@ body.theme-light {
 
 /* One reusable stripe. --ai-r-strength is set by each consumer below. */
 .markdown-preview-sizer::after,
-.markdown-source-view.mod-cm6 .cm-content::after,
+.markdown-source-view.mod-cm6 .cm-editor::before,
 .workspace-split.mod-left-split .nav-files-container::after,
 .workspace-split.mod-right-split .view-content > *::after {
   content: '';
@@ -4590,9 +4604,23 @@ body.theme-light {
   --ai-r-strength: var(--ai-prose-raster);
 }
 /* LIVE PREVIEW / SOURCE — reduced. Editing reliability wins, and the caret
-   shares this surface. Related to Reading View, not identical to it. */
-.markdown-source-view.mod-cm6 .cm-content {
-  position: relative;
+   shares this surface. Related to Reading View, not identical to it.
+
+   ATTACHED TO .cm-editor, NOT .cm-content, and deliberately so. CodeMirror
+   draws the caret and the selection as absolutely positioned .cm-layer
+   elements whose containing block is the nearest positioned ancestor.
+   .cm-editor already carries `position: relative` from CodeMirror's own base
+   theme; .cm-content does not. Adding `position: relative` to .cm-content to
+   hang an overlay on it would silently re-parent those layers' containing
+   block and can misplace the caret and the selection rectangles. Anchoring to
+   .cm-editor introduces no new positioning context at all.
+
+   The cost is that the editor's raster is anchored to the pane rather than to
+   the text, so glyphs move through it while scrolling. That is what a real
+   tube does — the scan lines do not travel with the picture — and at the
+   default 0.14 strength it is barely perceptible. Reading View keeps its
+   raster locked to the content, where there is no such constraint. */
+.markdown-source-view.mod-cm6 .cm-editor {
   --ai-r-strength: var(--ai-edit-raster);
 }
 /* CHROME — the sidebars are part of the same machine. */
@@ -5341,6 +5369,167 @@ body.after-font-type { --ai-bold-weight: 700; }
 }
 
 
+
+
+
+/* ── Editor external links: the same phosphor trace as Reading View ────────
+   Bureau filled .cm-link / .cm-url with the accent and appended a "www" chip.
+   Replaced here (rather than only in .markdown-rendered) so the editor and the
+   reading view speak the same language, which is the whole point of having
+   one. */
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-link:not(.cm-hmd-internal-link),
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-url {
+  background-color: transparent;
+  background-image: none;
+  color: var(--ai-ink);
+  -webkit-text-fill-color: var(--ai-ink);
+  border-bottom: 1px dotted var(--bu-accent);
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-link:not(.cm-hmd-internal-link):hover,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-url:hover {
+  background-color: transparent;
+  color: var(--ai-ink-hi);
+  -webkit-text-fill-color: var(--ai-ink-hi);
+  border-bottom-style: solid;
+  box-shadow: 0 1px 8px -2px color-mix(in srgb, var(--bu-accent) 55%, transparent);
+}
+:is(.theme-dark, .theme-light) .markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-link:not(.cm-formatting-link)::after,
+:is(.theme-dark, .theme-light) .markdown-source-view.mod-cm6 .cm-line:not(.cm-active) .cm-url::after {
+  content: '\2197';
+  background: none;
+  border: none;
+  color: var(--bu-faint);
+  padding: 0;
+  margin-left: 0.22em;
+  font-size: 0.8em;
+  vertical-align: 0.15em;
+  box-shadow: none;
+}
+/* Internal links in the editor take the solid trace, matching Reading View. */
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-hmd-internal-link {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--ai-ink);
+  -webkit-text-fill-color: var(--ai-ink);
+  box-shadow: inset 0 -1px 0 0 var(--bu-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — EDITING SAFETY
+   ═══════════════════════════════════════════════════════════════════════════
+   Everything an optical effect must never break. These are guarantees, not
+   decoration, and they are declared last so nothing above can undo them.
+
+   The core one is structural rather than a rule: the editor's glyph raster is
+   a `multiply` OVERLAY, never a treatment of the text element. No transparent
+   fill, no background-clip, no filter touches editable text — so the caret,
+   the selection, the composition preview, the spellcheck underline and the
+   clipboard all behave exactly as Obsidian intends.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1 — NO OVERLAY MAY EVER INTERCEPT A POINTER.
+       Belt and braces: each layer already sets this, but a single missed
+       pointer-events makes a pane look broken in a way that is very hard to
+       attribute to a theme. */
+.markdown-preview-sizer::after,
+.markdown-source-view.mod-cm6 .cm-editor::before,
+.markdown-source-view.mod-cm6 .cm-editor::after,
+.markdown-reading-view::after,
+.workspace-split.mod-left-split .nav-files-container::after,
+.workspace-split.mod-right-split .view-content > *::after {
+  pointer-events: none !important;
+}
+
+/* 2 — CARET. Always painted, always the signal colour, never inheriting a
+       transparent fill from a display-text rule. */
+.markdown-source-view.mod-cm6 .cm-content,
+.markdown-source-view.mod-cm6 .cm-line,
+.metadata-property-value input,
+.metadata-input-longtext,
+input, textarea {
+  caret-color: var(--bu-accent);
+}
+.cm-editor .cm-cursor,
+.cm-editor .cm-cursor-primary {
+  border-left-color: var(--bu-accent);
+  /* the caret is a lit element; it should never be dimmed by an ink rule */
+  -webkit-text-fill-color: initial;
+}
+
+/* 3 — EDITABLE TEXT IS NEVER TRANSPARENT.
+       The clipped glyph raster is confined to display text, but Live Preview
+       renders real .markdown-rendered content inside .cm-content for embeds
+       and transclusions, so the boundary is restated here rather than being
+       left to selector luck. */
+.markdown-source-view.mod-cm6 .cm-line,
+.markdown-source-view.mod-cm6 .cm-line * {
+  -webkit-text-fill-color: currentColor;
+}
+/* ...except the level plates, which are a background treatment, not a clip. */
+.markdown-source-view.mod-cm6 :is(.cm-header-1, .cm-header-2, .cm-header-3) {
+  -webkit-text-fill-color: var(--bu-label-fg);
+}
+
+/* 4 — SELECTION. High contrast in every mode, over any raster. Declared for
+       both the native highlight and CodeMirror's drawn selection layer. */
+::selection {
+  background: var(--bu-accent);
+  color: var(--bu-on-accent);
+  -webkit-text-fill-color: var(--bu-on-accent);
+}
+.cm-editor .cm-selectionBackground,
+.cm-editor.cm-focused .cm-selectionBackground,
+.markdown-source-view.mod-cm6 .cm-selectionBackground {
+  background-color: color-mix(in srgb, var(--bu-accent) 42%, transparent) !important;
+}
+
+/* 5 — SEARCH MATCHES must out-rank the raster, or a hit can be missed. */
+.cm-editor .cm-searchMatch,
+.document-search-container .cm-searchMatch {
+  background-color: color-mix(in srgb, var(--bu-amber) 30%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bu-amber) 65%, transparent);
+}
+.cm-editor .cm-searchMatch-selected,
+.document-search-container .cm-searchMatch.is-active {
+  background-color: color-mix(in srgb, var(--bu-amber) 62%, transparent);
+  box-shadow: inset 0 0 0 1px var(--bu-amber);
+  color: var(--bu-text-hi);
+}
+
+/* 6 — IME / COMPOSITION. The preview must stay visible and legible while a
+       character is being composed, and must not be clipped or blended away. */
+.cm-editor .cm-composition,
+.markdown-source-view.mod-cm6 .cm-composition {
+  background: color-mix(in srgb, var(--bu-accent) 16%, transparent);
+  color: var(--ai-ink-hi);
+  -webkit-text-fill-color: var(--ai-ink-hi);
+  text-decoration: underline;
+  text-decoration-color: var(--bu-accent);
+  text-shadow: none;
+  position: relative;
+  z-index: 6;                 /* above the raster overlay (z-index 5) */
+}
+
+/* 7 — SPELLCHECK. Obsidian draws these as the platform underline; nothing
+       here may replace text-decoration on an editable line. */
+.markdown-source-view.mod-cm6 .cm-line[spellcheck],
+.cm-content[spellcheck="true"] { text-decoration-skip-ink: auto; }
+
+/* 8 — NO EFFECT DURING TYPING. The raster layers are static backgrounds and
+       carry no transition or animation, so a keystroke can never trigger a
+       repaint animation. Stated explicitly so it cannot be reintroduced by a
+       later blanket transition rule. */
+.markdown-preview-sizer::after,
+.markdown-source-view.mod-cm6 .cm-editor::before {
+  transition: none !important;
+  animation: none !important;
+}
+
+
 /* ───────────────────────────  SCROLLBARS — width, colour, fade, hide  ─────────────────────────── */
 
 /* Width — Obsidian (Chromium) has no width variable, so size the webkit scrollbar directly. Prefixed
@@ -5933,10 +6122,10 @@ settings:
     max: 10
     step: 1
   - id: bu-glow-text
-    title: CRT text glow
-    description: Phosphor-style glow on body text (0 = off).
+    title: CRT text glow (accent)
+    description: "An *accent-coloured* halo on body text, on top of the ink-coloured **Bloom** in the Glyph rendering section. Bloom is the faceplate scatter of the glyph's own light; this is the tube's colour bleeding into it. Lowered from Bureau's default because Afterimage now has a bloom of its own — set both high and the two halos compound into blur. 0 = off."
     type: variable-number-slider
-    default: 55
+    default: 22
     min: 0
     max: 100
     step: 5

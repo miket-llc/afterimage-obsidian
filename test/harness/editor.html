@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Afterimage — Live Preview harness</title>
+<link rel="stylesheet" href="reset.css"><link rel="stylesheet" href="../../theme.css">
+<style>
+/* Stand-in for CodeMirror 6's own base theme — the parts the raster and the
+   editing-safety rules depend on. Values taken from CM6's baseTheme. */
+.cm-editor { position: relative !important; display: flex !important; flex-direction: column; height: 100%; }
+.cm-scroller { display: flex; align-items: flex-start; flex-direction: row; flex-wrap: nowrap;
+               overflow-x: auto; position: relative; z-index: 0; flex: 1; }
+.cm-content { max-width: 760px; margin: 0 auto; flex-grow: 2; flex-shrink: 0; display: block; white-space: pre-wrap;
+              word-wrap: break-word; box-sizing: border-box; min-height: 100%; padding: 4px 0; outline: none; }
+.cm-line { display: block; padding: 0 2px 0 6px; }
+.cm-layer { position: absolute; left: 0; top: 0; contain: size style; }
+.cm-layer > * { position: absolute; }
+.cm-cursor { border-left: 1.2px solid; margin-left: -0.6px; display: block; }
+.cm-selectionBackground { background: #3355aa; }
+</style></head>
+<body class="theme-dark mod-macos is-focused">
+<div class="app-container"><div class="horizontal-main-container"><div class="workspace">
+ <div class="workspace-split mod-vertical mod-root"><div class="workspace-tabs mod-top">
+  <div class="workspace-tab-container"><div class="workspace-leaf mod-active">
+   <div class="workspace-leaf-content" data-type="markdown" data-mode="source">
+    <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">Live Preview harness</div></div></div>
+    <div class="view-content">
+     <div class="markdown-source-view mod-cm6 is-live-preview">
+      <div class="cm-editor cm-s-obsidian">
+       <div class="cm-scroller"><div class="cm-content" contenteditable="true" spellcheck="true" role="textbox">
+        <div class="cm-line"><span class="cm-header cm-header-1">Heading 1 in Live Preview</span></div>
+        <div class="cm-line"><br></div>
+        <div class="cm-line">Editable prose. Type here and the caret must stay visible, land between characters, and never be covered by the raster. Misspellled words keep their squiggle.</div>
+        <div class="cm-line"><br></div>
+        <div class="cm-line">Inline: <span class="cm-strong">bold</span>, <span class="cm-em">italic</span>, <span class="cm-inline-code">code</span>, <span class="cm-hmd-internal-link">a wiki link</span>, <span class="cm-link">an external link</span>, <span class="cm-hashtag">#tag</span>, <span class="cm-strikethrough">struck</span>, <span class="cm-highlight">highlighted</span>.</div>
+        <div class="cm-line"><br></div>
+        <div class="cm-line"><span class="cm-header cm-header-2">Heading 2</span></div>
+        <div class="cm-line">A line with a <span class="cm-searchMatch">search match</span> and an <span class="cm-searchMatch cm-searchMatch-selected">active match</span>.</div>
+        <div class="cm-line"><br></div>
+        <div class="cm-line">Composition preview: <span class="cm-composition">にほんご</span></div>
+        <div class="cm-line"><br></div>
+        <div class="cm-line"><span class="cm-header cm-header-4">Heading 4 in source</span></div>
+        <div class="cm-line">Trailing line so the raster has height to cover.</div>
+       </div></div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div></div>
+ </div></div>
+</div></div>
+</body></html>
