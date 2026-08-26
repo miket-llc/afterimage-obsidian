@@ -114,13 +114,18 @@
    inverted-editor pane's full token re-declaration below can't snap --bu-accent back to red inside
    the pane. The presets are constants; --bu-accent is the live one; derived shades stay in the block. */
 :where(body) {
-  --bu-red: #e23b2c;
-  --bu-green:  #2f7d52;
+  /* SIGNAL PALETTE — semantic, not decorative. Accent means selection,
+     focus, current state, or a significant interaction. Material and
+     typography carry the rest of the identity; the accent does not get
+     sprayed across every link, border and icon. */
+  --bu-cobalt: #3b82ff;   /* PRIMARY SIGNAL — electric cobalt */
+  --bu-red: #e8453b;      /* true error state only */
+  --bu-accent-green: #35c98a;
   --bu-gold:    #d7a531;
   --bu-amber:   #ffb000;   /* P3 amber phosphor — vintage terminal */
   --bu-p1:      #43ff7d;   /* P1 green phosphor */
-  --bu-accent-custom: #e23b2c;
-  --bu-accent:    var(--bu-red);
+  --bu-accent-custom: #3b82ff;
+  --bu-accent:    var(--bu-cobalt);
   /* Accent when used as TEXT. Identical to --bu-accent on dark; darkened on paper (see .theme-light)
      so accent-coloured text clears WCAG AA — vivid accent on bright paper was only ~3.3:1. */
   --bu-accent-ink: var(--bu-accent);
@@ -148,46 +153,48 @@ body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-r
      sliders re-tints the whole theme. oklch chroma stays perceptible at near-black lightness, so the
      dark backgrounds actually take the colour. Defaults (hue 0 / strength 0) round-trip to the original;
      the plain literal above each oklch() is the fallback for engines without relative-colour syntax. */
-  --bu-bg: var(--bu-black-level, #0c0b0a);
-  --bu-bg: oklch(from var(--bu-black-level, #0c0b0a) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-bg-alt: #060605;
-  --bu-bg-alt: oklch(from #060605 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-surface: #151310;
-  --bu-surface: oklch(from #151310 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-raised: #1e1b17;
-  --bu-raised: oklch(from #1e1b17 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-border: #2a2620;
-  --bu-border: oklch(from #2a2620 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-border-hi: #3a342a;
-  --bu-border-hi: oklch(from #3a342a l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-bg: var(--bu-black-level, #04090f);
+  --bu-bg: oklch(from var(--bu-black-level, #04090f) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-bg-alt: #01060d;
+  --bu-bg-alt: oklch(from #01060d l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-surface: #071119;
+  --bu-surface: oklch(from #071119 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-raised: #0c1a24;
+  --bu-raised: oklch(from #0c1a24 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-border: #1d323f;
+  --bu-border: oklch(from #1d323f l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-border-hi: #2c4a5c;
+  --bu-border-hi: oklch(from #2c4a5c l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   /* Resize handles — the sidebar split divider lines. Follows --bu-border by default; the Resize
      handles settings below retarget it (remove / recolour). */
   --bu-handle-border: var(--bu-border);
   /* Pill-terminal floating editor card — its own border-colour lever (rounding lever is by --bu-pill-editor-radius). */
   --bu-pill-editor-border: var(--bu-line);
-  --bu-text: var(--bu-text-dark, #f1efea);
-  --bu-text: oklch(from var(--bu-text-dark, #f1efea) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-text: var(--bu-text-dark, #cbe0f0);
+  --bu-text: oklch(from var(--bu-text-dark, #cbe0f0) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-text-hi: #ffffff;
   --bu-text-hi: oklch(from #ffffff l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-muted: #968d7e;
-  --bu-muted: oklch(from #968d7e l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-faint: #8c8473;   /* was #5f594e (2.8:1 — failed WCAG); now ~5.3:1 on the dark bg */
-  --bu-faint: oklch(from #8c8473 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-brass: #ca9a4e;
-  --bu-teal: #4f817a;
-  --bu-label-bg: #f3f1eb;
-  --bu-label-fg: #14110d;
+  --bu-muted: #8ba6bd;
+  --bu-muted: oklch(from #8ba6bd l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-faint: #6d879c;   /* was #5f594e (2.8:1 — failed WCAG); now ~5.3:1 on the dark bg */
+  --bu-faint: oklch(from #6d879c l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-brass: #ffb74d;
+  --bu-teal: #4ee6c0;
+  --bu-label-bg: #b9cbd8;
+  --bu-label-fg: #06121c;
   --bu-on-accent: #ffffff;
   --bu-veil: #ffffff;
-  --bu-code-bg: #0a0908;
-  --bu-code-bg: oklch(from #0a0908 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-code-bg: #010509;
+  --bu-code-bg: oklch(from #010509 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
 
   /* NB: the accent palette is NOT defined here — it lives in the mode/pane-agnostic :where(body)
      rule just above this block. Re-declaring --bu-accent in here (which the inverted-editor pane
      re-runs at high specificity) was resetting the Style-Settings accent back to red inside that
      pane. Only the derived shades, which read --bu-accent live, stay. */
   --bu-accent-hi: color-mix(in srgb, var(--bu-accent), white 24%);
-  --bu-label-tag: color-mix(in srgb, var(--bu-accent), black 25%);
+  /* Level chips (H1-H6) and code-language tags: structural annotation, so
+     they ride the border scale rather than the signal colour. */
+  --bu-label-tag: var(--bu-faint);
   --bu-glow:      color-mix(in srgb, var(--bu-accent) calc(var(--bu-glow-intensity, 13) * 1%), transparent);
   --background-primary: var(--bu-bg);
   --background-primary-alt: var(--bu-surface);
@@ -300,8 +307,8 @@ body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-r
   --file-line-width: calc(var(--bu-line-width-n, 720) * 1px);
   --line-height-normal: var(--bu-line-height, 1.5);
   --p-spacing: calc(var(--bu-p-spacing-n, 16) * 1px);
-  --bu-line: #564c3e;
-  --bu-line: oklch(from #564c3e l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-line: #35505f;
+  --bu-line: oklch(from #35505f l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --graph-line: color-mix(in srgb, var(--bu-accent) 38%, transparent);
   --list-marker-color: var(--bu-accent);
   --indentation-guide-color: color-mix(in srgb, var(--bu-accent) 22%, transparent);
@@ -325,37 +332,37 @@ body.theme-dark.bu-split-editor .workspace-split.mod-root .workspace-leaf-conten
 body.theme-dark.bu-d-chrome-light,
 body.theme-dark.bu-d-editor-light .workspace-split.mod-root .workspace-leaf-content,
 body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-root .workspace-leaf-content {
-  --bu-bg: var(--bu-white-level, #e7e0cd);   /* aged paper (a touch deeper than #efe9db) */
-  --bu-bg: oklch(from var(--bu-white-level, #e7e0cd) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-bg-alt: #e4dcc9;      /* deeper paper — the desk/stage */
-  --bu-bg-alt: oklch(from #e4dcc9 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-surface: #e7e0cf;     /* inset paper */
-  --bu-surface: oklch(from #e7e0cf l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-raised: #f4efe4;      /* raised paper */
-  --bu-raised: oklch(from #f4efe4 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-border: #cabfa6;
-  --bu-border: oklch(from #cabfa6 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-border-hi: #b3a787;
-  --bu-border-hi: oklch(from #b3a787 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-bg: var(--bu-white-level, #e3e9ee);   /* aged paper (a touch deeper than #e6ecf1) */
+  --bu-bg: oklch(from var(--bu-white-level, #e3e9ee) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-bg-alt: #c9d3db;      /* deeper paper — the desk/stage */
+  --bu-bg-alt: oklch(from #c9d3db l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-surface: #dbe3ea;     /* inset paper */
+  --bu-surface: oklch(from #dbe3ea l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-raised: #eef2f6;      /* raised paper */
+  --bu-raised: oklch(from #eef2f6 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-border: #b3c2cd;
+  --bu-border: oklch(from #b3c2cd l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-border-hi: #93a6b5;
+  --bu-border-hi: oklch(from #93a6b5 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-text: var(--bu-text-light, #1e1a14);   /* typewriter ink */
   --bu-text: oklch(from var(--bu-text-light, #1e1a14) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-text-hi: #0d0a06;     /* darkest ink — headings/bold */
-  --bu-text-hi: oklch(from #0d0a06 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-muted: #5c5444;       /* darkened to clear WCAG AA (4.5:1) on paper */
-  --bu-muted: oklch(from #5c5444 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-faint: #6a6252;   /* was #8a8069 (3.0:1 — failed WCAG); now ~4.6:1 on paper */
-  --bu-faint: oklch(from #6a6252 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-brass: #8a6a24;       /* darker brass reads on paper */
-  --bu-teal: #2f6058;
-  --bu-label-bg: #1c1813;    /* INVERTED: dark stamp on paper */
-  --bu-label-fg: #efe9db;    /* paper text on the stamp */
+  --bu-text-hi: #000814;     /* darkest ink — headings/bold */
+  --bu-text-hi: oklch(from #000814 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-muted: #415564;       /* darkened to clear WCAG AA (4.5:1) on paper */
+  --bu-muted: oklch(from #415564 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-faint: #4f6474;   /* was #8a8069 (3.0:1 — failed WCAG); now ~4.6:1 on paper */
+  --bu-faint: oklch(from #4f6474 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-brass: #8a5a00;       /* darker brass reads on paper */
+  --bu-teal: #046a53;
+  --bu-label-bg: #0d1b26;    /* INVERTED: dark stamp on paper */
+  --bu-label-fg: #e6ecf1;    /* paper text on the stamp */
   --bu-on-accent: #ffffff;
   --bu-veil: #000000;        /* hover veils darken on light */
   --bu-accent-ink: color-mix(in srgb, var(--bu-accent), #000 30%);   /* darken accent text ~5.7:1 on paper */
-  --bu-code-bg: #e6dfce;     /* paper-grey code block */
-  --bu-code-bg: oklch(from #e6dfce l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-line: #b8ad93;        /* pencil rule */
-  --bu-line: oklch(from #b8ad93 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-code-bg: #dde5eb;     /* paper-grey code block */
+  --bu-code-bg: oklch(from #dde5eb l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-line: #9aacb9;        /* pencil rule */
+  --bu-line: oklch(from #9aacb9 l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-shadow: color-mix(in srgb, #2e2618 calc(var(--bu-shadow-strength, 50) * 0.4%), transparent);   /* warm; paper takes less */
   --bu-shadow-soft: color-mix(in srgb, #2e2618 calc(var(--bu-shadow-strength, 50) * 0.24%), transparent);
   /* Paper glass bevel: a bright top-left lip + soft bottom-right ink edge. */
@@ -945,11 +952,13 @@ body:not(.bu-ruler) { --bu-ruler-on: 0; }
 .setting-item-heading .setting-item-name,
 .nav-header .nav-buttons-container + *,
 .tree-item-heading {
-  font-family: var(--bu-font-body);
+  font-family: var(--ai-font-label);
   text-transform: uppercase;
-  letter-spacing: 0.10em;
-  font-weight: 700;
-  color: var(--bu-accent);
+  letter-spacing: 0.14em;
+  font-weight: 400;
+  /* A section legend, not a signal. These are permanent furniture — if they
+     take the accent, the accent stops meaning anything. */
+  color: var(--bu-muted);
   font-size: 0.86em;
 }
 
@@ -1014,13 +1023,22 @@ body:not(.bu-ruler) { --bu-ruler-on: 0; }
 :is(.theme-dark, .theme-light) .metadata-input-text,
 :is(.theme-dark, .theme-light) .metadata-property-value input,
 :is(.theme-dark, .theme-light) .metadata-property-value .metadata-input {
-  border-color: var(--bu-accent);
+  /* ACCENT RESTRAINT. Bureau outlined every editable field in the accent at
+     rest, which made the accent mean 'a field exists' rather than 'this is
+     where you are'. The resting edge is now structural steel; the accent is
+     reserved for focus, below. The field is still obviously a field — the
+     border, fill and inset all still read — it just is not shouting. */
+  border-color: var(--bu-border-hi);
 }
 :is(.theme-dark, .theme-light) .metadata-input-longtext:focus,
 :is(.theme-dark, .theme-light) .metadata-input-text:focus,
 :is(.theme-dark, .theme-light) .metadata-property-value input:focus,
-:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input:focus {
+:is(.theme-dark, .theme-light) .metadata-property-value .metadata-input:focus,
+:is(.theme-dark, .theme-light) .metadata-property:focus-within .metadata-input-longtext {
   background: var(--bu-raised);
+  border-color: var(--bu-accent);
+  box-shadow: 0 0 0 1px var(--bu-accent),
+              0 0 10px color-mix(in srgb, var(--bu-accent) 28%, transparent);
 }
 
 :is(.theme-dark, .theme-light) .metadata-property .multi-select-pill {
@@ -1476,7 +1494,7 @@ button.mod-cta:hover { background: var(--bu-accent-hi); }
    Obsidian bleeds nested rows full-width left with inline margins, so a shadow bar would float left of
    indented rows; a background layer begins at each row's own indent instead, at any depth. */
 body.bu-registry .workspace-leaf-content[data-type="file-explorer"] {
-  --bu-reg-back: var(--bu-registry-back, #f1efea);
+  --bu-reg-back: var(--bu-registry-back, #cbe0f0);
   --bu-reg-ink: #141210;
   --bu-reg-ink: oklch(from var(--bu-reg-back) clamp(0.05, calc((0.6 - l) * 12), 0.96) c h);
   --nav-item-size: 15px;
@@ -2947,30 +2965,30 @@ body.bu-editor-only-cards :is(.mod-left-split, .mod-right-split) .workspace-leaf
 /* These mirror --bu-bg / --bu-text for the editor pane (and the chrome that tracks it), so they take
    the same Base-hue tint: literal first as the fallback, hue-rotated copy second. */
 .theme-dark {
-  --bu-editor-bg: var(--bu-black-level, #0c0b0a);
-  --bu-editor-bg: oklch(from var(--bu-black-level, #0c0b0a) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-editor-text: var(--bu-text-dark, #f1efea);
-  --bu-editor-text: oklch(from var(--bu-text-dark, #f1efea) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-bg: var(--bu-black-level, #04090f);
+  --bu-editor-bg: oklch(from var(--bu-black-level, #04090f) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-text: var(--bu-text-dark, #cbe0f0);
+  --bu-editor-text: oklch(from var(--bu-text-dark, #cbe0f0) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
 }
 .theme-light {
-  --bu-editor-bg: var(--bu-white-level, #e7e0cd);
-  --bu-editor-bg: oklch(from var(--bu-white-level, #e7e0cd) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-bg: var(--bu-white-level, #e3e9ee);
+  --bu-editor-bg: oklch(from var(--bu-white-level, #e3e9ee) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-editor-text: var(--bu-text-light, #1e1a14);
   --bu-editor-text: oklch(from var(--bu-text-light, #1e1a14) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
 }
 body.theme-dark.bu-split-editor,
 body.theme-dark.bu-d-editor-light {
-  --bu-editor-bg: var(--bu-white-level, #e7e0cd);
-  --bu-editor-bg: oklch(from var(--bu-white-level, #e7e0cd) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-bg: var(--bu-white-level, #e3e9ee);
+  --bu-editor-bg: oklch(from var(--bu-white-level, #e3e9ee) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
   --bu-editor-text: var(--bu-text-light, #1e1a14);
   --bu-editor-text: oklch(from var(--bu-text-light, #1e1a14) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
 }
 body.theme-light.bu-split-editor,
 body.theme-light.bu-l-editor-dark {
-  --bu-editor-bg: var(--bu-black-level, #0c0b0a);
-  --bu-editor-bg: oklch(from var(--bu-black-level, #0c0b0a) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
-  --bu-editor-text: var(--bu-text-dark, #f1efea);
-  --bu-editor-text: oklch(from var(--bu-text-dark, #f1efea) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-bg: var(--bu-black-level, #04090f);
+  --bu-editor-bg: oklch(from var(--bu-black-level, #04090f) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
+  --bu-editor-text: var(--bu-text-dark, #cbe0f0);
+  --bu-editor-text: oklch(from var(--bu-text-dark, #cbe0f0) l calc(c + var(--bu-tint-strength, 0) / 1000) calc(h + var(--bu-tint-hue, 0)));
 }
 
 /* TABS — folder/pill shape · inverted-inactive / accent-active · per-dock content  ════════ */
@@ -4633,20 +4651,24 @@ settings:
     default: false
   - id: bu-accent
     title: Accent preset
-    description: Accent colour used across the whole UI and the glow. Shared by both appearances and unaffected by the base-hue tint.
+    description: "The primary signal colour: selection, focus, current state, and significant interaction. Shared by both appearances and unaffected by the base-hue tint. It is deliberately *not* applied to every link, border and icon — material and typography carry the identity, and the accent means something."
     type: variable-select
-    default: var(--bu-red)
+    default: var(--bu-cobalt)
     options:
-      - label: Signal red
-        value: var(--bu-red)
-      - label: Terminal green
-        value: var(--bu-green)
-      - label: Gold
-        value: var(--bu-gold)
+      - label: Cobalt (default)
+        value: var(--bu-cobalt)
       - label: Amber (phosphor)
         value: var(--bu-amber)
+      - label: Mint
+        value: var(--bu-teal)
+      - label: Terminal green
+        value: var(--bu-accent-green)
+      - label: Gold
+        value: var(--bu-gold)
       - label: Green (P1 phosphor)
         value: var(--bu-p1)
+      - label: Signal red
+        value: var(--bu-red)
       - label: Custom
         value: var(--bu-accent-custom)
   - id: bu-accent-custom
@@ -4696,14 +4718,14 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#f1efea'
+    default: '#cbe0f0'
   - id: bu-black-level
     title: Black level — background
     description: How dark the base background is in dark mode (lower = blacker).
     type: variable-color
     format: hex
     opacity: false
-    default: '#0c0b0a'
+    default: '#04090f'
   - id: bu-tint-hue-dark
     title: Base hue
     description: "Rotate the hue of the dark base — backgrounds, surfaces, borders and text — anywhere on the wheel (negative = cooler/toward blue, positive = toward red). 0 = the stock cool base. The accent is unaffected. Needs Base tint strength above 0 to be visible."
@@ -4762,7 +4784,7 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#e7e0cd'
+    default: '#e3e9ee'
   - id: bu-tint-hue-light
     title: Base hue
     description: "Rotate the hue of the light/paper base — backgrounds, surfaces, borders and text — anywhere on the wheel (negative = cooler/toward blue, positive = toward red). 0 = the stock aged-paper warmth. The accent is unaffected. Needs Base tint strength above 0 to be visible."
@@ -5073,7 +5095,7 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#564c3e'
+    default: '#35505f'
   - id: bu-pill-editor-radius-n
     title: ↳ Editor card rounding
     description: Corner radius of the floating editor card, in pixels.
@@ -5408,7 +5430,7 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#2a2620'
+    default: '#1d323f'
 
   - id: bu-scrollbar-heading
     title: Scrollbars
@@ -5470,7 +5492,7 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#968d7e'
+    default: '#8ba6bd'
 
   - id: bu-daily-note
     title: Daily notes
@@ -5550,7 +5572,7 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#f1efea'
+    default: '#cbe0f0'
 
   - id: bu-mobile-heading
     title: Mobile
