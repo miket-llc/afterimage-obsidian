@@ -69,8 +69,11 @@ and after were byte-identical.
 
 ## Verified in real Obsidian
 
-Installed into a live vault (Obsidian on macOS, Style Settings installed) and
-inspected directly:
+Installed into a live vault (Obsidian 
+on macOS, Style Settings installed, ~1,460 notes) and inspected directly.
+Confirmed both before and after the namespace migration — Obsidian
+hot-reloads `theme.css`, so the post-migration build was seen rendering in
+the app too:
 
 - ✅ Theme loads and applies; **Style Settings shows a single `AFTERIMAGE`
   panel**
