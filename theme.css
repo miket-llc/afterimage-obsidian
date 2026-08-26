@@ -156,18 +156,18 @@ body.theme-dark.after-d-chrome-light:not(.after-d-editor-light) .workspace-split
      sliders re-tints the whole theme. oklch chroma stays perceptible at near-black lightness, so the
      dark backgrounds actually take the colour. Defaults (hue 0 / strength 0) round-trip to the original;
      the plain literal above each oklch() is the fallback for engines without relative-colour syntax. */
-  --after-bg: var(--after-black-level, var(--after-p-bg, #04090f));
-  --after-bg: oklch(from var(--after-black-level, var(--after-p-bg, #04090f)) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
-  --after-bg-alt: var(--after-p-chassis, #01060d);
-  --after-bg-alt: oklch(from var(--after-p-chassis, #01060d) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
-  --after-surface: var(--after-p-surface, #071119);
-  --after-surface: oklch(from var(--after-p-surface, #071119) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
-  --after-raised: var(--after-p-raised, #0c1a24);
-  --after-raised: oklch(from var(--after-p-raised, #0c1a24) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
-  --after-border: var(--after-p-border, #1d323f);
-  --after-border: oklch(from var(--after-p-border, #1d323f) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
-  --after-border-hi: var(--after-p-border-hi, #2c4a5c);
-  --after-border-hi: oklch(from var(--after-p-border-hi, #2c4a5c) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-bg: var(--after-black-level, var(--after-p-bg, #0a141d));
+  --after-bg: oklch(from var(--after-black-level, var(--after-p-bg, #0a141d)) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-bg-alt: var(--after-p-chassis, #020810);
+  --after-bg-alt: oklch(from var(--after-p-chassis, #020810) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-surface: var(--after-p-surface, #0f1c27);
+  --after-surface: oklch(from var(--after-p-surface, #0f1c27) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-raised: var(--after-p-raised, #162632);
+  --after-raised: oklch(from var(--after-p-raised, #162632) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-border: var(--after-p-border, #22384a);
+  --after-border: oklch(from var(--after-p-border, #22384a) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-border-hi: var(--after-p-border-hi, #33566c);
+  --after-border-hi: oklch(from var(--after-p-border-hi, #33566c) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
   /* Resize handles — the sidebar split divider lines. Follows --after-border by default; the Resize
      handles settings below retarget it (remove / recolour). */
   --after-handle-border: var(--after-border);
@@ -191,10 +191,10 @@ body.theme-dark.after-d-chrome-light:not(.after-d-editor-light) .workspace-split
      2.84:1. Dark ink clears AA against ALL of them, worst case 5.09:1 on the
      red preset. contrast-color() below refines this per-accent where the
      engine supports it; this is the fallback that has to be safe on its own. */
-  --after-on-accent: #04090f;
+  --after-on-accent: #0a141d;
   --after-veil: #ffffff;
-  --after-code-bg: var(--after-p-code-bg, #010509);
-  --after-code-bg: oklch(from var(--after-p-code-bg, #010509) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-code-bg: var(--after-p-code-bg, #050d14);
+  --after-code-bg: oklch(from var(--after-p-code-bg, #050d14) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
 
   /* NB: the accent palette is NOT defined here — it lives in the mode/pane-agnostic :where(body)
      rule just above this block. Re-declaring --after-accent in here (which the inverted-editor pane
@@ -2323,17 +2323,21 @@ body:not(.is-mobile).after-pill-chrome .mod-root .workspace-tabs.mod-stacked .wo
   border-radius: var(--after-pill-editor-radius, 12px);
   clip-path: inset(0 round var(--after-pill-editor-radius, 12px));
 }
+/* HOVER. This was the last piece of inverted chrome: Bureau filled a hovered
+   inactive tab with the editor's TEXT colour, so pointing at a tab turned it
+   into a white slab. Hover now lifts the surface a step, like every other
+   hoverable thing in the theme. */
 .mod-root .workspace-tab-header:not(.is-active):hover {
-  background: var(--after-editor-text);
+  background: var(--after-raised);
 }
 .mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-title,
 .mod-root .workspace-tab-header:not(.is-active):hover .workspace-tab-header-inner-icon {
-  color: var(--after-editor-bg);
+  color: var(--after-text);
 }
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-title,
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
 .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
-  color: var(--after-on-accent);
+  color: var(--after-text-hi);
 }
 .nav-action-button:hover,
 .workspace-tab-header-new-tab:hover,
@@ -3025,8 +3029,8 @@ body.after-editor-only-cards :is(.mod-left-split, .mod-right-split) .workspace-l
 /* These mirror --after-bg / --after-text for the editor pane (and the chrome that tracks it), so they take
    the same Base-hue tint: literal first as the fallback, hue-rotated copy second. */
 .theme-dark {
-  --after-editor-bg: var(--after-black-level, #04090f);
-  --after-editor-bg: oklch(from var(--after-black-level, #04090f) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-editor-bg: var(--after-black-level, #0a141d);
+  --after-editor-bg: oklch(from var(--after-black-level, #0a141d) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
   --after-editor-text: var(--after-text-dark, #cbe0f0);
   --after-editor-text: oklch(from var(--after-text-dark, #cbe0f0) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
 }
@@ -3045,8 +3049,8 @@ body.theme-dark.after-d-editor-light {
 }
 body.theme-light.after-split-editor,
 body.theme-light.after-l-editor-dark {
-  --after-editor-bg: var(--after-black-level, #04090f);
-  --after-editor-bg: oklch(from var(--after-black-level, #04090f) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
+  --after-editor-bg: var(--after-black-level, #0a141d);
+  --after-editor-bg: oklch(from var(--after-black-level, #0a141d) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
   --after-editor-text: var(--after-text-dark, #cbe0f0);
   --after-editor-text: oklch(from var(--after-text-dark, #cbe0f0) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
 }
@@ -4591,8 +4595,22 @@ body {
      pixel-row boundaries. The two outline presets are free of this and set
      their own value below. */
   --after-body-line: var(--after-line-height, 1.5);
-  --after-ui-size: 13px;
-  --after-label-size: 11.5px;
+  /* UI text — file tree rows, tab labels, menus. 13px was too small for the
+     row rhythm Obsidian actually gives the file explorer. */
+  --after-ui-size: 14.5px;
+  /* Technical labels — status segments, chips, rail text. */
+  --after-label-size: 12.5px;
+
+  /* PROPERTIES have their own scale, because the panel has a real hierarchy
+     and one "small text" size for all three parts flattened it:
+       VALUE   content you read and edit — the largest, at body-adjacent size
+       KEY     a label. Uppercase + tracking reads visually SMALLER than its
+               nominal size, so it has to sit close to the value numerically
+               to look subordinate rather than shrunken
+       LEGEND  chrome you read once — the only genuinely small thing here */
+  --after-prop-value-size: 15px;
+  --after-prop-key-size: 13px;
+  --after-prop-legend-size: 11.5px;
   --after-code-size: 13.5px;
   --after-heading-scale: 1;
 
@@ -4739,7 +4757,7 @@ body.after-font-type { font-synthesis: auto; }
        Multiply scales each channel, so the darkening is PROPORTIONAL to how
        bright a pixel already is:
 
-           surface #04090f x .66 -> #030609    delta ~ 3/255   invisible
+           surface #0a141d x .66 -> #030609    delta ~ 3/255   invisible
            glyph   #cbe0f0 x .66 -> #86939e    delta ~66/255   obvious
 
        The stripes therefore appear only where light is emitted — inside the
@@ -5244,12 +5262,12 @@ body.theme-light {
 /* ── COBALT — the default. Declared explicitly rather than left implicit, so
       switching back to it from another profile actually restores it. ──────── */
 body.after-profile-cobalt {
-  --after-p-bg: #04090f;        --after-p-chassis: #01060d;
-  --after-p-surface: #071119;   --after-p-raised: #0c1a24;
-  --after-p-border: #1d323f;    --after-p-border-hi: #2c4a5c;
+  --after-p-bg: #0a141d;        --after-p-chassis: #020810;
+  --after-p-surface: #0f1c27;   --after-p-raised: #162632;
+  --after-p-border: #22384a;    --after-p-border-hi: #33566c;
   --after-p-ink: #cbe0f0;       --after-p-muted: #8ba6bd;   --after-p-faint: #6d879c;
   --after-p-plate: #b9cbd8;     --after-p-plate-ink: #06121c;
-  --after-p-code-bg: #010509;
+  --after-p-code-bg: #050d14;
   --after-accent: var(--after-cobalt);
   --after-display-raster: 0.34; --after-ink-raster: 0.13;  --after-prose-raster: 0.22;  --after-edit-raster: 0.14;
   --after-bloom: 4px;           --after-ghost: 0.28;         --after-ghost-offset: 1px;
@@ -5328,7 +5346,7 @@ body.after-profile-mono {
 }
 body.theme-light.after-profile-mono { --after-accent: #3c4650; --after-on-accent: #ffffff; }
 /* The default cobalt is NOT darkened in light mode, so it keeps dark ink. */
-body.theme-light.after-profile-cobalt, body.theme-light:not([class*="after-profile-"]) { --after-on-accent: #04090f; }
+body.theme-light.after-profile-cobalt, body.theme-light:not([class*="after-profile-"]) { --after-on-accent: #0a141d; }
 
 /* ── CUSTOM — deliberately sets nothing. The class exists only so Style
       Settings has a value to write; because it declares no overrides, every
@@ -5775,6 +5793,88 @@ body.theme-light .cm-s-obsidian .cm-highlight {
 }
 
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — FILE EXPLORER RHYTHM AND PROPERTIES TYPE SCALE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── FILE EXPLORER ────────────────────────────────────────────────────────
+   Obsidian's default nav padding is generous, and against 13px type it left
+   the tree reading as small text adrift in tall rows — lots of air, nothing
+   anchoring it. Bigger type, tighter leading, and a smaller indent step: the
+   list should read as a dense register, which is the whole point of it.     */
+body :is(.workspace-leaf-content[data-type="file-explorer"], .nav-files-container) {
+  --nav-item-size: var(--after-ui-size);
+  --nav-item-weight: 400;
+  --nav-item-padding: 1px 6px 1px 9px;
+  --nav-item-parent-padding: 1px 6px 1px 9px;
+  --nav-item-children-padding-left: 12px;
+  --nav-item-children-margin-left: 9px;
+  --nav-indentation-guide-width: 1px;
+}
+/* Obsidian adds its own row padding on top of --nav-item-padding, so the
+   height has to be set here rather than inferred: at 14.5px type a 22px row
+   is a ratio of about 1.5, which reads as a dense list. Left to Obsidian's
+   defaults it lands near 2.0 and the tree reads as small text adrift in air. */
+:is(.theme-dark, .theme-light) :is(.nav-file-title, .nav-folder-title) {
+  line-height: 1.3;
+  min-height: var(--after-tree-row-height, 22px);
+  align-items: center;
+  border-radius: 2px;
+}
+/* The folder row is the structural line in the list, so it gets the weight
+   the type can no longer supply — these faces have a single weight. */
+:is(.theme-dark, .theme-light) .nav-folder-title-content {
+  color: var(--after-text);
+  letter-spacing: 0.02em;
+}
+:is(.theme-dark, .theme-light) .nav-file-title-content {
+  color: var(--after-muted);
+}
+:is(.theme-dark, .theme-light) .tree-item-self.is-active .nav-file-title-content,
+:is(.theme-dark, .theme-light) .tree-item-self.has-focus .nav-file-title-content {
+  color: var(--after-text-hi);
+}
+
+/* ── PROPERTIES TYPE SCALE ────────────────────────────────────────────────
+   Three roles, three sizes, and the sizes are NOT evenly stepped on purpose:
+
+     VALUE   15px  — content. You read and edit it, so it sits at
+                     body-adjacent size, not at "small UI text".
+     KEY     13px  — a label. Set in caps with tracking, which reads visually
+                     smaller than its nominal size, so it has to sit CLOSE to
+                     the value numerically to look subordinate rather than
+                     shrunken. This is the part that was wrong: at 11.5px caps
+                     it read like 10px and the panel looked squinty.
+     LEGEND  11.5px — chrome you read once. The only genuinely small thing.  */
+:is(.theme-dark, .theme-light) .metadata-property-key-input {
+  font-size: var(--after-prop-key-size);
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+}
+:is(.theme-dark, .theme-light) :is(
+  .metadata-property-value, .metadata-input, .metadata-input-text,
+  .metadata-input-longtext, .metadata-property-value input,
+  .metadata-link-inner
+) {
+  font-size: var(--after-prop-value-size);
+  line-height: 1.5;
+}
+:is(.theme-dark, .theme-light) .metadata-properties-title {
+  font-size: var(--after-prop-legend-size);
+  letter-spacing: 0.18em;
+}
+:is(.theme-dark, .theme-light) .metadata-property .multi-select-pill {
+  font-size: calc(var(--after-prop-value-size) - 1.5px);
+  padding: 1px 7px;
+}
+/* Rows breathe a little more now that the type is bigger — density is about
+   the ratio, not the padding on its own. */
+:is(.theme-dark, .theme-light) .metadata-property { padding: 3px 10px; }
+:is(.theme-dark, .theme-light) .metadata-property-key { padding-right: 14px; }
+:is(.theme-dark, .theme-light) .metadata-add-button { font-size: var(--after-prop-legend-size); }
+
+
 /* ═══════════════════════════════════════════════════════════════════════════
    AFTERIMAGE — EDITING SAFETY
    ═══════════════════════════════════════════════════════════════════════════
@@ -6095,11 +6195,20 @@ settings:
     max: 32
     step: 1
     format: px
+  - id: after-tree-row-height
+    title: File-tree row height
+    description: "Height of each file and folder row. At the default interface size a 22px row is a ratio of about 1.5, which reads as a dense register. Raise it for a more spacious list, or if you use the tree heavily by mouse."
+    type: variable-number-slider
+    default: 22
+    min: 16
+    max: 34
+    step: 1
+    format: px
   - id: after-ui-size
     title: Interface text size
     description: Size of file-tree rows, tab labels and other ordinary interface text.
     type: variable-number-slider
-    default: 13
+    default: 14.5
     min: 10
     max: 18
     step: 0.5
@@ -6108,9 +6217,36 @@ settings:
     title: Technical label size
     description: Size of the small stamped labels — property keys, status segments, code-language chips, rail text.
     type: variable-number-slider
-    default: 11.5
+    default: 12.5
     min: 9
     max: 15
+    step: 0.5
+    format: px
+  - id: after-prop-value-size
+    title: Property value size
+    description: "Size of the editable property values. These are content — you read and edit them — so they sit at body-adjacent size rather than at interface size."
+    type: variable-number-slider
+    default: 15
+    min: 11
+    max: 20
+    step: 0.5
+    format: px
+  - id: after-prop-key-size
+    title: Property key size
+    description: "Size of the stamped property legends. Set in caps with tracking, which reads visually smaller than its nominal size — so it deliberately sits close to the value size rather than well below it."
+    type: variable-number-slider
+    default: 13
+    min: 10
+    max: 18
+    step: 0.5
+    format: px
+  - id: after-prop-legend-size
+    title: Properties heading size
+    description: Size of the "Properties" legend at the top of the panel.
+    type: variable-number-slider
+    default: 11.5
+    min: 9
+    max: 16
     step: 0.5
     format: px
   - id: after-code-size
@@ -6218,7 +6354,7 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#04090f'
+    default: '#0a141d'
   - id: after-tint-hue-dark
     title: Base hue
     description: "Rotate the hue of the dark base — backgrounds, surfaces, borders and text — anywhere on the wheel (negative = cooler/toward blue, positive = toward red). 0 = the stock cool base. The accent is unaffected. Needs Base tint strength above 0 to be visible."
@@ -7021,7 +7157,7 @@ settings:
     type: variable-color
     format: hex
     opacity: false
-    default: '#1d323f'
+    default: '#22384a'
 
   - id: after-scrollbar-heading
     title: Scrollbars

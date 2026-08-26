@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Afterimage — Obsidian DOM harness</title>
+<link rel="stylesheet" href="reset.css">
+<link rel="stylesheet" href="_bureau-baseline.css">
+</head>
+<body class="theme-dark mod-macos is-focused">
+<div class="app-container">
+ <div class="horizontal-main-container">
+  <div class="workspace">
+
+   <!-- ══ ribbon ══ -->
+   <div class="workspace-ribbon side-dock-ribbon mod-left">
+     <div class="side-dock-actions">
+       <div class="clickable-icon side-dock-ribbon-action" aria-label="Open quick switcher">⌘</div>
+       <div class="clickable-icon side-dock-ribbon-action" aria-label="Graph view">◍</div>
+       <div class="clickable-icon side-dock-ribbon-action" aria-label="Canvas">▦</div>
+       <div class="clickable-icon side-dock-ribbon-action" aria-label="Templates">⌸</div>
+     </div>
+     <div class="side-dock-settings">
+       <div class="clickable-icon side-dock-ribbon-action" aria-label="Settings">⚙</div>
+     </div>
+   </div>
+
+   <!-- ══ left sidebar ══ -->
+   <div class="workspace-split mod-horizontal mod-left-split">
+    <div class="workspace-tabs mod-top mod-top-left-space">
+     <div class="workspace-tab-header-container">
+       <div class="workspace-tab-header-container-inner">
+         <div class="workspace-tab-header is-active" aria-label="Files"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">◫</div></div></div>
+         <div class="workspace-tab-header" aria-label="Search"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">⌕</div></div></div>
+         <div class="workspace-tab-header" aria-label="Bookmarks"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">★</div></div></div>
+       </div>
+     </div>
+     <div class="workspace-tab-container">
+      <div class="workspace-leaf mod-active">
+       <div class="workspace-leaf-content" data-type="file-explorer">
+        <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">Files</div></div></div>
+        <div class="nav-header"><div class="nav-buttons-container">
+          <div class="clickable-icon nav-action-button" aria-label="New note">✚</div>
+          <div class="clickable-icon nav-action-button" aria-label="New folder">🗀</div>
+          <div class="clickable-icon nav-action-button" aria-label="Sort">⇅</div>
+          <div class="clickable-icon nav-action-button" aria-label="Collapse">⌄</div>
+        </div></div>
+        <div class="view-content node-insert-event">
+         <div class="nav-files-container">
+          <div class="tree-item nav-folder">
+            <div class="tree-item-self nav-folder-title is-clickable mod-collapsible">
+              <div class="tree-item-icon collapse-icon nav-folder-collapse-indicator">▸</div>
+              <div class="tree-item-inner nav-folder-title-content">00 Inbox</div>
+            </div>
+            <div class="tree-item-children nav-folder-children">
+              <div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable"><div class="tree-item-inner nav-file-title-content">Quick Capture</div></div></div>
+              <div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable"><div class="tree-item-inner nav-file-title-content">Untitled</div></div></div>
+            </div>
+          </div>
+          <div class="tree-item nav-folder">
+            <div class="tree-item-self nav-folder-title is-clickable mod-collapsible">
+              <div class="tree-item-icon collapse-icon nav-folder-collapse-indicator">▾</div>
+              <div class="tree-item-inner nav-folder-title-content">10 Projects</div>
+            </div>
+            <div class="tree-item-children nav-folder-children">
+              <div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable is-active has-focus"><div class="tree-item-inner nav-file-title-content">Properties-Heavy Note</div></div></div>
+              <div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable"><div class="tree-item-inner nav-file-title-content">Component Matrix</div></div></div>
+              <div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable"><div class="tree-item-inner nav-file-title-content">A Note With An Unusually Long Title That Should Ellipsize</div></div></div>
+              <div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable"><div class="tree-item-inner nav-file-title-content">Hub</div></div></div>
+            </div>
+          </div>
+          <div class="tree-item nav-folder">
+            <div class="tree-item-self nav-folder-title is-clickable mod-collapsible">
+              <div class="tree-item-icon collapse-icon nav-folder-collapse-indicator">▸</div>
+              <div class="tree-item-inner nav-folder-title-content">30 Resources</div>
+            </div>
+          </div>
+          <div class="tree-item nav-file"><div class="tree-item-self nav-file-title is-clickable"><div class="tree-item-inner nav-file-title-content">Workstation</div></div></div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="workspace-sidedock-vault-profile"><div class="workspace-drawer-vault-switcher"><div class="workspace-drawer-vault-name">Test Vault</div></div></div>
+   </div>
+   <div class="workspace-leaf-resize-handle"></div>
+
+   <!-- ══ main ══ -->
+   <div class="workspace-split mod-vertical mod-root">
+    <div class="workspace-tabs mod-top mod-top-right-space">
+     <div class="workspace-tab-header-container">
+      <div class="workspace-tab-header-container-inner">
+       <div class="workspace-tab-header is-active mod-active" aria-label="Properties-Heavy Note">
+         <div class="workspace-tab-header-inner">
+           <div class="workspace-tab-header-inner-icon">📄</div>
+           <div class="workspace-tab-header-inner-title">Properties-Heavy Note</div>
+           <div class="workspace-tab-header-inner-close-button">✕</div>
+         </div>
+       </div>
+       <div class="workspace-tab-header" aria-label="Component Matrix">
+         <div class="workspace-tab-header-inner">
+           <div class="workspace-tab-header-inner-icon">📄</div>
+           <div class="workspace-tab-header-inner-title">Component Matrix</div>
+           <div class="workspace-tab-header-inner-close-button">✕</div>
+         </div>
+       </div>
+       <div class="workspace-tab-header" aria-label="Phosphor and Persistence">
+         <div class="workspace-tab-header-inner">
+           <div class="workspace-tab-header-inner-icon">📄</div>
+           <div class="workspace-tab-header-inner-title">Phosphor and Persistence</div>
+           <div class="workspace-tab-header-inner-close-button">✕</div>
+         </div>
+       </div>
+      </div>
+      <div class="workspace-tab-header-new-tab"><div class="clickable-icon">＋</div></div>
+     </div>
+     <div class="workspace-tab-container">
+      <div class="workspace-leaf mod-active">
+       <div class="workspace-leaf-content" data-type="markdown" data-mode="preview">
+        <div class="view-header">
+          <div class="view-header-left"><div class="clickable-icon view-action">‹</div><div class="clickable-icon view-action">›</div></div>
+          <div class="view-header-title-container"><div class="view-header-title">Properties-Heavy Note</div>
+            <div class="view-header-breadcrumb">10 Projects</div><div class="view-header-breadcrumb-separator">/</div><div class="view-header-breadcrumb">Afterimage</div>
+          </div>
+          <div class="view-actions"><div class="clickable-icon view-action">⋯</div></div>
+        </div>
+        <div class="view-content">
+         <div class="markdown-reading-view">
+          <div class="markdown-preview-view markdown-rendered node-insert-event allow-fold-headings show-indentation-guide allow-fold-lists">
+           <div class="markdown-preview-sizer markdown-preview-section">
+
+            <div class="mod-header"><div class="inline-title">Properties — Every Field Type At Once</div></div>
+
+            <!-- ══ properties ══ -->
+            <div class="metadata-container" tabindex="-1">
+              <div class="metadata-properties-heading"><span class="collapse-indicator">▾</span><span class="metadata-properties-title">Properties</span></div>
+              <div class="metadata-content">
+              <div class="metadata-properties">
+                <div class="metadata-property" data-property-key="title" data-property-type="text">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">T</span><input class="metadata-property-key-input" type="text" value="title"></div>
+                  <div class="metadata-property-value"><div class="metadata-input-longtext mod-truncate" contenteditable="true">Properties — Every Field Type At Once</div></div>
+                </div>
+                <div class="metadata-property" data-property-key="status" data-property-type="text">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">T</span><input class="metadata-property-key-input" type="text" value="status"></div>
+                  <div class="metadata-property-value"><div class="metadata-input-longtext mod-truncate" contenteditable="true">in-review</div></div>
+                </div>
+                <div class="metadata-property" data-property-key="priority" data-property-type="number">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">#</span><input class="metadata-property-key-input" type="text" value="priority"></div>
+                  <div class="metadata-property-value"><input class="metadata-input metadata-input-number" type="number" value="2"></div>
+                </div>
+                <div class="metadata-property" data-property-key="verified" data-property-type="checkbox">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">☑</span><input class="metadata-property-key-input" type="text" value="verified"></div>
+                  <div class="metadata-property-value"><input class="metadata-input-checkbox" type="checkbox" checked></div>
+                </div>
+                <div class="metadata-property" data-property-key="due" data-property-type="date">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">🗓</span><input class="metadata-property-key-input" type="text" value="due"></div>
+                  <div class="metadata-property-value"><input class="metadata-input metadata-input-text" type="text" value="2026-09-15"></div>
+                </div>
+                <div class="metadata-property" data-property-key="owner" data-property-type="text">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">T</span><input class="metadata-property-key-input" type="text" value="owner"></div>
+                  <div class="metadata-property-value"><div class="metadata-link"><span class="metadata-link-inner internal-link">Mike Thompson</span></div></div>
+                </div>
+                <div class="metadata-property" data-property-key="operators" data-property-type="multitext">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">≡</span><input class="metadata-property-key-input" type="text" value="operators"></div>
+                  <div class="metadata-property-value"><div class="multi-select-container">
+                    <div class="multi-select-pill"><div class="multi-select-pill-content">Operator A</div></div>
+                    <div class="multi-select-pill"><div class="multi-select-pill-content">Operator B</div></div>
+                    <div class="multi-select-pill"><div class="multi-select-pill-content">Operator C</div></div>
+                  </div></div>
+                </div>
+                <div class="metadata-property" data-property-key="empty_text" data-property-type="text">
+                  <div class="metadata-property-key"><span class="metadata-property-icon">T</span><input class="metadata-property-key-input" type="text" value="empty_text"></div>
+                  <div class="metadata-property-value"><div class="metadata-input-longtext mod-truncate" contenteditable="true"></div></div>
+                </div>
+              </div>
+              <div class="metadata-add-button text-icon-button"><span class="text-button-label">Add property</span></div>
+              </div>
+            </div>
+
+            <!-- ══ content ══ -->
+            <h1>Heading 1 — the major landmark</h1>
+            <p>Body prose in the working face. The point of this paragraph is length and ordinary punctuation: “curly quotes”, an apostrophe’s tail, an em dash — like this — an ellipsis… and numerals 0123456789. Here is <strong>bold text</strong>, <em>italic text</em>, <strong><em>bold italic</em></strong>, <del>struck through</del>, <mark>highlighted</mark>, and <code>inline code</code>.</p>
+            <p>A second paragraph with an <a class="internal-link" href="#">internal link</a>, an <a class="external-link" href="https://obsidian.md">external link</a>, an <a class="internal-link is-unresolved" href="#">unresolved link</a>, and a <a href="#" class="tag">#tag</a>.</p>
+
+            <h2>Heading 2 — a distinct secondary band</h2>
+            <p>More prose beneath the second level, so the hierarchy can be judged by the gap each heading opens rather than by its size alone.</p>
+
+            <h3>Heading 3 — compact terminal block</h3>
+            <ol><li>First ordered item
+              <ol><li>Nested ordered item</li><li>Another nested item</li></ol></li>
+              <li>Second ordered item</li></ol>
+            <ul><li>Bullet item
+              <ul><li>Nested bullet
+                <ul><li>Third level</li></ul></li></ul></li>
+              <li>Another bullet</li></ul>
+
+            <h4>Heading 4 — rule with a marker</h4>
+            <ul class="contains-task-list">
+              <li class="task-list-item is-checked" data-task="x"><input class="task-list-item-checkbox" type="checkbox" checked>Completed task</li>
+              <li class="task-list-item" data-task=" "><input class="task-list-item-checkbox" type="checkbox">Outstanding task</li>
+            </ul>
+
+            <h5>Heading 5 — side key</h5>
+            <blockquote><p>A block quote, for the vertical rule and the inset.</p></blockquote>
+            <div class="callout" data-callout="note"><div class="callout-title"><div class="callout-icon">ⓘ</div><div class="callout-title-inner">Note callout</div></div><div class="callout-content"><p>Callout body text with <strong>bold</strong> inside it.</p></div></div>
+            <div class="callout" data-callout="warning"><div class="callout-title"><div class="callout-icon">⚠</div><div class="callout-title-inner">Warning callout</div></div><div class="callout-content"><p>A second callout type, for the colour mapping.</p></div></div>
+
+            <h6>Heading 6 — micro heading</h6>
+            <pre class="language-javascript"><code class="language-javascript">const raster = (period, strength) =&gt; ({
+  backgroundImage: `repeating-linear-gradient(...)`,
+  mixBlendMode: 'multiply',
+});</code></pre>
+
+            <table><thead><tr><th>Quantity</th><th>Value</th></tr></thead>
+              <tbody><tr><td>VGA text cell</td><td>9 × 16 px</td></tr>
+              <tr><td>Refresh rate</td><td>60–72 Hz</td></tr>
+              <tr><td>P39 persistence</td><td>~40 ms</td></tr></tbody></table>
+
+            <p>A footnote reference<sup class="footnote-ref"><a href="#fn1">[1]</a></sup> and then the footnotes block.</p>
+            <hr>
+            <div class="footnotes"><ol><li id="fn1"><p>The footnote body.</p></li></ol></div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="workspace-leaf-resize-handle"></div>
+
+   <!-- ══ right sidebar ══ -->
+   <div class="workspace-split mod-horizontal mod-right-split">
+    <div class="workspace-tabs mod-top">
+     <div class="workspace-tab-header-container"><div class="workspace-tab-header-container-inner">
+       <div class="workspace-tab-header is-active"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">⧉</div></div></div>
+       <div class="workspace-tab-header"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">☰</div></div></div>
+     </div></div>
+     <div class="workspace-tab-container"><div class="workspace-leaf">
+      <div class="workspace-leaf-content" data-type="backlink">
+       <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">Backlinks</div></div></div>
+       <div class="view-content">
+        <div class="backlink-pane">
+         <div class="tree-item-self tree-item-heading">Linked mentions<span class="tree-item-flair">3</span></div>
+         <div class="search-result-container">
+          <div class="tree-item search-result"><div class="tree-item-self search-result-file-title is-clickable"><div class="tree-item-inner">Hub</div><div class="tree-item-flair-outer"><span class="tree-item-flair">1</span></div></div>
+            <div class="search-result-file-matches"><div class="search-result-file-match">…see <span class="search-result-file-matched-text">Properties-Heavy Note</span> for the rig…</div></div></div>
+          <div class="tree-item search-result"><div class="tree-item-self search-result-file-title is-clickable"><div class="tree-item-inner">Component Matrix</div><div class="tree-item-flair-outer"><span class="tree-item-flair">2</span></div></div></div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div></div>
+    </div>
+   </div>
+
+  </div>
+ </div>
+
+ <!-- ══ status bar ══ -->
+ <div class="status-bar">
+   <div class="status-bar-item plugin-word-count"><span class="status-bar-item-segment">312 words</span></div>
+   <div class="status-bar-item plugin-editor-status"><span class="status-bar-item-segment">Reading view</span></div>
+   <div class="status-bar-item mod-clickable"><span class="status-bar-item-segment">Backlinks: 3</span></div>
+ </div>
+</div>
+</body>
+</html>
