@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Afterimage — glyph-raster spike</title>
+<link rel="stylesheet" href="glyph-raster.css">
+</head>
+<body>
+
+<h1 class="page">Afterimage — glyph-raster spike</h1>
+<p class="sub">
+  Comparison rig for CRT glyph rendering. The question this page answers is not
+  “can we draw scanlines” but <b>can the glyphs themselves participate in the
+  raster</b> — while remaining sharp, selectable and editable. Methods are
+  tagged <span class="tag safe">EDIT-SAFE</span> (usable in the editor),
+  <span class="tag static">STATIC ONLY</span> (display text only) or
+  <span class="tag bad">REJECTED</span>.
+  Open at 100% zoom on a 2× display; then use the 20% rig at the foot.
+</p>
+
+<div class="grid">
+
+  <!-- A -->
+  <section class="card m-a">
+    <header><span class="id">A</span><h2>Baseline — no treatment</h2><span class="tag safe">EDIT-SAFE</span></header>
+    <div class="body">
+      <p class="spec">The quick brown fox jumps over the lazy dog — “curly quotes”, an apostrophe’s tail, an ellipsis… and 0123456789.</p>
+    </div>
+    <p class="note">The control. Everything below is judged against this for sharpness. WebPlus IBM VGA 9x16 at 16px/24px.</p>
+  </section>
+
+  <!-- B -->
+  <section class="card m-b">
+    <header><span class="id">B</span><h2>Page-wide scanline overlay</h2><span class="tag bad">REJECTED</span></header>
+    <div class="body">
+      <p class="spec">The quick brown fox jumps over the lazy dog — “curly quotes”, an apostrophe’s tail, an ellipsis… and 0123456789.</p>
+    </div>
+    <p class="note">A striped film in <b>normal</b> blend over the whole card. The stripes cross glyph and background identically, so the text reads as sitting <b>behind a screen door</b>. This is the failure mode the brief warns about. Note also that it dims the background as much as the type, costing contrast for nothing.</p>
+  </section>
+
+  <!-- C -->
+  <section class="card raster">
+    <header><span class="id">C</span><h2>Multiply raster (dark surface)</h2><span class="tag safe">EDIT-SAFE</span></header>
+    <div class="body">
+      <p class="spec">The quick brown fox jumps over the lazy dog — “curly quotes”, an apostrophe’s tail, an ellipsis… and 0123456789.</p>
+      <p class="spec" style="color:var(--ink-muted)">Muted secondary text, to check the raster does not destroy the faint tokens.</p>
+    </div>
+    <p class="note"><b>The key method.</b> Same stripes, but <code>mix-blend-mode: multiply</code>. Multiply is proportional, so on a near-black background it subtracts ~3/255 from the surface and ~66/255 from the glyphs: <b>the raster appears only where light is emitted</b>. Physically correct — the dark gap between scan lines can only remove light that phosphor actually emitted. The text element is never touched, so caret, selection, IME and search highlighting are all intact (rig <b>J</b>).</p>
+  </section>
+
+  <!-- D -->
+  <section class="card">
+    <header><span class="id">D</span><h2>background-clip: text</h2><span class="tag static">STATIC ONLY</span></header>
+    <div class="body">
+      <p class="spec clip-raster">The quick brown fox jumps over the lazy dog — “curly quotes”, an apostrophe’s tail, an ellipsis… and 0123456789.</p>
+    </div>
+    <p class="note">Strongest fidelity: the gradient is painted <b>into</b> the letterform and works on any surface colour. But <code>color: transparent</code> makes the caret invisible and lets the selection highlight paint straight through the glyphs. Display text only — never the editor. Try selecting this line and compare with C.</p>
+  </section>
+
+  <!-- E -->
+  <section class="card raster">
+    <header><span class="id">E</span><h2>C + bloom + afterimage</h2><span class="tag safe">EDIT-SAFE</span></header>
+    <div class="body">
+      <p class="spec bloom">The quick brown fox jumps over the lazy dog — “curly quotes”, an apostrophe’s tail, an ellipsis… and 0123456789.</p>
+      <p class="spec bloom-heavy" style="margin-top:12px">Bloom pushed too far — punctuation dissolves into its own halo. Rejected.</p>
+    </div>
+    <p class="note">Bloom = a soft same-colour halo (scattering in the faceplate). Ghost = a dim 1px offset copy (phosphor decay). Both are <code>text-shadow</code>: no layout cost, no compositing layer. The second line shows the failure boundary — beyond ~6px blur the commas and full stops stop being distinguishable.</p>
+  </section>
+
+  <!-- F -->
+  <section class="card raster">
+    <header><span class="id">F</span><h2>Chromatic misregistration</h2><span class="tag safe">EDIT-SAFE</span></header>
+    <div class="body">
+      <p class="spec rgb-split">Convergence error at 0.4px — a faint iridescence on white strokes.</p>
+      <p class="spec rgb-split-heavy" style="margin-top:12px">At 1.2px it reads as a printing fault, not a tube. Rejected.</p>
+    </div>
+    <p class="note">Sub-pixel only. The default ships at <b>0</b> and the slider tops out well before the second line’s strength.</p>
+  </section>
+
+  <!-- G -->
+  <section class="card">
+    <header><span class="id">G</span><h2>Heading plate — one display object</h2><span class="tag static">STATIC ONLY</span></header>
+    <div class="body">
+      <div class="plate offset"><span class="glyphs">AFTERIMAGE</span></div>
+      <div style="height:12px"></div>
+      <div class="plate"><span class="glyphs">Heading that wraps onto a second line to prove the plate grows</span></div>
+    </div>
+    <p class="note">Two cooperating rasters on a shared grid: the <b>plate</b> is a light substrate so a dark stripe shows on it; the <b>ink</b> is dark so its clipped raster must lighten to be visible. Both are anchored to the plate’s top edge with the same period, so the bands run continuously across substrate and letterform — which is what makes them read as <b>one physical object</b> rather than type on a box. The offset cobalt block behind the first plate is the registration ghost.</p>
+  </section>
+
+  <!-- H -->
+  <section class="card light-surface raster-screen">
+    <header style="background:#c8d2da;border-color:#a7b4bf"><span class="id" style="background:#0d1b26;color:#d7dee4">H</span><h2 style="color:#0d1b26">Light surface — screen raster</h2><span class="tag static" style="color:#1c4a8a;border-color:#7d9dc4">LIGHT</span></header>
+    <div class="body">
+      <p class="spec" style="color:#0d1b26">On paper the ink is the dark thing, so the raster must lighten in bands rather than darken.</p>
+    </div>
+    <p class="note" style="color:#3d5464;border-color:#a7b4bf">Same principle, inverted: <code>mix-blend-mode: screen</code> lifts dark pixels and barely touches a light page. Light mode ships at roughly half the dark-mode strength — paper does not glow, and a strong raster on white reads as a fault.</p>
+  </section>
+
+  <!-- I -->
+  <section class="card">
+    <header><span class="id">I</span><h2>High-DPI integer alignment</h2><span class="tag static">CRITICAL</span></header>
+    <div class="body">
+      <table class="dpi">
+        <tr><td>15px / 23px</td><td class="s s15">Sample Ag 0O1lI — off-grid</td></tr>
+        <tr><td><b style="color:#7ee0a8">16px / 24px</b></td><td class="s s16">Sample Ag 0O1lI — on-grid</td></tr>
+        <tr><td>17px / 25px</td><td class="s s17">Sample Ag 0O1lI — off-grid</td></tr>
+        <tr><td><b style="color:#7ee0a8">32px / 40px</b></td><td class="s s32">Sample Ag</td></tr>
+      </table>
+    </div>
+    <p class="note">WebPlus IBM VGA has <code>unitsPerEm = 1600</code> over a 16-pixel cell — exactly <b>100 units per pixel row</b>. At 16px one font pixel is one CSS pixel (two device pixels at 2×), so every raster band lands on a boundary. At 15 or 17px the grid no longer divides and the renderer resamples: stems go grey and the crispness that justified a pixel font is thrown away. <b>The IBM DOS preset therefore snaps to 16px and its multiples.</b> The 3270 and Typewriter presets are outline fonts and scale freely.</p>
+  </section>
+
+  <!-- J -->
+  <section class="card raster">
+    <header><span class="id">J</span><h2>Editing rig — the acceptance test</h2><span class="tag safe">EDIT-SAFE</span></header>
+    <div class="body">
+      <div contenteditable="true" spellcheck="true">Type here. Check: the caret is visible and lands between characters; drag-select shows a solid highlight over readable text; misspelllled words still get the squiggle; copy this line and paste it into a plain editor — plain text must arrive, with no raster markup.</div>
+    </div>
+    <p class="note">Method C sits over this box. <b>Everything a method must not break:</b> caret visibility and position, selection contrast, spellcheck underline, IME/composition preview, and clipboard fidelity. Method D fails the first two here, which is exactly why it is confined to display text.</p>
+  </section>
+
+  <!-- K -->
+  <section class="card raster">
+    <header><span class="id">K</span><h2>Typeface comparison at working size</h2><span class="tag static">CHOICE</span></header>
+    <div class="body">
+      <p class="spec dos8">8x16 — Advance 0.5em. Denser; cool-retro-term’s own choice. “Quotes”, dash—here, 0O1lI.</p>
+      <p class="spec" style="margin-top:10px">9x16 — Advance 0.5625em. The authentic VGA text cell. “Quotes”, dash—here, 0O1lI.</p>
+      <p class="spec f3270" style="margin-top:10px">3270 — outline, scales freely, smoother. “Quotes”, dash—here, 0O1lI.</p>
+      <p class="spec court" style="margin-top:10px">Courier Prime — Bureau heritage. “Quotes”, dash—here, 0O1lI.</p>
+    </div>
+    <p class="note">All four at 16px/24px under the same raster. 9x16 is the body default: 8x16’s half-em advance is punishingly tight for long prose, and the extra column buys counter space where it matters most.</p>
+  </section>
+
+  <!-- L -->
+  <section class="card raster">
+    <header><span class="id">L</span><h2>Emphasis without a bold face</h2><span class="tag safe">SOLVED</span></header>
+    <div class="body">
+      <p class="spec">Normal weight at rest, slightly below full brightness.</p>
+      <p class="spec bloom-only" style="color:#ffffff;margin-top:8px">Bold — full brightness plus bloom, not a heavier glyph.</p>
+      <p class="spec" style="font-style:italic;color:#a8c8e8;margin-top:8px">Italic — synthetic oblique, tinted cooler.</p>
+      <p class="spec" style="margin-top:8px;color:#fff;text-shadow:1px 0 0 currentColor">Alt bold — the DOS trick: a 1px horizontal copy.</p>
+    </div>
+    <p class="note"><b>The problem:</b> IBM VGA and 3270 ship a single weight — no bold, no italic — and synthetic bold smears a pixel font. <b>The fix</b> is period-correct: on a real terminal “bold” was <i>brighter</i>, not fatter. Afterimage renders body text a little below full brightness so bold has somewhere to go, and reserves pure white plus bloom for it. Italic falls back to synthetic oblique with a cool tint. Bureau already treated bold as a graphical stamp, so this inherits cleanly.</p>
+  </section>
+
+</div>
+
+<h1 class="page" style="margin-top:42px">The 20% test</h1>
+<p class="sub">Scaled to one fifth. A theme whose personality depends on animation disappears here; one built on material and structure does not. Look for: a recognisable note object, heading landmarks, and distinct material regions.</p>
+<div class="zoom-box">
+  <div class="zoom-wrap">
+    <div style="background:#01060d;padding:30px;display:flex;gap:30px">
+      <div style="width:300px;background:#040b12;border:1px solid #1d323f;padding:16px">
+        <div style="font-family:'AI VGA 8x16';font-size:32px;color:#8fa8bb">FILES</div>
+        <div style="height:16px"></div>
+        <div style="background:#b9cbd8;color:#06121c;font-family:'AI VGA 8x16';font-size:28px;padding:4px 8px">Selected note</div>
+        <div style="color:#7f9bb3;font-family:'AI VGA 8x16';font-size:28px;padding:4px 8px">Another note</div>
+        <div style="color:#7f9bb3;font-family:'AI VGA 8x16';font-size:28px;padding:4px 8px">Third note</div>
+      </div>
+      <div style="flex:1;background:#04090f;border:1px solid #1d323f;padding:24px">
+        <div class="plate" style="font-size:56px;line-height:70px"><span class="glyphs">AFTERIMAGE</span></div>
+        <div style="height:20px"></div>
+        <div style="background:#0a1620;border:1px solid #1d323f;padding:12px">
+          <span style="background:#b9cbd8;color:#06121c;font-family:'AI VGA 8x16';font-size:26px;padding:2px 8px">TITLE</span>
+          <span style="color:#cbe0f0;font-family:'AI VGA 9x16';font-size:28px;margin-left:12px">Properties — every field</span>
+        </div>
+        <div style="height:20px"></div>
+        <p class="spec" style="font-size:28px;line-height:42px">Body prose at the working measure, so the block of text reads as a mass of a particular colour and density rather than as individual words.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="sub" style="margin-top:28px">
+  <b>Conclusion.</b> Ship <b>C</b> (multiply raster) as the universal, edit-safe base — it is the only method that makes glyphs
+  participate in the raster without touching the text element. Layer <b>E</b> (bloom + afterimage) and optionally <b>F</b> on top.
+  Use <b>D</b>/<b>G</b> for display text only, where the plate and its lettering must fuse into one object.
+  Invert to <b>H</b> on light surfaces. Snap the pixel font to <b>16px</b> multiples per <b>I</b>.
+  Solve emphasis with brightness per <b>L</b>, not with a synthetic bold face.
+</p>
+
+</body>
+</html>

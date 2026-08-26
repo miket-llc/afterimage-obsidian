@@ -1,0 +1,288 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Afterimage — glyph-raster technical spike
+   Comparison rig for CRT glyph-rendering methods. Not shipped in the theme;
+   the winning methods are ported into theme.css.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Fonts ──────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'AI VGA 8x16';
+  src: local('PxPlus IBM VGA 8x16'), url('../fonts/oldschool-pc-font-pack/WebPlus_IBM_VGA_8x16.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'AI VGA 9x16';
+  src: local('PxPlus IBM VGA 9x16'), url('../fonts/oldschool-pc-font-pack/WebPlus_IBM_VGA_9x16.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'AI 3270';
+  src: local('3270'), url('../fonts/3270font/3270-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'AI Courier';
+  src: url('../fonts/courier-prime/CourierPrime-Regular.latin.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+
+/* ── Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --chassis:   #01060d;
+  --surface:   #04090f;
+  --raised:    #071119;
+  --ink:       #cbe0f0;   /* cool phosphor ivory */
+  --ink-muted: #7f9bb3;
+  --cobalt:    #3b82ff;
+  --amber:     #ffb74d;
+  --plate:     #b9cbd8;   /* cool ceramic heading plate */
+  --plate-ink: #06121c;
+  --border:    #1d3murky;
+  --border:    #1d323f;
+
+  /* raster levers — these become --after-* in the theme */
+  --raster-period: 2px;   /* one dark + one light band */
+  --raster-strength: .34;
+  --bloom: 4px;
+  --ghost-offset: 1px;
+  --ghost-alpha: .30;
+  --rgb-split: .4px;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--chassis); }
+body {
+  margin: 0; padding: 32px 28px 96px;
+  background: var(--chassis);
+  color: var(--ink);
+  font-family: 'AI 3270', ui-monospace, monospace;
+  font-size: 15px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+h1.page { font-size: 22px; letter-spacing: .04em; margin: 0 0 4px; color: #fff; }
+.sub { color: var(--ink-muted); font-size: 12.5px; margin: 0 0 28px; max-width: 78ch; line-height: 1.6; }
+
+.grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0 0 16px;
+  overflow: hidden;
+  position: relative;
+}
+.card > header {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  padding: 9px 14px; border-bottom: 1px solid var(--border);
+  background: #060d15;
+}
+.card > header .id {
+  font-family: 'AI VGA 8x16', monospace; font-size: 16px;
+  color: #02070d; background: var(--plate); padding: 0 6px; border-radius: 1px;
+}
+.card > header h2 { font-size: 13px; margin: 0; font-weight: 400; letter-spacing: .03em; color: #e8f2fb; }
+.card > header .tag { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; padding: 1px 5px; border-radius: 2px; }
+.tag.safe   { color: #7ee0a8; border: 1px solid #235c3c; }
+.tag.static { color: #9fc4ff; border: 1px solid #2b4a80; }
+.tag.bad    { color: #ff8a80; border: 1px solid #6d2f2b; }
+.card .body { padding: 14px; }
+.note { font-size: 11.5px; color: var(--ink-muted); line-height: 1.6; padding: 0 14px; margin-top: 10px; border-left: 2px solid var(--border); margin-left: 14px; }
+.note b { color: #cfe2f2; font-weight: 400; }
+
+/* Specimen paragraph */
+.spec {
+  font-family: 'AI VGA 9x16', monospace;
+  font-size: 16px; line-height: 24px;  /* integer: 16px font, 24px = 1.5 */
+  color: var(--ink);
+  margin: 0;
+}
+.spec.dos8  { font-family: 'AI VGA 8x16', monospace; }
+.spec.f3270 { font-family: 'AI 3270', monospace; }
+.spec.court { font-family: 'AI Courier', monospace; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD A — baseline. No treatment.
+   ═══════════════════════════════════════════════════════════════════════ */
+.m-a .spec { }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD B — page-wide scanline overlay. THE WRONG ANSWER, kept for
+   comparison. A striped translucent film over everything: it crosses the
+   glyphs and the background with equal indifference, so the type sits
+   BEHIND a screen door rather than being made of raster.
+   ═══════════════════════════════════════════════════════════════════════ */
+.m-b .body { position: relative; }
+.m-b .body::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,.55) 0, rgba(0,0,0,.55) 1px,
+    rgba(0,0,0,0)   1px, rgba(0,0,0,0)   2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD C — MULTIPLY RASTER  ★ the edit-safe glyph raster
+   A striped overlay in `mix-blend-mode: multiply` over a DARK surface.
+   Multiply scales each channel, so the darkening is PROPORTIONAL to how
+   bright the pixel already is:
+       background #04090f × .66  →  #030609   (Δ ≈ 3/255, invisible)
+       glyph      #cbe0f0 × .66  →  #86939e   (Δ ≈ 66/255, obvious)
+   The stripes therefore appear only where light is being emitted — i.e.
+   inside the glyphs — which is exactly how a real tube behaves: the dark
+   gap between scan lines can only subtract light that phosphor emitted.
+   The text element itself is untouched: no transparent colour, no clip,
+   so caret, selection, IME, spellcheck and search matches all survive.
+   ═══════════════════════════════════════════════════════════════════════ */
+.raster { position: relative; }
+.raster::after {
+  content: ''; position: absolute; inset: -1px; pointer-events: none;
+  mix-blend-mode: multiply;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,var(--raster-strength)) 0,
+    rgba(0,0,0,var(--raster-strength)) calc(var(--raster-period) / 2),
+    rgba(0,0,0,0) calc(var(--raster-period) / 2),
+    rgba(0,0,0,0) var(--raster-period));
+  background-position: 0 0;   /* anchored to the container's top edge */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD D — BACKGROUND-CLIP:TEXT  ★ the strongest, STATIC-ONLY raster
+   The gradient is painted INTO the glyph via background-clip:text with a
+   transparent fill. Highest fidelity — the raster is unmistakably part of
+   the letterform, and it works on any surface colour, light or dark.
+   Cost: `color: transparent` means the caret is invisible, the selection
+   highlight paints under transparent glyphs, and some AT reads it oddly.
+   Therefore: display text only (title, headings, labels, tabs) — never
+   the editor.
+   ═══════════════════════════════════════════════════════════════════════ */
+.clip-raster {
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0,
+    var(--ink) calc(var(--raster-period) / 2),
+    color-mix(in oklab, var(--ink) 34%, transparent) calc(var(--raster-period) / 2),
+    color-mix(in oklab, var(--ink) 34%, transparent) var(--raster-period));
+  background-repeat: repeat;
+  background-attachment: scroll;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD E — OPTICAL RESPONSE: bloom + afterimage
+   Bloom  = a soft same-colour halo (scattering inside the faceplate).
+   Ghost  = a dim offset copy below the glyph (phosphor decay tail).
+   Both are text-shadow, so they cost nothing and never affect layout.
+   ═══════════════════════════════════════════════════════════════════════ */
+.bloom {
+  text-shadow:
+    0 0 var(--bloom) color-mix(in oklab, var(--ink) 45%, transparent),
+    0 var(--ghost-offset) 0 color-mix(in oklab, var(--ink) calc(var(--ghost-alpha) * 100%), transparent);
+}
+.bloom-only { text-shadow: 0 0 var(--bloom) color-mix(in oklab, var(--ink) 55%, transparent); }
+.ghost-only { text-shadow: 0 var(--ghost-offset) 0 color-mix(in oklab, var(--ink) 34%, transparent); }
+.bloom-heavy { text-shadow: 0 0 10px color-mix(in oklab, var(--ink) 80%, transparent); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD F — CHROMATIC MISREGISTRATION
+   Convergence error: the three beams do not land on exactly the same spot.
+   Sub-pixel offsets only. Anything ≥1px reads as a printing fault.
+   ═══════════════════════════════════════════════════════════════════════ */
+.rgb-split {
+  text-shadow:
+    calc(var(--rgb-split) * -1) 0 0 rgba(255, 60, 60, .38),
+    var(--rgb-split) 0 0 rgba(60, 150, 255, .38);
+}
+.rgb-split-heavy { text-shadow: -1.2px 0 0 rgba(255,0,0,.5), 1.2px 0 0 rgba(0,120,255,.5); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD G — HEADING PLATE: one display object
+   The plate and its lettering must share a raster on the SAME grid, so
+   they read as a single physical thing. Two cooperating layers:
+     · the plate's own background carries the raster (a light substrate,
+       so a dark stripe shows on it);
+     · the glyphs carry a clipped raster of their own (dark ink, so the
+       stripe must LIGHTEN rather than darken to be visible).
+   Both use the same --raster-period and both are anchored to the plate's
+   top edge, so the bands line up across substrate and glyph.
+   ═══════════════════════════════════════════════════════════════════════ */
+.plate {
+  display: inline-block; position: relative;
+  padding: 6px 14px 6px 12px;
+  background-color: var(--plate);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(4,12,20,.30) 0, rgba(4,12,20,.30) 1px,
+    rgba(0,0,0,0) 1px,  rgba(0,0,0,0) 2px);
+  background-position: 0 0;
+  font-family: 'AI VGA 8x16', monospace;
+  font-size: 32px; line-height: 40px;   /* 2× the 16px cell */
+  letter-spacing: .01em;
+  color: var(--plate-ink);
+  box-shadow: 3px 3px 0 rgba(0,0,0,.55);
+}
+.plate .glyphs {
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--plate-ink) 0, var(--plate-ink) 1px,
+    color-mix(in oklab, var(--plate-ink) 55%, var(--plate)) 1px,
+    color-mix(in oklab, var(--plate-ink) 55%, var(--plate)) 2px);
+  background-position: 0 0;
+}
+.plate.offset::before {          /* registration ghost behind the plate */
+  content: ''; position: absolute; inset: 0;
+  background: rgba(59,130,255,.30);
+  transform: translate(-2px, 1px); z-index: -1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   METHOD H — LIGHT SURFACES
+   Multiply is wrong on paper: it darkens the whole page. On a light
+   surface the ink is the DARK thing, so the raster must lighten in bands
+   — `screen` — which again only visibly touches the dark glyphs.
+   ═══════════════════════════════════════════════════════════════════════ */
+.light-surface {
+  background: #d7dee4; color: #0d1b26;
+  --ink: #0d1b26;
+}
+.raster-screen { position: relative; }
+.raster-screen::after {
+  content: ''; position: absolute; inset: -1px; pointer-events: none;
+  mix-blend-mode: screen;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.42) 0, rgba(255,255,255,.42) 1px,
+    rgba(0,0,0,0) 1px, rgba(0,0,0,0) 2px);
+}
+
+/* ── DPI / alignment rig ────────────────────────────────────────────── */
+.dpi td { padding: 6px 10px; vertical-align: middle; border-bottom: 1px solid var(--border); }
+.dpi { border-collapse: collapse; width: 100%; font-size: 11.5px; color: var(--ink-muted); }
+.dpi .s { font-family: 'AI VGA 9x16', monospace; color: var(--ink); white-space: nowrap; }
+.s15 { font-size: 15px; line-height: 23px; }
+.s16 { font-size: 16px; line-height: 24px; }
+.s17 { font-size: 17px; line-height: 25px; }
+.s32 { font-size: 32px; line-height: 40px; }
+
+/* ── editable rig ───────────────────────────────────────────────────── */
+[contenteditable] {
+  outline: none; caret-color: var(--cobalt);
+  font-family: 'AI VGA 9x16', monospace; font-size: 16px; line-height: 24px;
+  min-height: 72px; padding: 8px; background: var(--raised);
+  border: 1px solid var(--border);
+}
+[contenteditable]::selection, [contenteditable] ::selection {
+  background: rgba(59,130,255,.42); color: #fff;
+}
+.swatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.swatch { width: 46px; height: 30px; border: 1px solid var(--border); border-radius: 2px; }
+
+/* zoom rig — the 20% legibility test */
+.zoom-wrap { transform: scale(.2); transform-origin: top left; width: 500%; }
+.zoom-box { height: 190px; overflow: hidden; border: 1px solid var(--border); }
+
+kbd { font-family: 'AI 3270', monospace; font-size: 11px; border: 1px solid var(--border); padding: 0 4px; border-radius: 2px; color: #dceaf6; }
