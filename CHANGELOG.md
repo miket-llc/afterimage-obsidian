@@ -21,8 +21,9 @@ v2.16.0** by **Sonophage** at commit `155a949`, MIT-licensed. See
   read as a single display object.
 - **Bloom, afterimage and chromatic misregistration**, composed into one
   `text-shadow` stack. Defaults follow cool-retro-term's IBM-DOS profile.
-- **Three typography presets** — IBM DOS (WebPlus IBM VGA 9x16 / 8x16), 3270,
-  and Typewriter (Courier Prime, kept from Bureau).
+- **Three typography presets** — Typewriter (Courier Prime, kept from Bureau,
+  and the default), IBM DOS (WebPlus IBM VGA 9x16 / 8x16), and 3270. The
+  display lettering stays on the pixel face in every preset.
 - **Emphasis by brightness**, since these terminal fonts ship one weight and
   synthetic bold smears them.
 - **Six display profiles** — Cobalt, Amber, Ghost, Ultraviolet, Mono, Custom.
@@ -72,6 +73,25 @@ v2.16.0** by **Sonophage** at commit `155a949`, MIT-licensed. See
 - Print output: display text is painted by a background image with
   `color: transparent`, and browsers do not print background graphics — every
   heading, the inline title and every property key printed **blank**.
+
+### Also in 0.1.0, after first-look feedback at 1×
+
+The theme was being judged at 2–4× device pixel ratio during development and
+looked very different on a 1080p panel at 1×. Four things changed:
+
+- **Courier Prime is the default body face**, not the IBM VGA pixel font.
+- **The plate and ink rasters were split** (`--after-display-raster` /
+  `--after-ink-raster`). They were one number, and a 2px band that gives a
+  32px title its structure shreds an 11px property legend. Small labels now
+  take no ink raster at all, and moved from the pixel face to 3270.
+- **Nothing is inverted any more.** Bureau filled inactive tabs and the whole
+  status bar with the editor's *text* colour, putting pale slabs across a dark
+  machine. Every tab and the status bar are now dark; the active tab is the
+  one that is *lit* — bright label, hard accent edge, a glow beneath it.
+- **The highlight moved to amber** and the accent to a cooler, more luminous
+  phosphor blue. On-accent ink flipped from white to dark: white failed AA on
+  eight of the nine accent presets (1.33:1 on P1 green), dark clears it on all
+  nine.
 
 ### Bundle
 

@@ -118,13 +118,16 @@
      focus, current state, or a significant interaction. Material and
      typography carry the rest of the identity; the accent does not get
      sprayed across every link, border and icon. */
-  --after-cobalt: #3b82ff;   /* PRIMARY SIGNAL — electric cobalt */
+  /* PRIMARY SIGNAL. Shifted off the flat UI-blue that generic dark themes
+     default to, toward a cooler, more luminous phosphor blue — it reads as
+     something emitting rather than something filled. */
+  --after-cobalt: #2e9dff;
   --after-red: #e8453b;      /* true error state only */
   --after-accent-green: #35c98a;
   --after-gold:    #d7a531;
   --after-amber:   #ffb000;   /* P3 amber phosphor — vintage terminal */
   --after-p1:      #43ff7d;   /* P1 green phosphor */
-  --after-accent-custom: #3b82ff;
+  --after-accent-custom: #2e9dff;
   --after-accent:    var(--after-cobalt);
   /* Accent when used as TEXT. Identical to --after-accent on dark; darkened on paper (see .theme-light)
      so accent-coloured text clears WCAG AA — vivid accent on bright paper was only ~3.3:1. */
@@ -182,7 +185,13 @@ body.theme-dark.after-d-chrome-light:not(.after-d-editor-light) .workspace-split
   --after-teal: #4ee6c0;
   --after-label-bg: var(--after-p-plate, #b9cbd8);
   --after-label-fg: var(--after-p-plate-ink, #06121c);
-  --after-on-accent: #ffffff;
+  /* ON-ACCENT INK. Bureau's #ffffff was correct for its dark Control red;
+     against Afterimage's bright signal palette it is a contrast failure in
+     every preset — white on P1 green is 1.33:1, on mint 1.57:1, on cobalt
+     2.84:1. Dark ink clears AA against ALL of them, worst case 5.09:1 on the
+     red preset. contrast-color() below refines this per-accent where the
+     engine supports it; this is the fallback that has to be safe on its own. */
+  --after-on-accent: #04090f;
   --after-veil: #ffffff;
   --after-code-bg: var(--after-p-code-bg, #010509);
   --after-code-bg: oklch(from var(--after-p-code-bg, #010509) l calc(c + var(--after-tint-strength, 0) / 1000) calc(h + var(--after-tint-hue, 0)));
@@ -357,6 +366,8 @@ body.theme-light.after-l-chrome-dark:not(.after-l-editor-dark) .workspace-split.
   --after-teal: #046a53;
   --after-label-bg: #0d1b26;    /* INVERTED: dark stamp on paper */
   --after-label-fg: #e6ecf1;    /* paper text on the stamp */
+  /* Light mode darkens each profile's accent for paper contrast, so white is
+     the safe ink here — the mirror of the dark-mode choice above. */
   --after-on-accent: #ffffff;
   --after-veil: #000000;        /* hover veils darken on light */
   --after-accent-ink: color-mix(in srgb, var(--after-accent), #000 30%);   /* darken accent text ~5.7:1 on paper */
@@ -2231,7 +2242,10 @@ body:not(.is-mobile) .prompt > .prompt-results > .suggestion-item { margin-left:
 .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title,
 .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-icon,
 .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-close-button {
-  color: var(--after-editor-bg);   /* readable on the inverted (editor-text) tab fill */
+  /* The tab fill is no longer inverted, so the label is no longer dark ink on
+     a pale slab — it is muted phosphor on a dark surface, like everything
+     else in the chrome. */
+  color: var(--after-muted);
 }
 /* No colour change on tab hover. Obsidian paints var(--background-modifier-hover) on hover; we
    redefine that variable to transparent INSIDE the tab scope, so the overlay vanishes wherever it
@@ -2696,18 +2710,29 @@ body:not(.is-mobile).after-pill-chrome .markdown-source-view .document-search-co
 body:not(.is-mobile).after-pill-chrome .titlebar { background-color: transparent; }
 
 /* Status bar — each section becomes its own pill (Ultra-Lobster). */
-/* Status bar — INVERTED (always, not just under pill chrome): the bar fills with the editor's
-   text colour and writes in the editor background, so it flips white/black with the theme AND with
-   Inverted editor. */
+/* Status bar. Bureau inverted this too — the bar filled with the editor's TEXT
+   colour and wrote in the editor background, which on a dark theme puts a
+   full-width pale slab across the bottom of the screen. It is the same
+   mistake as the inverted tabs, and it is more visible because it never
+   scrolls away.
+
+   Afterimage keeps it dark and lets the CHASSIS show through: a quiet bar
+   with a lit top edge, reading as the bottom lip of the machine rather than
+   as a highlighted strip. */
 .status-bar {
-  background-color: var(--after-editor-text);
-  border-top: 1px solid var(--after-line);
+  background-color: var(--after-chassis, var(--after-bg-alt));
+  border-top: 1px solid var(--after-border);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--after-veil) 5%, transparent);
 }
 .status-bar .status-bar-item,
 .status-bar .status-bar-item span,
 .status-bar .status-bar-item .status-bar-item-icon,
 .status-bar .status-bar-item .status-bar-item-segment {
-  color: var(--after-editor-bg);
+  color: var(--after-faint);
+}
+.status-bar .status-bar-item:hover,
+.status-bar .status-bar-item.mod-clickable:hover .status-bar-item-segment {
+  color: var(--after-text);
 }
 /* Pill chrome — split into floating pills on a transparent bar (still the inverted fill).
    justify-content:center + zeroed item margins cluster the pills in the middle instead of riding
@@ -3038,17 +3063,25 @@ body.theme-light.after-l-editor-dark {
   margin-right: 8px;
 }
 
-/* Inactive tabs — INVERTED: the tab fills with the editor's TEXT colour (white on a dark editor,
-   black on a light editor) and is editor-inverted-aware via --after-editor-text. Solid, no gradient. */
+/* TABS. Bureau inverted the inactive tabs — filling them with the editor's
+   TEXT colour, so they became pale slabs with dark labels — and filled the
+   active tab solid with the accent. On a dark CRT that reads as a modern
+   dashboard, and it puts small dark-on-light text in the one place the eye
+   scans most often.
+
+   Afterimage inverts the LOGIC instead of the colour: every tab is a dark
+   surface, and the active one is the one that is LIT. Full treatment in the
+   TABS, HIGHLIGHT AND THE REST OF THE INVERTED CHROME section below; these
+   two rules only stop the inversion at its source, so that section is not
+   fighting a more specific selector. */
 .mod-root .workspace-tab-header:not(.is-active) {
-  background: var(--after-editor-text);
+  background: var(--after-surface);
   border: 2px solid transparent;
   border-bottom: none;
 }
-/* Active tab — solid accent, rises taller than the rest. */
 .mod-root .workspace-tab-header.is-active {
-  background: var(--after-accent);
-  border: 2px solid var(--after-accent);
+  background: var(--after-raised);
+  border: 2px solid transparent;
   border-bottom: none;
   margin-top: -4px;
   z-index: 7;
@@ -4535,11 +4568,18 @@ body {
   --after-face-3270:    'Afterimage 3270', '3270', 'IBM 3270', ui-monospace, Menlo, Consolas, monospace;
   --after-face-courier: 'Courier Prime', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* ROLE ASSIGNMENT — IBM DOS preset is the default, so it is declared bare */
-  --after-font-body:    var(--after-face-vga);
+  /* ROLE ASSIGNMENT — Courier Prime is the DEFAULT body face.
+     Bureau's typeface, kept as the default deliberately. The IBM VGA pixel
+     font is a bitmap on a 16-pixel cell: it is genuinely crisp at 1 font
+     pixel = 1 screen pixel, but on a 1080p panel at 1x that is a small,
+     thin letterform, and stacking bloom and afterimage on top of it turns
+     long prose to mush. It remains one keystroke away as the IBM DOS preset,
+     and it still carries the DISPLAY lettering in every preset, where the
+     size is large enough for it to be an asset rather than a liability. */
+  --after-font-body:    var(--after-face-courier);
   --after-font-display: var(--after-face-vga-n);
   --after-font-label:   var(--after-face-3270);
-  --after-font-mono:    var(--after-face-vga);
+  --after-font-mono:    var(--after-face-courier);
 
   /* METRICS. --after-body-size drives the note body only; chrome has its own
      scale. The DOS preset is snapped to 16px multiples by the Style Settings
@@ -4560,7 +4600,10 @@ body {
 
 /* ── PRESET: IBM DOS 9x16 — the default. Declared bare on body above; the
       class exists so Style Settings has something to write for this option. */
-body.after-font-dos { --after-font-body: var(--after-face-vga); }
+body.after-font-dos {
+  --after-font-body: var(--after-face-vga);
+  --after-font-mono: var(--after-face-vga);
+}
 
 /* ── PRESET: 3270 — the readable terminal ─────────────────────────────── */
 body.after-font-3270 {
@@ -4575,6 +4618,7 @@ body.after-font-type {
   --after-font-body: var(--after-face-courier);
   --after-font-mono: var(--after-face-courier);
 }
+/* Courier Prime has real Bold and Italic faces, so synthesis goes back on. */
 /* ── Optional: swap the VGA body cut to the denser 8x16 ───────────────── */
 body.after-vga-narrow { --after-font-body: var(--after-face-vga-n); }
 
@@ -4628,11 +4672,15 @@ body.after-vga-narrow { --after-font-body: var(--after-face-vga-n); }
   .markdown-source-view.mod-cm6 .cm-header-1, .markdown-source-view.mod-cm6 .cm-header-2,
   .markdown-source-view.mod-cm6 .cm-header-3, .markdown-source-view.mod-cm6 .cm-header-4,
   .markdown-source-view.mod-cm6 .cm-header-5, .markdown-source-view.mod-cm6 .cm-header-6,
-  .metadata-property-key-input,
-  .metadata-properties-title,
-  .daily h1
+.daily h1
 ) {
   font-family: var(--after-font-display);
+}
+/* Property keys and the section legend are SMALL text and stay on 3270.
+   A bitmap display face at 11px is not a style choice, it is a legibility
+   bug — which is exactly how it read at 1x. */
+:is(.theme-dark, .theme-light) :is(.metadata-property-key-input, .metadata-properties-title) {
+  font-family: var(--after-font-label);
 }
 
 /* ── HEADING SCALE ────────────────────────────────────────────────────────
@@ -4727,7 +4775,18 @@ body {
   /* ── strength, per surface ────────────────────────────────────────────
      Display text can take much more than prose: it is large, static, and
      you are not reading a thousand words of it. */
-  --after-display-raster: 0.5;    /* title, H1-H6, property keys      */
+  /* SUBSTRATE vs INK. These were one number, and that was the mistake.
+     A 2px band through a 32px letterform is structure; the same band through
+     an 11px letterform is destruction — at 1x on a 1080p panel the heading
+     lettering and property legends were being shredded into noise.
+
+     They are now independent, and the split follows the physics: on an
+     INVERTED plate the plate is the lit thing and the ink is where light is
+     ABSENT, so driving a strong raster into dark ink was backwards as well as
+     illegible. The substrate carries the raster; the ink takes a light touch;
+     small labels take none. */
+  --after-display-raster: 0.34;   /* the PLATE — the lit substrate */
+  --after-ink-raster: 0.13;       /* the GLYPHS on that plate      */
   --after-prose-raster: 0.22;     /* Reading View                     */
   --after-edit-raster: 0.14;      /* Live Preview / source            */
   --after-chrome-raster: 0.1;     /* sidebars, tabs, status           */
@@ -4911,8 +4970,8 @@ body.theme-light {
     repeating-linear-gradient(to bottom,
       var(--after-plate-ink) 0,
       var(--after-plate-ink) calc(var(--after-raster-period) / 2),
-      color-mix(in oklab, var(--after-plate-ink) calc(100% - var(--after-display-raster) * 100%), var(--after-plate)) calc(var(--after-raster-period) / 2),
-      color-mix(in oklab, var(--after-plate-ink) calc(100% - var(--after-display-raster) * 100%), var(--after-plate)) var(--after-raster-period)),
+      color-mix(in oklab, var(--after-plate-ink) calc(100% - var(--after-ink-raster) * 100%), var(--after-plate)) calc(var(--after-raster-period) / 2),
+      color-mix(in oklab, var(--after-plate-ink) calc(100% - var(--after-ink-raster) * 100%), var(--after-plate)) var(--after-raster-period)),
     /* 2 — substrate raster, filling the plate on the same grid */
     repeating-linear-gradient(to bottom,
       rgba(0, 0, 0, calc(var(--after-display-raster) * 0.34)) 0,
@@ -4975,10 +5034,13 @@ body.theme-light {
   font-size: var(--h2-size);
   display: block;
   width: 100%;
-  padding: 0.18em 0.5em 0.2em 0.72em;
+  padding: 0.18em 0.5em 0.2em 0.8em;
   margin-top: 1.7em;
-  border-left: 10px solid var(--after-label-bg);
+  /* a real KEY BLOCK, not a hairline — this is what separates the H2 band
+     from the H1 plate at a glance, so it has to have weight */
+  border-left: 14px solid var(--after-accent);
   border-bottom: 1px solid var(--after-border-hi);
+  box-shadow: inset 15px 0 0 var(--after-label-bg);
   box-shadow: none;
   --after-plate: var(--after-surface);
   --after-plate-ink: var(--after-text-hi);
@@ -5093,13 +5155,17 @@ body.theme-light {
     repeating-linear-gradient(to bottom,
       var(--after-label-fg) 0,
       var(--after-label-fg) calc(var(--after-raster-period) / 2),
-      color-mix(in oklab, var(--after-label-fg) calc(100% - var(--after-display-raster) * 70%), var(--after-label-bg)) calc(var(--after-raster-period) / 2),
-      color-mix(in oklab, var(--after-label-fg) calc(100% - var(--after-display-raster) * 70%), var(--after-label-bg)) var(--after-raster-period)),
+      var(--after-label-fg) calc(var(--after-raster-period) / 2),
+      var(--after-label-fg) var(--after-raster-period)),
+    /* 0.4x the display strength. A property legend is ~11px; the same band
+       that gives a 32px title its structure is, at this size, just noise
+       competing with the letterforms. Raster strength has to scale with the
+       lettering it runs through. */
     repeating-linear-gradient(to bottom,
-      rgba(0, 0, 0, calc(var(--after-display-raster) * 0.28)) 0,
-      rgba(0, 0, 0, calc(var(--after-display-raster) * 0.28)) calc(var(--after-raster-period) / 2),
-      rgba(0, 0, 0, 0) calc(var(--after-raster-period) / 2),
-      rgba(0, 0, 0, 0) var(--after-raster-period));
+      rgba(0, 0, 0, calc(var(--after-display-raster) * 0.4)) 0,
+      rgba(0, 0, 0, calc(var(--after-display-raster) * 0.4)) 1px,
+      rgba(0, 0, 0, 0) 1px,
+      rgba(0, 0, 0, 0) 3px);
   -webkit-background-clip: text, padding-box;
   background-clip: text, padding-box;
   background-position: 0 0;
@@ -5185,7 +5251,7 @@ body.after-profile-cobalt {
   --after-p-plate: #b9cbd8;     --after-p-plate-ink: #06121c;
   --after-p-code-bg: #010509;
   --after-accent: var(--after-cobalt);
-  --after-display-raster: 0.5;  --after-prose-raster: 0.22;  --after-edit-raster: 0.14;
+  --after-display-raster: 0.34; --after-ink-raster: 0.13;  --after-prose-raster: 0.22;  --after-edit-raster: 0.14;
   --after-bloom: 4px;           --after-ghost: 0.28;         --after-ghost-offset: 1px;
   --after-rgb-split: 0px;
 }
@@ -5201,7 +5267,7 @@ body.after-profile-amber {
   --after-p-code-bg: #050301;
   --after-accent: #ffb000;
   --after-text-hi: #fff0d0;
-  --after-display-raster: 0.52; --after-prose-raster: 0.24;  --after-edit-raster: 0.15;
+  --after-display-raster: 0.36; --after-ink-raster: 0.14; --after-prose-raster: 0.24;  --after-edit-raster: 0.15;
   --after-bloom: 5px;           --after-ghost: 0.4;          --after-ghost-offset: 1px;
   --after-rgb-split: 0px;
 }
@@ -5218,7 +5284,7 @@ body.after-profile-ghost {
   --after-p-code-bg: #010502;
   --after-accent: #43ff7d;
   --after-text-hi: #dcffe8;
-  --after-display-raster: 0.55; --after-prose-raster: 0.26;  --after-edit-raster: 0.16;
+  --after-display-raster: 0.38; --after-ink-raster: 0.15; --after-prose-raster: 0.26;  --after-edit-raster: 0.16;
   --after-bloom: 5px;           --after-ghost: 0.46;         --after-ghost-offset: 1px;
   --after-rgb-split: 0px;
 }
@@ -5236,7 +5302,7 @@ body.after-profile-uv {
   --after-p-code-bg: #030410;
   --after-accent: #8b7dff;
   --after-text-hi: #ffffff;
-  --after-display-raster: 0.46; --after-prose-raster: 0.2;   --after-edit-raster: 0.13;
+  --after-display-raster: 0.32; --after-ink-raster: 0.12; --after-prose-raster: 0.2;   --after-edit-raster: 0.13;
   --after-bloom: 4.5px;         --after-ghost: 0.24;         --after-ghost-offset: 1px;
   --after-rgb-split: 0.4px;
 }
@@ -5256,11 +5322,13 @@ body.after-profile-mono {
   --after-teal: #a9b4bd;        /* minimal chroma means tags too */
   --after-on-accent: #050505;
   --after-text-hi: #ffffff;
-  --after-display-raster: 0.56; --after-prose-raster: 0.24;  --after-edit-raster: 0.15;
+  --after-display-raster: 0.38; --after-ink-raster: 0.15; --after-prose-raster: 0.24;  --after-edit-raster: 0.15;
   --after-bloom: 3px;           --after-ghost: 0.22;         --after-ghost-offset: 1px;
   --after-rgb-split: 0px;
 }
 body.theme-light.after-profile-mono { --after-accent: #3c4650; --after-on-accent: #ffffff; }
+/* The default cobalt is NOT darkened in light mode, so it keeps dark ink. */
+body.theme-light.after-profile-cobalt, body.theme-light:not([class*="after-profile-"]) { --after-on-accent: #04090f; }
 
 /* ── CUSTOM — deliberately sets nothing. The class exists only so Style
       Settings has a value to write; because it declares no overrides, every
@@ -5604,6 +5672,109 @@ body.after-font-type { --after-bold-weight: 700; }
   box-shadow: inset 0 -1px 0 0 var(--after-accent);
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — TABS, HIGHLIGHT AND THE REST OF THE INVERTED CHROME
+   ═══════════════════════════════════════════════════════════════════════════
+   Bureau inverts inactive tabs — fills them with the editor's TEXT colour, so
+   they become pale slabs with dark labels — and fills the active tab solid
+   with the accent. On a dark CRT that reads as a modern dashboard: a flat
+   blue slab beside flat grey slabs, and a second helping of the small
+   dark-on-light text that the plate raster was already straining.
+
+   Afterimage inverts the logic instead of the colour. Every tab is a dark
+   surface, because the machine is dark. The ACTIVE one is the one that is
+   LIT: a bright phosphor label, a hard accent edge along the top, and a glow
+   beneath it. Decisive at a glance and at 20% scale, without a single slab
+   of inverted body text.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── inactive: dark, quiet, legible ───────────────────────────────────────── */
+:is(.theme-dark, .theme-light) .workspace-tab-header {
+  background-color: var(--after-surface);
+  color: var(--after-muted);
+  border: none;
+  border-radius: 3px 3px 0 0;
+  box-shadow: inset 0 -1px 0 var(--after-border);
+}
+:is(.theme-dark, .theme-light) .workspace-tab-header .workspace-tab-header-inner-title,
+:is(.theme-dark, .theme-light) .workspace-tab-header .workspace-tab-header-inner-icon,
+:is(.theme-dark, .theme-light) .workspace-tab-header .workspace-tab-header-inner-close-button {
+  color: var(--after-muted);
+  background: none;
+  -webkit-text-fill-color: var(--after-muted);
+  text-shadow: none;
+}
+:is(.theme-dark, .theme-light) .workspace-tab-header:hover {
+  background-color: var(--after-raised);
+  color: var(--after-text);
+}
+:is(.theme-dark, .theme-light) .workspace-tab-header:hover :is(.workspace-tab-header-inner-title, .workspace-tab-header-inner-icon) {
+  color: var(--after-text);
+  -webkit-text-fill-color: var(--after-text);
+}
+
+/* ── active: the lit one ──────────────────────────────────────────────────── */
+:is(.theme-dark, .theme-light) .workspace-tab-header.is-active,
+:is(.theme-dark, .theme-light) .workspace-tab-header.mod-active {
+  background-color: var(--after-raised);
+  box-shadow:
+    inset 0 2px 0 var(--after-accent),                                   /* the hard lit edge */
+    0 2px 12px -4px color-mix(in srgb, var(--after-accent) 60%, transparent),
+    inset 0 -1px 0 var(--after-raised);
+}
+:is(.theme-dark, .theme-light) .workspace-tab-header.is-active :is(.workspace-tab-header-inner-title, .workspace-tab-header-inner-icon),
+:is(.theme-dark, .theme-light) .workspace-tab-header.mod-active :is(.workspace-tab-header-inner-title, .workspace-tab-header-inner-icon) {
+  color: var(--after-text-hi);
+  -webkit-text-fill-color: var(--after-text-hi);
+  /* the label is emitting, not filled */
+  text-shadow: 0 0 calc(var(--after-bloom) * 1.1)
+               color-mix(in oklab, var(--after-accent) 55%, transparent);
+}
+:is(.theme-dark, .theme-light) .workspace-tab-header.is-active .workspace-tab-header-inner-close-button {
+  color: var(--after-text);
+  -webkit-text-fill-color: var(--after-text);
+}
+
+/* Sidebar dock tabs are icon-only; same grammar, no label. */
+:is(.theme-dark, .theme-light) :is(.mod-left-split, .mod-right-split) .workspace-tab-header.is-active {
+  background-color: var(--after-raised);
+  box-shadow: inset 0 2px 0 var(--after-accent);
+}
+
+/* ── HIGHLIGHT — amber phosphor, not a blue box ───────────────────────────
+   The primary signal means "this is where you are". A highlight means
+   "look at this", which is a different job and deserves a different colour —
+   so it moves to the controlled amber that is already the attention signal.
+   It also reads as a run of phosphor driven harder rather than as a filled
+   rectangle: warm ink, warm glow, a hairline rather than a slab.            */
+:is(.theme-dark, .theme-light) .markdown-rendered mark,
+:is(.theme-dark, .theme-light) .cm-s-obsidian .cm-highlight {
+  background-color: color-mix(in srgb, var(--after-amber) 16%, transparent);
+  color: var(--after-amber-ink, #ffd79a);
+  -webkit-text-fill-color: var(--after-amber-ink, #ffd79a);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--after-amber) 70%, transparent);
+  border-radius: 0;
+  padding: 0 0.24em;
+  text-shadow: 0 0 calc(var(--after-bloom) * 0.9)
+               color-mix(in oklab, var(--after-amber) 45%, transparent);
+}
+body { --after-amber-ink: #ffd79a; }
+body.theme-light { --after-amber-ink: #6b4200; }
+body.theme-light .markdown-rendered mark,
+body.theme-light .cm-s-obsidian .cm-highlight {
+  background-color: color-mix(in srgb, var(--after-amber) 30%, transparent);
+  text-shadow: none;
+}
+
+/* ── SEARCH RESULT MATCHES ride the same attention colour ─────────────────── */
+:is(.theme-dark, .theme-light) .search-result-file-matched-text {
+  background-color: color-mix(in srgb, var(--after-amber) 22%, transparent);
+  color: var(--after-amber-ink);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--after-amber) 60%, transparent);
+}
+
+
 /* ═══════════════════════════════════════════════════════════════════════════
    AFTERIMAGE — EDITING SAFETY
    ═══════════════════════════════════════════════════════════════════════════
@@ -5902,19 +6073,19 @@ settings:
     collapsed: true
   - id: after-body-font
     title: Body preset
-    description: "**IBM DOS 9x16** — the intended default. VileR's IBM VGA, the authentic 80x25 text cell, and the same family cool-retro-term uses for its IBM-DOS preset.\n**IBM DOS 8x16** — the same font at a half-em advance. Denser, and cool-retro-term's own choice, but tight for long prose.\n**3270** — a smoother, more forgiving terminal face. An outline font, so it is free of the 16px constraint below.\n**Typewriter** — Courier Prime, kept from Bureau, and the only preset with real bold and italic faces."
+    description: "**Typewriter** — Courier Prime, kept from Bureau, and the default: it is the most comfortable of the three for a long working day, and the only preset with real bold and italic faces.\n**IBM DOS 9x16** — VileR's IBM VGA, the authentic 80x25 text cell, and the same family cool-retro-term uses for its IBM-DOS preset.\n**IBM DOS 8x16** — the same font at a half-em advance. Denser, and cool-retro-term's own choice, but tight for long prose.\n**3270** — a smoother, more forgiving terminal face. An outline font, so it is free of the 16px constraint below.\n**Typewriter** — Courier Prime, kept from Bureau, and the only preset with real bold and italic faces."
     type: class-select
-    default: after-font-dos
+    default: after-font-type
     allowEmpty: false
     options:
+      - label: Typewriter — Courier Prime (default)
+        value: after-font-type
       - label: IBM DOS — 9x16
         value: after-font-dos
       - label: IBM DOS — 8x16 (narrow)
         value: after-vga-narrow
       - label: 3270
         value: after-font-3270
-      - label: Typewriter (Courier Prime)
-        value: after-font-type
   - id: after-body-size
     title: Body text size
     description: "Size of the note body, in pixels. **Leave this at a multiple of 16 while the IBM DOS preset is on.** That font is a bitmap on a 16-pixel cell, so at 16px one font pixel is exactly one screen pixel and the raster lands on pixel-row boundaries. At 15 or 17 the grid stops dividing, the renderer resamples, and the glyphs go soft. The 3270 and Typewriter presets are outline fonts and are free of this."
@@ -6131,13 +6302,21 @@ settings:
     level: 2
     collapsed: true
   - id: after-display-raster
-    title: Display-text raster
-    description: "Scan structure inside the inline title, H1–H3 and property keys, and across their plates. Because plate and lettering share one grid, raising this strengthens both together and they stay fused as one object."
+    title: Display-text plate raster
+    description: "Scan structure across the heading and property *plates* — the lit substrate. The lettering on those plates has its own, lighter control below, and both sit on the same 2px grid so plate and character still read as one object."
     type: variable-number-slider
-    default: 0.5
+    default: 0.34
     min: 0
     max: 1
     step: 0.02
+  - id: after-ink-raster
+    title: ↳ Lettering raster
+    description: "Scan structure inside the *letterforms* on a plate, kept separate from the plate's own raster above — because a 2px band through a 32px character is structure and the same band through an 11px character is destruction. On an inverted plate the plate is the lit thing and the ink is where light is absent, so this is deliberately a light touch. Small labels such as property keys take none at all."
+    type: variable-number-slider
+    default: 0.13
+    min: 0
+    max: 0.6
+    step: 0.01
   - id: after-prose-raster
     title: Reading View raster
     description: "Scan structure inside body prose while reading. A `multiply` layer, so it only darkens what is already bright — the glyphs — and leaves the page behind them alone."

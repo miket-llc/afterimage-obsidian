@@ -56,16 +56,22 @@ throughout so the system reads as one machine.
 
 | Preset | Face | Character |
 |---|---|---|
-| **IBM DOS** *(default)* | WebPlus IBM VGA 9x16 / 8x16 | The real thing: a pixel font on a 16-pixel grid, the same family cool-retro-term uses for its IBM-DOS preset. |
+| **Typewriter** *(default)* | Courier Prime | Bureau's own voice, kept as the default: the most comfortable of the three for a long working day, and the only preset with real bold and italic faces. |
+| **IBM DOS** | WebPlus IBM VGA 9x16 / 8x16 | The real thing: a pixel font on a 16-pixel grid, the same family cool-retro-term uses for its IBM-DOS preset. |
 | **3270** | 3270 | A smoother, more forgiving terminal voice. An outline font, so it scales freely. |
-| **Typewriter** | Courier Prime | Bureau's own voice, kept deliberately. |
+
+The **display** lettering — inline title, H1–H3 — stays on the IBM VGA pixel
+face in every preset. That is where a bitmap font is an asset: large, static,
+and carrying the plate. As *body* text at 1× on a 1080p panel it is thin, and
+stacking bloom and afterimage on top turns long prose to mush — which is why
+it is one keystroke away rather than the default.
 
 <table>
 <tr><td><img src="screenshots/preset-3270.webp" alt="3270 preset"><br><sub><b>3270</b></sub></td>
     <td><img src="screenshots/preset-typewriter.webp" alt="Typewriter preset"><br><sub><b>Typewriter</b></sub></td></tr>
 </table>
 
-Two things about the IBM DOS preset are worth knowing:
+Two things about the IBM DOS preset are worth knowing if you switch to it:
 
 **It snaps to 16 px.** The font has exactly 100 units per pixel row over a
 16-pixel cell, so at `16px` one font pixel is one CSS pixel and every raster

@@ -55,7 +55,21 @@ else {
     for (const s of y.settings) {
       if (['heading', 'info-text'].includes(s.type)) continue;
       if (s.type.startsWith('variable')) {
-        if (!body.includes(`var(--${s.id}`) && !body.includes(`--${s.id}:`)) inert.push(`${s.id} (${s.type}) — variable never read`);
+        const read = body.includes(`var(--${s.id}`);
+        const declared = new RegExp(`--${s.id}\\s*:`).test(body);
+        if (!read && !declared) { inert.push(`${s.id} (${s.type}) — variable never read`); continue; }
+        /* A var() with NO FALLBACK on a variable the CSS never declares is a
+           silent landmine: it makes the whole declaration invalid-at-computed-
+           value-time, so the property drops to its initial value. That is how
+           --after-ink-raster wiped background-image off every heading while
+           lint stayed green.
+           `var(--x, fallback)` is fine undeclared — that is Bureau's normal
+           pattern for a value Style Settings supplies at runtime — so only
+           bare, undeclared reads are flagged. */
+        if (!declared) {
+          const bare = new RegExp(`var\\(\\s*--${s.id}\\s*\\)`).test(body);
+          if (bare) inert.push(`${s.id} — read as var(--${s.id}) with NO fallback and never declared; every declaration using it is invalid`);
+        }
       } else if (s.type.startsWith('class')) {
         const vals = s.options ? s.options.map((o) => o.value) : [s.id];
         for (const v of vals) {
