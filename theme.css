@@ -4128,10 +4128,17 @@ body.bu-mode-low .app-container { background-image: none; }
 /* ACCESSIBILITY — honor the OS "reduce motion" preference (toggle, default on).
    Kills the whole animation suite and the scanning-line/sweep remnant. */
 @media (prefers-reduced-motion: reduce) {
-  body.bu-respect-motion *,
-  body.bu-respect-motion *::before,
-  body.bu-respect-motion *::after { animation: none; transition: none; }
-  body.bu-respect-motion .workspace-leaf-content[data-type="markdown"] .view-content::after { display: none; }
+  /* HONOURED BY DEFAULT. Bureau gated this on `body.bu-respect-motion`, a
+     class only Style Settings adds — so with the plugin absent or disabled,
+     the OS reduce-motion preference was silently ignored. An accessibility
+     preference must not depend on an optional plugin being installed.
+
+     The guard is now an explicit opt-OUT: motion stops unless the user has
+     deliberately asked the theme to override their system setting. */
+  body:not(.after-ignore-reduced-motion) *,
+  body:not(.after-ignore-reduced-motion) *::before,
+  body:not(.after-ignore-reduced-motion) *::after { animation: none; transition: none; }
+  body:not(.after-ignore-reduced-motion) .workspace-leaf-content[data-type="markdown"] .view-content::after { display: none; }
 }
 
 /* ============================================================
@@ -4207,6 +4214,33 @@ body.is-mobile:not(.bu-mobile-atmos) .markdown-source-view.mod-cm6 .cm-editor::a
 body.is-mobile:not(.bu-mobile-atmos) .markdown-reading-view::after,
 body.is-mobile:not(.bu-mobile-atmos) .markdown-preview-view::after,
 body.is-mobile:not(.bu-mobile-atmos) .workspace-leaf-content[data-type="markdown"] .view-content::after { display: none; }
+
+/* AFTERIMAGE on mobile — the glyph raster and the optical stack.
+   Held off by default for the same reason Bureau holds its own layers off:
+   these are full-screen composited layers and the cost is frame rate on older
+   devices, not looks. The `Atmosphere on mobile` toggle releases all of them
+   together at whatever strengths are set.
+
+   The clipped glyph raster on headings is DELIBERATELY KEPT. It is not a
+   composited layer — it is a background gradient on a handful of elements —
+   so it costs nothing, and it is the single most recognisable thing about the
+   theme. A phone should still look like Afterimage. */
+body.is-mobile:not(.bu-mobile-atmos) .markdown-preview-sizer::after,
+body.is-mobile:not(.bu-mobile-atmos) .markdown-source-view.mod-cm6 .cm-editor::before,
+body.is-mobile:not(.bu-mobile-atmos) .workspace-split.mod-left-split .nav-files-container::after,
+body.is-mobile:not(.bu-mobile-atmos) .workspace-split.mod-right-split .view-content > *::after {
+  display: none;
+}
+/* Bloom and afterimage are cheap (text-shadow, no layer) but they cost
+   legibility on a small, bright, often outdoor screen — so they are reduced
+   rather than removed, and the inline title keeps its ghost. */
+body.is-mobile:not(.bu-mobile-atmos) {
+  --ai-bloom: 1.5px;
+  --ai-ghost: 0.12;
+  --ai-rgb-split: 0px;
+  --ai-display-raster: 0.42;
+}
+body.is-mobile .inline-title { filter: none; }   /* drop-shadow x2 is a real cost on a phone */
 body.is-mobile .workspace-split.mod-root .workspace-leaf-content,
 body.is-mobile .mod-left-split .workspace-leaf-content,
 body.is-mobile .mod-right-split .workspace-leaf-content { box-shadow: none; }
@@ -4283,6 +4317,158 @@ body.is-mobile {
   body .status-bar, body .view-header,
   body .workspace-tab-header-container,
   body .titlebar { display: none; }
+
+
+  /* ══ AFTERIMAGE — print safety ══════════════════════════════════════════
+     The optical layer must leave no trace on paper. The critical one is the
+     clipped glyph raster: display text is painted by a background image with
+     `color: transparent`, and browsers do not print background graphics by
+     default — so without this block every heading, the inline title and every
+     property key would print BLANK. Restoring the fill is not optional.       */
+
+  /* 0 — INK BASELINE. Everything in the note prints as dark ink. Stated as a
+     baseline rather than chased token by token: the palette has a dozen text
+     colours and any one of them left behind prints as a pale ghost. The
+     deliberate exceptions (muted headings, struck text) re-specify below. */
+  body:is(.theme-dark, .theme-light) .markdown-preview-view,
+  body:is(.theme-dark, .theme-light) .markdown-preview-view *,
+  body:is(.theme-dark, .theme-light) .markdown-source-view *,
+  body:is(.theme-dark, .theme-light) .metadata-container * {
+    color: #111;
+    -webkit-text-fill-color: #111;
+    text-shadow: none;
+  }
+  body:is(.theme-dark, .theme-light) .markdown-rendered blockquote {
+    border-left-color: #999;
+    font-style: normal;
+  }
+  body:is(.theme-dark, .theme-light) .callout-title-inner { color: #000; }
+
+  /* 1 — un-clip every piece of display text and give it real ink back. */
+  /* Specificity has to beat the screen rules, which are
+     :is(.theme-dark,.theme-light) :is(... .markdown-source-view.mod-cm6
+     .cm-header-1) = (0,4,0). `body:is(...)` plus the same :is() list gives
+     (0,4,1), so these win without a single !important. Bureau's own print
+     block only needed a bare `body` prefix; Afterimage's screen selectors are
+     more specific than Bureau's were, so the prefix had to grow with them. */
+  body:is(.theme-dark, .theme-light) :is(
+    .inline-title,
+    .markdown-rendered h1, .markdown-rendered h2, .markdown-rendered h3,
+    .markdown-rendered h4, .markdown-rendered h5, .markdown-rendered h6,
+    .metadata-property-key-input,
+    .markdown-source-view.mod-cm6 .cm-header-1,
+    .markdown-source-view.mod-cm6 .cm-header-2,
+    .markdown-source-view.mod-cm6 .cm-header-3
+  ) {
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    background-image: none;
+    background-color: transparent;
+    color: #000;
+    -webkit-text-fill-color: #000;
+    text-shadow: none;
+    filter: none;
+    box-shadow: none;
+    border-left: none;
+    border-bottom: none;
+  }
+  /* Hierarchy has to survive without plates: size and weight carry it. */
+  body:is(.theme-dark, .theme-light) .inline-title { font-size: 26pt; font-weight: 700; }
+  body:is(.theme-dark, .theme-light) .markdown-rendered h1 { font-size: 20pt; border-bottom: 1.5pt solid #000; }
+  body:is(.theme-dark, .theme-light) .markdown-rendered h2 { font-size: 16pt; border-bottom: 0.75pt solid #666; }
+  body:is(.theme-dark, .theme-light) .markdown-rendered h3 { font-size: 13pt; }
+  body:is(.theme-dark, .theme-light) .markdown-rendered h4 { font-size: 11.5pt; }
+  body:is(.theme-dark, .theme-light) :is(.markdown-rendered h5, .markdown-rendered h6) { font-size: 10.5pt; color: #333; }
+  body:is(.theme-dark, .theme-light) .markdown-rendered :is(h1, h2, h3, h4, h5, h6)::before,
+  body:is(.theme-dark, .theme-light) .markdown-rendered :is(h1, h2, h3, h4, h5, h6)::after {
+    content: none;                 /* level chips and rules are screen furniture */
+  }
+
+  /* 2 — every raster / bloom / afterimage layer, gone. */
+  body:is(.theme-dark, .theme-light) .markdown-preview-sizer::after,
+  body:is(.theme-dark, .theme-light) .cm-editor::before,
+  body:is(.theme-dark, .theme-light) .workspace-split.mod-left-split .nav-files-container::after,
+  body:is(.theme-dark, .theme-light) .workspace-split.mod-right-split .view-content > *::after { display: none; }
+  body:is(.theme-dark, .theme-light) .markdown-preview-view .markdown-preview-sizer,
+  body:is(.theme-dark, .theme-light) .markdown-source-view.mod-cm6 .cm-content,
+  body:is(.theme-dark, .theme-light) .markdown-rendered p, body .markdown-rendered li,
+  body:is(.theme-dark, .theme-light) .markdown-rendered td, body .markdown-rendered blockquote,
+  body:is(.theme-dark, .theme-light) .markdown-source-view.mod-cm6 .cm-line,
+  body:is(.theme-dark, .theme-light) .markdown-rendered strong, body .markdown-rendered em {
+    text-shadow: none;
+    -webkit-text-fill-color: currentColor;
+  }
+  body:is(.theme-dark, .theme-light) .markdown-rendered strong { font-weight: 700; color: #000; }
+  body:is(.theme-dark, .theme-light) .markdown-rendered em { color: #000; }
+  /* strong em is (0,2,2) on screen and resolves --ai-ink-hi to pure WHITE in
+     dark mode, so without this it prints as a blank underlined gap. */
+  body:is(.theme-dark, .theme-light) .markdown-rendered strong em,
+  body:is(.theme-dark, .theme-light) .markdown-rendered em strong {
+    color: #000;
+    -webkit-text-fill-color: #000;
+    border-bottom: none;
+    text-shadow: none;
+  }
+
+  /* 3 — properties print as a legible table, not as illuminated legends. */
+  body:is(.theme-dark, .theme-light) .metadata-container {
+    background: none;
+    border: 1pt solid #999;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  body:is(.theme-dark, .theme-light) .metadata-properties-heading {
+    background: none;
+    border-left: none;
+    border-bottom: 1pt solid #999;
+    color: #000;
+  }
+  body:is(.theme-dark, .theme-light) .metadata-property { border-bottom: 0.5pt solid #ccc; break-inside: avoid; }
+  body:is(.theme-dark, .theme-light) .metadata-property-key-input { font-weight: 700; }
+
+  /* 4 — motifs revert to print conventions. */
+  body:is(.theme-dark, .theme-light) .markdown-rendered a.internal-link,
+  body:is(.theme-dark, .theme-light) .markdown-rendered a.external-link,
+  body:is(.theme-dark, .theme-light) .markdown-rendered a.internal-link.is-unresolved {
+    color: #000;
+    -webkit-text-fill-color: #000;
+    background: none;
+    box-shadow: none;
+    text-shadow: none;
+    border-bottom: 0.5pt solid #666;
+    text-decoration: none;
+  }
+  body:is(.theme-dark, .theme-light) .markdown-rendered a.external-link::after { content: none; }
+  body:is(.theme-dark, .theme-light) .markdown-rendered del, body .markdown-rendered s {
+    color: #444; -webkit-text-fill-color: #444; text-decoration: line-through;
+  }
+  body:is(.theme-dark, .theme-light) .markdown-rendered mark {
+    background: #eee; color: #000; -webkit-text-fill-color: #000;
+    box-shadow: none; text-shadow: none;
+  }
+  body:is(.theme-dark, .theme-light) .markdown-rendered a.tag {
+    background: none; color: #333; border: 0.5pt solid #999;
+  }
+  body:is(.theme-dark, .theme-light) .callout {
+    background: none;
+    border: 1pt solid #999;
+    border-left: 3pt solid #666;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  body:is(.theme-dark, .theme-light) .callout-content, body .callout-content > *, body .callout-content strong {
+    color: #000; -webkit-text-fill-color: #000; text-shadow: none;
+  }
+  body:is(.theme-dark, .theme-light) .markdown-rendered th {
+    background: none; color: #000; border-bottom: 1pt solid #000 !important;
+  }
+  body pre, body code {
+    background: #f4f4f4 !important; color: #000 !important;
+    border: 0.5pt solid #ccc; text-shadow: none;
+  }
+
+  /* 5 — the rails and the registration marks are screen furniture. */
+  body:is(.theme-dark, .theme-light) .markdown-preview-view { background-image: none; }
 
   /* Headings stay with their text; big blocks don't split across a page break. */
   body :is(h1, h2, h3, h4, h5, h6) { break-after: avoid; color: #000; }
@@ -5612,6 +5798,35 @@ body {
 }
 /* BUILD:ARTWORK:END — 2.4 KB */
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — REDUCED MOTION (final word)
+   ═══════════════════════════════════════════════════════════════════════════
+   Declared LAST, deliberately. The earlier reduce-motion block sits above
+   several Afterimage sections that introduce their own transitions (property
+   rows, link traces, unresolved-link resolve), and in the cascade those later
+   rules simply won — the preference was being honoured for Bureau's effects
+   and quietly ignored for Afterimage's. Position is the fix; nothing here
+   needs !important.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  body:not(.after-ignore-reduced-motion),
+  body:not(.after-ignore-reduced-motion) *,
+  body:not(.after-ignore-reduced-motion) *::before,
+  body:not(.after-ignore-reduced-motion) *::after {
+    /* The ONLY !important in Afterimage's own CSS, and it is the textbook case
+       for it. `*` carries zero specificity, so a rule as ordinary as
+       `:is(.theme-dark,.theme-light) .metadata-property { transition: ... }`
+       out-ranks it — position in the cascade is not enough. An accessibility
+       preference the user has set at the operating-system level should not
+       lose a specificity argument to a hover effect. */
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* @settings
 
 name: Afterimage
@@ -6600,12 +6815,11 @@ settings:
     description: Dim every pane but the one you're working in — notes and sidebars. Hover a dimmed pane to peek.
     type: class-toggle
     default: false
-  - id: bu-respect-motion
-    title: Respect "reduce motion"
-    description: Honor the OS reduced-motion setting — disables animation when the system asks. (Phones/tablets are auto-lightened regardless — heavy effects are dropped on mobile by default.)
+  - id: after-ignore-reduced-motion
+    title: Ignore the system "reduce motion" setting
+    description: "Afterimage honours your operating system's **reduce motion** preference by default, and does so **without Style Settings installed** — an accessibility preference should not depend on an optional plugin. Turn this on only if you want the theme's motion regardless of that setting."
     type: class-toggle
-    default: true
-
+    default: false
   - id: bu-handles-heading
     title: Resize handles
     description: The divider lines between the sidebars and the editor — strip them, or recolour them.
