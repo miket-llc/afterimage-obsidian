@@ -2,3 +2,14 @@ theme.css.bak-*
 *.bak
 .DS_Store
 __pycache__/
+
+# ── Afterimage ──────────────────────────────────────────────
+node_modules/
+dist/
+.venv/
+venv/
+# Disposable test vault: keep the fixtures, ignore Obsidian's runtime state
+test/vault/.obsidian/workspace.json
+test/vault/.obsidian/workspace-mobile.json
+test/vault/.obsidian/cache/
+test/vault/.trash/
