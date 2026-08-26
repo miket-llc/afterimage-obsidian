@@ -9,6 +9,8 @@ growing until it became a knowledge machine.
 > Bureau supplied the application architecture this theme is built on — the whole-application coverage, the framed editor, the heading and properties systems, the settings engine, the effects framework, and the mobile, print and reduced-motion safeguards. A great deal of what makes Afterimage work is still Sonophage's engineering. Afterimage replaces Bureau's case-file identity and its typography; it did not invent the machinery underneath.
 > See [`UPSTREAM.md`](UPSTREAM.md) for exactly what was kept and what was replaced.
 
+![Afterimage](screenshots/hero.webp)
+
 > [!TIP]
 > Most of Afterimage lives in the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin. Install it and you get a single **Afterimage** panel with every option in one place. The theme runs fine without it, on its defaults.
 
@@ -58,6 +60,11 @@ throughout so the system reads as one machine.
 | **3270** | 3270 | A smoother, more forgiving terminal voice. An outline font, so it scales freely. |
 | **Typewriter** | Courier Prime | Bureau's own voice, kept deliberately. |
 
+<table>
+<tr><td><img src="screenshots/preset-3270.webp" alt="3270 preset"><br><sub><b>3270</b></sub></td>
+    <td><img src="screenshots/preset-typewriter.webp" alt="Typewriter preset"><br><sub><b>Typewriter</b></sub></td></tr>
+</table>
+
 Two things about the IBM DOS preset are worth knowing:
 
 **It snaps to 16 px.** The font has exactly 100 units per pixel row over a
@@ -88,6 +95,15 @@ and chromatic offset together.
 
 Switching profiles does not destroy your Custom selections — Custom restores
 them.
+
+<table>
+<tr><td><img src="screenshots/profile-amber.webp" alt="Amber"><br><sub><b>Amber</b> — warm phosphor, longer decay</sub></td>
+    <td><img src="screenshots/profile-ghost.webp" alt="Ghost"><br><sub><b>Ghost</b> — P1 green, longest persistence</sub></td></tr>
+<tr><td><img src="screenshots/profile-ultraviolet.webp" alt="Ultraviolet"><br><sub><b>Ultraviolet</b> — the only profile with convergence error on</sub></td>
+    <td><img src="screenshots/profile-mono.webp" alt="Mono"><br><sub><b>Mono</b> — minimal chroma, full structure</sub></td></tr>
+<tr><td><img src="screenshots/light-mode.webp" alt="Light mode"><br><sub><b>Light mode</b> — cool display film, inverted plates</sub></td>
+    <td><img src="screenshots/properties.webp" alt="Properties"><br><sub><b>Properties</b> — illuminated legends, accent on focus only</sub></td></tr>
+</table>
 
 ## Installation
 
