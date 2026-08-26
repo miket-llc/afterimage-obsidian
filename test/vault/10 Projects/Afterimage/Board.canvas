@@ -1,0 +1,14 @@
+{
+  "nodes": [
+    {"id":"n1","type":"text","text":"# Afterimage\n\nCanvas coverage test.","x":-360,"y":-200,"width":320,"height":140},
+    {"id":"n2","type":"text","text":"Glyph raster\n\n- display text\n- reading view\n- live preview","x":40,"y":-200,"width":280,"height":160},
+    {"id":"n3","type":"file","file":"10 Projects/Afterimage/Component Matrix.md","x":-360,"y":20,"width":400,"height":300},
+    {"id":"n4","type":"text","text":"A node with **bold**, *italic*, `code`, a [[Hub|wiki link]] and a very long line that should wrap inside the node rather than overflow it.","x":120,"y":20,"width":300,"height":220},
+    {"id":"n5","type":"group","label":"Effects","x":-400,"y":-260,"width":840,"height":620}
+  ],
+  "edges": [
+    {"id":"e1","fromNode":"n1","fromSide":"right","toNode":"n2","toSide":"left"},
+    {"id":"e2","fromNode":"n1","fromSide":"bottom","toNode":"n3","toSide":"top"},
+    {"id":"e3","fromNode":"n2","fromSide":"bottom","toNode":"n4","toSide":"top","label":"labelled edge"}
+  ]
+}

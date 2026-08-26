@@ -1,0 +1,13 @@
+filters:
+  and:
+    - file.ext == "md"
+views:
+  - type: table
+    name: All notes
+    order:
+      - file.name
+      - type
+      - status
+      - tags
+  - type: cards
+    name: Cards

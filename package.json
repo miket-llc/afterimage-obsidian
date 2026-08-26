@@ -1,0 +1,22 @@
+{
+  "name": "afterimage-obsidian",
+  "version": "0.1.0",
+  "description": "Afterimage — a CRT-terminal Obsidian theme, derived from Bureau by Sonophage.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Mike Thompson",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "node scripts/lint.mjs",
+    "audit": "node scripts/audit.mjs",
+    "audit:fonts": "node scripts/audit.mjs --fonts-only",
+    "check": "npm run build && npm run lint && npm run audit",
+    "install:vault": "node scripts/install-local.mjs",
+    "shots": "node scripts/screenshot.mjs",
+    "preview": "python3 -m http.server 8817 --bind 127.0.0.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

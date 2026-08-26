@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+  <rect width="320" height="200" fill="#04080f"/>
+  <g fill="#65d1ff">
+    <rect x="16" y="16" width="64" height="64"/><rect x="96" y="16" width="64" height="64" opacity=".6"/>
+    <rect x="176" y="16" width="64" height="64" opacity=".35"/><rect x="256" y="16" width="48" height="64" opacity=".18"/>
+  </g>
+  <g fill="#cbe0f0"><rect x="16" y="100" width="288" height="2"/><rect x="16" y="108" width="288" height="2"/>
+  <rect x="16" y="116" width="288" height="2"/><rect x="16" y="124" width="288" height="2"/></g>
+  <text x="16" y="170" fill="#cbe0f0" font-family="monospace" font-size="18">RASTER TEST 0123</text>
+</svg>
