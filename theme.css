@@ -285,7 +285,7 @@ body.theme-dark.bu-d-chrome-light:not(.bu-d-editor-light) .workspace-split.mod-r
     rgba(0, 0, 0, var(--bu-scanline-strength, 0.34)) calc(var(--bu-scanline-period, 3) * 1px - 1px),
     rgba(0, 0, 0, var(--bu-scanline-strength, 0.34)) calc(var(--bu-scanline-period, 3) * 1px));
   /* Edge spine — left labels (--bu-rail) + right ruler (--bu-ruler), DARK half of a matched pair with the .theme-light copy below: identical geometry, inverted palette. Hand-built SVG; a currentColor dedupe can't capture its three colours. Edit both halves together. */
-  --bu-rail: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'><line x1='26' y1='100' x2='26' y2='140' stroke='#7f9bb3' stroke-width='3' opacity='0.5'/><text x='26' y='265' transform='rotate(-90 26 265)' text-anchor='middle' fill='#7f9bb3' opacity='0.5' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='3'>AFTERIMAGE</text><line x1='26' y1='570' x2='26' y2='610' stroke='#cbe0f0' stroke-width='3' opacity='0.8'/><g transform='rotate(-90 26 720)'><rect x='-41' y='705' width='100' height='22' rx='1' fill='#cbe0f0'/><text x='9' y='721' text-anchor='middle' textLength='84' lengthAdjust='spacingAndGlyphs' fill='#04090f' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='2'>OBSIDIAN</text><text x='71' y='721' text-anchor='start' textLength='22' lengthAdjust='spacingAndGlyphs' fill='#cbe0f0' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='2'>MD</text></g><line x1='26' y1='1030' x2='26' y2='1070' stroke='#7f9bb3' stroke-width='3' opacity='0.5'/><text x='26' y='1180' transform='rotate(-90 26 1180)' text-anchor='middle' fill='#7f9bb3' opacity='0.5' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='3'>MARKDOWN</text></svg>");
+  --bu-rail: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='900'%20height='1400'%20viewBox='0%200%20900%201400'%3E%3Cline%20x1='26'%20y1='100'%20x2='26'%20y2='140'%20stroke='%237f9bb3'%20stroke-width='3'%20opacity='0.5'/%3E%3Ctext%20x='26'%20y='265'%20transform='rotate(-90%2026%20265)'%20text-anchor='middle'%20fill='%237f9bb3'%20opacity='0.5'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='3'%3EAFTERIMAGE%3C/text%3E%3Cline%20x1='26'%20y1='570'%20x2='26'%20y2='610'%20stroke='%23cbe0f0'%20stroke-width='3'%20opacity='0.8'/%3E%3Cg%20transform='rotate(-90%2026%20720)'%3E%3Crect%20x='-41'%20y='705'%20width='100'%20height='22'%20rx='1'%20fill='%23cbe0f0'/%3E%3Ctext%20x='9'%20y='721'%20text-anchor='middle'%20textLength='84'%20lengthAdjust='spacingAndGlyphs'%20fill='%2304090f'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='2'%3EOBSIDIAN%3C/text%3E%3Ctext%20x='71'%20y='721'%20text-anchor='start'%20textLength='22'%20lengthAdjust='spacingAndGlyphs'%20fill='%23cbe0f0'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='2'%3EMD%3C/text%3E%3C/g%3E%3Cline%20x1='26'%20y1='1030'%20x2='26'%20y2='1070'%20stroke='%237f9bb3'%20stroke-width='3'%20opacity='0.5'/%3E%3Ctext%20x='26'%20y='1180'%20transform='rotate(-90%2026%201180)'%20text-anchor='middle'%20fill='%237f9bb3'%20opacity='0.5'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='3'%3EMARKDOWN%3C/text%3E%3C/svg%3E");
   --bu-ruler: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'%3E%3Cline x1='884' y1='0' x2='884' y2='1400' stroke='%23a89e8c' stroke-width='2.5' opacity='0.22'/%3E%3Cline x1='854' y1='30' x2='884' y2='30' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='56' x2='884' y2='56' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='82' x2='884' y2='82' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='108' x2='884' y2='108' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='134' x2='884' y2='134' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='160' x2='884' y2='160' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='186' x2='884' y2='186' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='212' x2='884' y2='212' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='238' x2='884' y2='238' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='264' x2='884' y2='264' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='290' x2='884' y2='290' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='316' x2='884' y2='316' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='342' x2='884' y2='342' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='368' x2='884' y2='368' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='394' x2='884' y2='394' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='420' x2='884' y2='420' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='446' x2='884' y2='446' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='472' x2='884' y2='472' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='498' x2='884' y2='498' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='524' x2='884' y2='524' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='550' x2='884' y2='550' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='576' x2='884' y2='576' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='602' x2='884' y2='602' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='628' x2='884' y2='628' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='654' x2='884' y2='654' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='680' x2='884' y2='680' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='706' x2='884' y2='706' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='732' x2='884' y2='732' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='758' x2='884' y2='758' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='784' x2='884' y2='784' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='810' x2='884' y2='810' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='836' x2='884' y2='836' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='862' x2='884' y2='862' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='888' x2='884' y2='888' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='914' x2='884' y2='914' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='940' x2='884' y2='940' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='966' x2='884' y2='966' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='992' x2='884' y2='992' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1018' x2='884' y2='1018' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1044' x2='884' y2='1044' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1070' x2='884' y2='1070' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1096' x2='884' y2='1096' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1122' x2='884' y2='1122' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1148' x2='884' y2='1148' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1174' x2='884' y2='1174' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1200' x2='884' y2='1200' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1226' x2='884' y2='1226' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1252' x2='884' y2='1252' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1278' x2='884' y2='1278' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1304' x2='884' y2='1304' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1330' x2='884' y2='1330' stroke='%23a89e8c' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1356' x2='884' y2='1356' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1382' x2='884' y2='1382' stroke='%23a89e8c' stroke-width='1.8' opacity='0.3'/%3E%3C/svg%3E");
   --bu-card-gap:    calc(var(--bu-card-gap-n, 12) * 1px);
   --bu-card-radius: calc(var(--bu-card-radius-n, 12) * 1px);
@@ -388,7 +388,7 @@ body.theme-light.bu-l-chrome-dark:not(.bu-l-editor-dark) .workspace-split.mod-ro
   --bu-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='cp'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23cp)'/%3E%3C/svg%3E");
   /* The dark marginalia ledger is dropped in daylight; the paper tooth carries texture. */
   /* Edge spine — left labels (--bu-rail) + right ruler (--bu-ruler), LIGHT half; matched pair with the .theme-dark copy above. Edit both halves together. */
-  --bu-rail: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'><line x1='26' y1='100' x2='26' y2='140' stroke='#3d5a70' stroke-width='3' opacity='0.5'/><text x='26' y='265' transform='rotate(-90 26 265)' text-anchor='middle' fill='#3d5a70' opacity='0.5' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='3'>AFTERIMAGE</text><line x1='26' y1='570' x2='26' y2='610' stroke='#0d1b26' stroke-width='3' opacity='0.8'/><g transform='rotate(-90 26 720)'><rect x='-41' y='705' width='100' height='22' rx='1' fill='#0d1b26'/><text x='9' y='721' text-anchor='middle' textLength='84' lengthAdjust='spacingAndGlyphs' fill='#e6ecf1' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='2'>OBSIDIAN</text><text x='71' y='721' text-anchor='start' textLength='22' lengthAdjust='spacingAndGlyphs' fill='#0d1b26' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='2'>MD</text></g><line x1='26' y1='1030' x2='26' y2='1070' stroke='#3d5a70' stroke-width='3' opacity='0.5'/><text x='26' y='1180' transform='rotate(-90 26 1180)' text-anchor='middle' fill='#3d5a70' opacity='0.5' font-size='16' font-family='ui-monospace, Menlo, Consolas, monospace' font-weight='700' letter-spacing='3'>MARKDOWN</text></svg>");
+  --bu-rail: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='900'%20height='1400'%20viewBox='0%200%20900%201400'%3E%3Cline%20x1='26'%20y1='100'%20x2='26'%20y2='140'%20stroke='%233d5a70'%20stroke-width='3'%20opacity='0.5'/%3E%3Ctext%20x='26'%20y='265'%20transform='rotate(-90%2026%20265)'%20text-anchor='middle'%20fill='%233d5a70'%20opacity='0.5'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='3'%3EAFTERIMAGE%3C/text%3E%3Cline%20x1='26'%20y1='570'%20x2='26'%20y2='610'%20stroke='%230d1b26'%20stroke-width='3'%20opacity='0.8'/%3E%3Cg%20transform='rotate(-90%2026%20720)'%3E%3Crect%20x='-41'%20y='705'%20width='100'%20height='22'%20rx='1'%20fill='%230d1b26'/%3E%3Ctext%20x='9'%20y='721'%20text-anchor='middle'%20textLength='84'%20lengthAdjust='spacingAndGlyphs'%20fill='%23e6ecf1'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='2'%3EOBSIDIAN%3C/text%3E%3Ctext%20x='71'%20y='721'%20text-anchor='start'%20textLength='22'%20lengthAdjust='spacingAndGlyphs'%20fill='%230d1b26'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='2'%3EMD%3C/text%3E%3C/g%3E%3Cline%20x1='26'%20y1='1030'%20x2='26'%20y2='1070'%20stroke='%233d5a70'%20stroke-width='3'%20opacity='0.5'/%3E%3Ctext%20x='26'%20y='1180'%20transform='rotate(-90%2026%201180)'%20text-anchor='middle'%20fill='%233d5a70'%20opacity='0.5'%20font-size='16'%20font-family='ui-monospace,%20Menlo,%20Consolas,%20monospace'%20font-weight='700'%20letter-spacing='3'%3EMARKDOWN%3C/text%3E%3C/svg%3E");
   --bu-ruler: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1400' viewBox='0 0 900 1400'%3E%3Cline x1='884' y1='0' x2='884' y2='1400' stroke='%23000000' stroke-width='2.5' opacity='0.22'/%3E%3Cline x1='854' y1='30' x2='884' y2='30' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='56' x2='884' y2='56' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='82' x2='884' y2='82' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='108' x2='884' y2='108' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='134' x2='884' y2='134' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='160' x2='884' y2='160' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='186' x2='884' y2='186' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='212' x2='884' y2='212' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='238' x2='884' y2='238' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='264' x2='884' y2='264' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='290' x2='884' y2='290' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='316' x2='884' y2='316' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='342' x2='884' y2='342' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='368' x2='884' y2='368' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='394' x2='884' y2='394' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='420' x2='884' y2='420' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='446' x2='884' y2='446' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='472' x2='884' y2='472' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='498' x2='884' y2='498' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='524' x2='884' y2='524' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='550' x2='884' y2='550' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='576' x2='884' y2='576' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='602' x2='884' y2='602' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='628' x2='884' y2='628' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='654' x2='884' y2='654' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='680' x2='884' y2='680' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='706' x2='884' y2='706' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='732' x2='884' y2='732' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='758' x2='884' y2='758' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='784' x2='884' y2='784' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='810' x2='884' y2='810' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='836' x2='884' y2='836' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='862' x2='884' y2='862' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='888' x2='884' y2='888' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='914' x2='884' y2='914' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='940' x2='884' y2='940' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='966' x2='884' y2='966' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='992' x2='884' y2='992' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1018' x2='884' y2='1018' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1044' x2='884' y2='1044' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1070' x2='884' y2='1070' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1096' x2='884' y2='1096' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1122' x2='884' y2='1122' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1148' x2='884' y2='1148' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1174' x2='884' y2='1174' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1200' x2='884' y2='1200' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1226' x2='884' y2='1226' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1252' x2='884' y2='1252' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1278' x2='884' y2='1278' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1304' x2='884' y2='1304' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='854' y1='1330' x2='884' y2='1330' stroke='%23000000' stroke-width='2.6' opacity='0.42'/%3E%3Cline x1='869' y1='1356' x2='884' y2='1356' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3Cline x1='869' y1='1382' x2='884' y2='1382' stroke='%23000000' stroke-width='1.8' opacity='0.3'/%3E%3C/svg%3E");
 }
 
@@ -1284,12 +1284,26 @@ body:not(.bu-ruler) { --bu-ruler-on: 0; }
   border-left-color: var(--bu-brass);
   background-color: rgba(202, 154, 78, 0.04);
 }
-/* Hover (or edit) a property: flip its key stamp from the static inverted chip to mode-native
-   contrast — white-on-black in dark, ink-on-paper in light — so the label stays legible. */
+/* Hover or edit a property: the key legend drops its raster and returns to
+   solid ink so the label is at its most legible exactly when you are working
+   on that row. The PLATE stays — Bureau removed it here, which made the key
+   vanish on hover once the lettering became a clipped raster, because
+   -webkit-text-fill-color: transparent survives a plain `color` override.
+   Both fill properties have to be reset together, or the text stays invisible. */
 :is(.theme-dark, .theme-light) .metadata-property:hover .metadata-property-key-input,
 :is(.theme-dark, .theme-light) .metadata-property-key-input:focus {
-  background: var(--bu-bg);
-  color: var(--bu-text);
+  background-image: none;
+  background-color: var(--bu-label-bg);
+  /* background-clip MUST be reset with the image. The base rule declares two
+     clip values for two background layers (`text, padding-box`); drop to one
+     layer and the list is truncated to the FIRST value, so background-color
+     gets clipped to the TEXT and the plate vanishes, leaving only letter-
+     shaped colour on the page. That is a genuinely confusing failure, because
+     the computed background-color still reads as the plate colour. */
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  color: var(--bu-label-fg);
+  -webkit-text-fill-color: var(--bu-label-fg);
 }
 
 :is(.theme-dark, .theme-light) .metadata-property-value a.internal-link,
@@ -4889,6 +4903,9 @@ body.theme-light {
    and the text returns to solid ink. Editing wins over effect, every time. */
 :is(.theme-dark, .theme-light) .metadata-property-key-input:focus {
   background-image: none;
+  background-color: var(--bu-label-bg);
+  -webkit-background-clip: padding-box;   /* see the note above — required */
+  background-clip: padding-box;
   color: var(--bu-label-fg);
   -webkit-text-fill-color: var(--bu-label-fg);
   caret-color: var(--bu-accent);
@@ -5043,6 +5060,92 @@ body.theme-light.after-profile-mono { --bu-accent: #3c4650; --bu-on-accent: #fff
       slider the user has set applies directly. That is the whole mechanism by
       which switching profiles never destroys their work. ──────────────────── */
 body.after-profile-custom { --ai-profile: custom; }
+
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — PROPERTIES PANEL
+   ═══════════════════════════════════════════════════════════════════════════
+   Bureau's properties architecture is the part of it Mike singled out, so the
+   architecture stays: an outer container, a strong section heading, graphical
+   key labels, distinct value fields, useful density, a visible focus state.
+
+   What changes is the MATERIAL. Bureau's keys were warm file labels with the
+   accent outlining every field at rest. Afterimage's keys are illuminated
+   terminal legends — phosphor-backed plates carrying the same clipped glyph
+   raster as the headings — and the accent is held back for focus, so the
+   panel reads as a designed instrument rather than a form.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── the panel itself ─────────────────────────────────────────────────────── */
+:is(.theme-dark, .theme-light) .metadata-container {
+  border: 1px solid var(--bu-border);
+  border-radius: 3px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--bu-surface) 92%, var(--bu-veil) 8%) 0,
+    var(--bu-surface) 46px);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--bu-veil) 7%, transparent),
+              0 10px 24px -14px var(--bu-shadow);
+  padding: 0 0 6px;
+  margin-bottom: 1.6em;
+}
+
+/* ── section heading: a keyed bar, matching the H2 idiom ──────────────────── */
+:is(.theme-dark, .theme-light) .metadata-properties-heading {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px 7px 10px;
+  margin: 0 0 4px;
+  border-bottom: 1px solid var(--bu-border);
+  border-left: 6px solid var(--bu-border-hi);
+  background: color-mix(in srgb, var(--bu-bg) 55%, transparent);
+}
+:is(.theme-dark, .theme-light) .metadata-properties-heading .collapse-indicator {
+  color: var(--bu-faint);
+}
+
+/* ── rows: rhythm and a visible focused row ───────────────────────────────── */
+:is(.theme-dark, .theme-light) .metadata-property {
+  padding: 1px 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--bu-border) 45%, transparent);
+  transition: background-color 120ms ease-out;
+}
+:is(.theme-dark, .theme-light) .metadata-property:last-of-type { border-bottom: none; }
+/* The whole ROW lights, not only the field — so it is obvious which property
+   you are in when the value is long enough to wrap. */
+:is(.theme-dark, .theme-light) .metadata-property:focus-within {
+  background: color-mix(in srgb, var(--bu-accent) 8%, transparent);
+}
+:is(.theme-dark, .theme-light) .metadata-property-icon { color: var(--bu-faint); }
+:is(.theme-dark, .theme-light) .metadata-property:focus-within .metadata-property-icon {
+  color: var(--bu-accent);
+}
+
+/* ── empty values keep their row ──────────────────────────────────────────
+   An empty property must still occupy a full row, or the panel's rhythm
+   collapses exactly where a note is least finished — which is when you most
+   need to see that the field is there and waiting. */
+:is(.theme-dark, .theme-light) .metadata-property-value:empty,
+:is(.theme-dark, .theme-light) .metadata-input-longtext:empty {
+  min-height: 1.55em;
+}
+:is(.theme-dark, .theme-light) .metadata-input-longtext:empty::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+}
+
+/* ── Add property ─────────────────────────────────────────────────────────── */
+:is(.theme-dark, .theme-light) .metadata-add-button {
+  color: var(--bu-faint);
+  font-family: var(--ai-font-label);
+  font-size: var(--ai-label-size);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 6px 12px 2px;
+}
+:is(.theme-dark, .theme-light) .metadata-add-button:hover { color: var(--bu-accent); }
 
 
 /* ───────────────────────────  SCROLLBARS — width, colour, fade, hide  ─────────────────────────── */

@@ -31,7 +31,7 @@ body { display: flex; flex-direction: column; overflow: hidden;
 .view-header-left, .view-actions { display: flex; gap: 2px; }
 .view-content { flex: 1; min-height: 0; overflow: auto; position: relative; }
 .markdown-reading-view { height: 100%; overflow: auto; }
-.markdown-preview-view { height: 100%; overflow: auto; padding: 0 24px; }
+.markdown-preview-view { height: 100%; overflow: auto; padding: 0 44px; }
 .markdown-preview-sizer { max-width: var(--file-line-width, 700px); margin: 0 auto; padding-bottom: 60px; }
 .nav-files-container { padding: 4px; overflow: auto; }
 .tree-item-self { display: flex; align-items: center; gap: 4px; cursor: pointer; }
