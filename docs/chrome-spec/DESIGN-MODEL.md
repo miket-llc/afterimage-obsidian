@@ -130,9 +130,11 @@ accents", laws 2 and 3 do not apply and this document needs rewriting.
 
 You have good infrastructure. Use it, and add to it.
 
-1. **Look at the picture.** `npm run shots`, then open the PNG. The first spec
-   failed because nobody, human or model, looked at a real CRT. Reference
-   images live in `docs/reference/` — look at those too, before chrome work.
+1. **Look at the picture.** Open `TARGET-ONE-TUBE.png`, the owner's canonical
+   finished-state target, before comparing a fresh `npm run shots` render. The
+   first spec failed because nobody, human or model, looked at a real CRT.
+   Reference images live in `docs/reference/` — look at those too, before
+   chrome work.
 2. **`npm run lint`** — with the new palette and typeface rules in
    `lint-phosphor.mjs`. These make laws 2 and 3 mechanical. A paragraph can be
    forgotten; a failing build cannot.

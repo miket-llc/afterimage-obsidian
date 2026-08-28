@@ -7,6 +7,7 @@ phosphor rules mechanical.
 | File | Role |
 |---|---|
 | `DESIGN-MODEL.md` | Governing model, laws, forbidden moves, reversal log, and acceptance checklist. |
+| `TARGET-ONE-TUBE.png` | Canonical finished-state visual supplied by the owner; use this as the visual acceptance target. |
 | `CHROME-REFERENCE.html` | Self-contained visual reference for the implemented one-tube design. |
 | `lint-phosphor.mjs` | Palette and chrome-typeface rules imported by `scripts/lint.mjs`. |
 | `REVIEW-BACKLOG.md` | Adversarial review findings and their verification state. |
@@ -15,3 +16,5 @@ phosphor rules mechanical.
 
 When implementation and historical material disagree, `DESIGN-MODEL.md` and
 the current theme behavior take precedence over the superseded specification.
+The PNG is the quick visual target; the HTML reference remains the source for
+exact values and a reproducible high-resolution render.
