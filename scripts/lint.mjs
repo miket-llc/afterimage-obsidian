@@ -7,6 +7,9 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+/* The phosphor laws (DESIGN-MODEL.md laws 2 and 3) live with the design
+   documents, not with the tooling — the check is part of the contract. */
+import { checkPhosphor } from '../docs/chrome-spec/lint-phosphor.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const css = fs.readFileSync(path.join(ROOT, 'theme.css'), 'utf8');
@@ -127,6 +130,17 @@ blanket.length ? err(`${blanket.length} blanket \`* { animation }\` rule(s)`) : 
 
 const oldNs = (css.match(/--bu-|\.bu-|--ai-\b/g) || []).length;
 oldNs === 0 ? ok('namespace fully migrated to --after-') : err(`${oldNs} legacy --bu-/--ai- reference(s) remain`);
+
+/* ── Phosphor laws (docs/chrome-spec/DESIGN-MODEL.md) ─────────────────────
+   Law 2: one phosphor — no chrome colour outside the phosphor hue.
+   Law 3's sibling: one character generator across the chrome. */
+console.log('\nPhosphor laws');
+const phosphorErrs = checkPhosphor(css);
+if (phosphorErrs.length === 0) ok('every chrome colour sits on the phosphor; one chrome typeface');
+else {
+  for (const e of phosphorErrs.slice(0, 40)) err(e);
+  if (phosphorErrs.length > 40) err(`…and ${phosphorErrs.length - 40} more phosphor violations`);
+}
 
 console.log(`\n  ${errors} error(s), ${warnings} warning(s)\n`);
 process.exit(errors ? 1 : 0);

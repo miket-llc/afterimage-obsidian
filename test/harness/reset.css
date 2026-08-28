@@ -140,3 +140,17 @@ body {
 .tree-item-flair { color: var(--text-faint); font-size: var(--font-ui-smaller, 12px); }
 .workspace-drawer-vault-name { color: var(--text-muted); font-size: var(--font-ui-small, 13px); }
 ::selection { background-color: var(--text-selection); }
+
+/* Obsidian's app.css draws tab-corner curves on the tab header's pseudo
+   elements: 12px, absolutely positioned. Discovered live when a label chip
+   rendered in the harness and vanished in the app — a theme rule that gives
+   these pseudos content MUST take position/size back explicitly. */
+.workspace-tab-header::before,
+.workspace-tab-header::after {
+  position: absolute;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  clip-path: inset(50% 50% 0 -6px);
+}

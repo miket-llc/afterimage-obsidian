@@ -6,6 +6,106 @@ All notable changes to Afterimage. Format loosely follows
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- **The chrome is one CRT in a machined case.** Two design rounds landed in
+  sequence. `docs/chrome-spec/CHROME-SPEC.md` first replaced the flat panels
+  with five countersunk screen modules; `docs/chrome-spec/DESIGN-MODEL.md`
+  then reversed the parts of that which no real machine ever had. The model's
+  falsification test — *if a change would be impossible on a real cathode-ray
+  tube, it is the wrong change* — is now the section's governing rule. End
+  state:
+  - **One tube.** `.workspace` is the glass: a single recessed aperture
+    (countersink wall dark at the top, lit at the foot, casting nothing) cut
+    into a machined grey case. The ribbon is a fixed rail of moulded keys on
+    the case; the status bar and vault switcher are drawn ON the glass — a
+    protected status run bottom-right, a `VAULT` label with a reverse-video
+    chip bottom-left. Panes divide the screen with drawn frames; the gutters
+    between modules are gone.
+  - **One phosphor** (`--after-phosphor`). Every lit chrome value derives
+    from the coating, so a profile is a different **tube**, not a different
+    accent: Cobalt is P4 blue-white, Amber P3, Ghost P1, Ultraviolet a badly
+    converged violet-blue, Mono P4 white. Switching tube changes every lit
+    pixel and no layout — asserted in `npm test`.
+  - **Four intensities** — intensified / normal / protected / reverse video,
+    the real IBM field attributes, replace the seven-step C1–C7 grey ramp
+    (the old names survive as aliases for now). Selection is **reverse
+    video** everywhere: the active tab and the current tree row are plates of
+    the coating carrying tube-coloured letters with halation, and the active
+    tab of an unfocused group is the same plate driven to protected.
+  - **The glyphs emit** (law 1). Glow is `text-shadow` on characters —
+    inherited at normal intensity by everything on the glass, driven hard on
+    the pane title, absent from protected fields and reverse plates. The
+    centre bloom the tube background used to carry is deleted: glow on a
+    panel is how a CRT theme becomes a dark theme with a filter.
+  - **One character generator.** Chrome text is one face; vault file names
+    no longer switch to the body face for "content" flavour.
+- **Light mode inverts intensity, not structure**: same aperture, paper
+  glass, dark reverse plates, and no glow — paper does not bloom.
+
+### Added
+
+- **The rest of the reference picture**: the dock tab IS the pane title in
+  sidebars (a reverse chip carrying `attr(aria-label)`, with `.view-header`
+  suppressed there); bracketed sidebar toggles; `^N New  ^F Find` set into
+  the file explorer's bottom rule as a knockout; the properties panel typed
+  per the annotation (protected keys, plain values, reverse multitext chips,
+  a dashed field-extent on the empty row, `[ Add property ]`); the refresh
+  bar (132px band, ~9s) and mains flicker on the tube overlay; and phosphor
+  **decay** — selection plates cool over 600ms on the way out only, which is
+  the thing the theme is named for.
+- **`lint-phosphor.mjs`** wired into `npm run lint`: no chrome colour off
+  the phosphor hue (each profile judged against its own declared coating;
+  chassis metal, paper palettes and content semantics documented as exempt),
+  and one chrome typeface.
+- **Rendered phosphor-law tests** in `npm test`: the greyscale gap between
+  active and inactive tabs, the tube-switch derivation check, and the
+  layout-invariance check (37 assertions total).
+
+### Removed
+
+- The five per-pane screen modules, their gutters, and the letterbox status
+  tube — collapsed into the one aperture.
+- The tube background's centre bloom (law 1) and the case stipple (the
+  reference case is smooth machined metal).
+- The two Style Settings sliders for the drifting refresh bar. The bar now
+  uses the design model's fixed 132px / ~9s treatment on the tube overlay;
+  the animation test allows that overlay to move while chrome elements stay
+  still.
+
+### Fixed
+
+- **Seven confirmed findings from an adversarial six-lens review** of the
+  rework (`docs/chrome-spec/REVIEW-BACKLOG.md` holds the unverified rest):
+  the accent surviving in three chrome rules (bracketed ON-state, the dock
+  lens — now the reference's own fixed-hue lamp — and the resize grip); two
+  intensities smuggled in through the frame tokens (focused frames are now
+  literally driven normal); the Rolodex hover/active transforms still
+  scaling tabs and rows on a tube that has no depth; the power-on animation
+  re-parenting the fixed rail (it now boots the whole machine from
+  `.app-container`, so nothing snaps); Bureau's card-era pane padding
+  double-insetting every frame; popout windows reserving a rail they don't
+  have; and the Screen-glow slider description promising a bloom that no
+  longer exists.
+- **Obsidian's tab-corner curves clip pseudo-elements** with `clip-path` —
+  shipped app.css fact the harness never modelled, which rendered the merged
+  dock-tab title as a microscopic sliver in the real app while the harness
+  showed it perfectly. The label resets every corner-curve property, and the
+  harness reset now models the curves.
+- The module raster sat **under** the content, where it had nothing bright to
+  subtract from. It is now a `multiply` layer over the one glass.
+- Twelve open tabs no longer collapse every label into a row of identical
+  file icons; tabs hold a 78px floor and the strip scrolls.
+- Bureau's split borders and the editor card's bottom fade painted seams and
+  phantom surfaces on the glass; both are gone under the one-tube chrome.
+- Both DOM harnesses now carry `after-cards` and no longer invent
+  `.view-header` elements in side-dock leaves (verified absent in the live
+  app).
+
+---
+
 ## [0.1.0] — 2026-08-26
 
 First release. Forked from **[Bureau](https://github.com/Sonophage/Bureau)

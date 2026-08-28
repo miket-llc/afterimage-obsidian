@@ -32,16 +32,21 @@ Obsidian has no headless mode, so the theme is exercised three ways:
 | Command | What it checks |
 |---|---|
 | `npm run build` | Embeds fonts and artwork; fails on manifest / package.json / versions.json disagreement or a stale `theme.css`. |
-| `npm run lint` | Brace balance, unterminated comments, Style Settings YAML, duplicate ids, **inert controls**, remote and relative `url()`, data URIs broken by a literal `#`, `!important` budget, blanket animation rules, namespace residue. |
+| `npm run lint` | Brace balance, unterminated comments, Style Settings YAML, duplicate ids, **inert controls**, remote and relative `url()`, data URIs broken by a literal `#`, `!important` budget, blanket animation rules, namespace residue, and the **phosphor laws** (`docs/chrome-spec/lint-phosphor.mjs`): no chrome colour off the coating's hue, one chrome typeface, each profile judged against its own tube. |
 | `npm run audit` | Reads each bundled font's own OpenType `name` table (inflating WOFF) rather than trusting `FONT_LICENSES.md`; verifies every embedded family is declared, attribution files, version consistency, and that no QML/C++/GLSL is present. |
-| `npm run test` | 18 behavioural checks in real Chromium (below). |
+| `npm run test` | 37 behavioural checks in real Chromium (below). |
 | `npm run check` | All of the above, plus fixture drift. |
 
 All pass with **0 errors, 0 warnings**.
 
 ### Editing behaviour — `npm run test`
 
-18 assertions, all passing:
+37 assertions, all passing.
+
+> Both harnesses carry `after-cards` on `<body>` as of the chrome rework.
+> It is on by default in Style Settings and it gates the housing / aperture /
+> frame chrome, so without it the harness was rendering a state almost no user
+> sees — and the two over-content tube layers were never hit-tested.
 
 - typing into a property value commits the characters
 - property values have a visible caret colour and non-transparent text
@@ -57,6 +62,33 @@ All pass with **0 errors, 0 warnings**.
 - typing works in the Live Preview harness
 - IME composition sits above the raster layer
 - the active search match has a distinct background
+
+**The tube stack** — both of its failure modes are silent, so they are asserted
+rather than eyeballed. There is ONE tube now (`.workspace` is the glass), so
+the assertions moved hosts:
+
+- the tube is `position: relative` **and** `isolation: isolate` — without the
+  isolation, `multiply` blends against the case and the aperture goes black
+- the tube raster exists on `.workspace::before`, multiplies, and sits
+  **over** the content (`z-index ≥ 10`) — under the glyphs it has nothing bright
+  to subtract from and the effect silently disappears
+- the glass sheen exists and screens
+- neither tube layer takes pointer events
+- no chrome **element** animates — scoped per DESIGN-MODEL.md while the tube
+  overlay itself carries the refresh bar and mains flicker
+
+**The artifacts**: chrome elements are asserted still while the tube overlay
+is asserted to carry `after-refresh` + `after-flicker` under the Animations
+toggle. **Paper**: light mode now has rendered coverage — the reverse plate
+must invert to a dark slate with paper letters and hold a ≥60 luminance gap.
+
+**The phosphor laws, rendered** (docs/chrome-spec/DESIGN-MODEL.md):
+
+- greyscale: the active tab differs from an inactive one by ≥40 luminance —
+  if a state were only distinguishable by hue, it would have no encoding
+- switching tube (cobalt → amber) changes every probed chrome ink — the
+  derivation law, which a literal hex passes the hue lint and fails
+- switching tube changes no layout
 
 ### Refactor safety — `scripts/snapshot-styles.mjs`
 
@@ -88,6 +120,23 @@ the app too:
 - ✅ File tree, selected-file state, tabs, breadcrumbs, tag pane, status bar
 - ✅ Command palette
 - ✅ Phosphor-trace links
+- ✅ **The one-tube chrome** (dark, Cobalt tube): the single aperture with the
+  countersink wall, the fixed key rail, drawn pane frames, reverse-video
+  selection in the tab strip and the tree (SVG dock icons take tube ink),
+  intensified pane title with halation over a protected breadcrumb path,
+  bracketed nav controls closing into the frame rule, dotted tag leaders with
+  right-aligned counts, the status line drawn on the glass, and the VAULT
+  chip. Traffic lights land on the case, not the glass.
+- ✅ Confirmed live that side-dock leaves have **no `.view-header`** — the
+  harness had invented them; it no longer does.
+- ✅ The merged **dock-tab-as-title** chip, after a live-only failure: Obsidian's
+  app.css draws tab-corner curves on the tab header's pseudo-elements —
+  absolutely positioned circles clipped with `clip-path` — so the label
+  painted as a microscopic sliver in the app while the harness rendered it
+  perfectly. The rule now resets every corner-curve property and the harness
+  reset models the curves (`test/harness/reset.css`).
+- ✅ Bracketed sidebar toggles, the `^N New  ^F Find` bottom-rule hints, and
+  the typed properties panel, all against the live vault.
 
 ---
 
@@ -105,6 +154,9 @@ seen inside Obsidian**:
 - Print / PDF output
 - Reduced motion (all three states)
 - Backlinks pane and search results
+- **The one-tube chrome, in the states the app was not opened in** — amber,
+  ghost, UV and mono tubes; light mode (paper: dark reverse plates, no glow);
+  greyscale; twelve open tabs; the tube-switch pixel test.
 
 ## Not tested at all
 
@@ -146,6 +198,25 @@ Stated plainly rather than implied:
 5. **Bold-italic is browser-synthesised** in the Typewriter preset: Courier
    Prime ships Regular, Bold and Italic, but no Bold Italic. Bureau shipped six
    faces, not eight, and Afterimage inherits that.
-6. **Style Settings config from Bureau does not carry over.** Keys moved from
+6. **Three pieces of the chrome grammar are deliberately not built.** The
+   spec (`docs/chrome-spec/CHROME-SPEC.md` §14) allows each of them, and each
+   would have to be faked:
+   - **Key hints in a pane's bottom rule.** CSS cannot read the user's keymap,
+     so the row would hard-code shortcuts that may not be bound.
+   - **Counts in a pane title (`┤ 14 ├`).** The number cannot be read out of
+     the tree below it. Where a count *is* in the DOM — backlinks, tags, search
+     — it is styled in place, with a dotted leader.
+   - **Paths clipping at the start.** There is no element in Obsidian's header
+     that holds a path on its own; the breadcrumb run is a row of siblings
+     sharing a container with the title, which clips at the end.
+7. **The narrow-sidebar degradation is layout-only.** At 200px the frame, the
+   title, the brackets and the notch all hold, and nothing thins or abbreviates
+   — which is what the spec asks for. The spec's finer tuning at that width
+   (tube padding 9→8px, dock tabs 44→36px, rows 14.5→13.5px) is **not** applied:
+   it needs a container query, and `container-type` on a tab group means size
+   containment on an element the editor lives inside. The window-width
+   degradation (gutters 10→6px, wall 4→3px, spill 30→20px below 900px) *is*
+   applied.
+8. **Style Settings config from Bureau does not carry over.** Keys moved from
    `bureau@@bu-*` to `afterimage@@after-*`. `release.py` still reads legacy
    keys so an old config can be imported deliberately.

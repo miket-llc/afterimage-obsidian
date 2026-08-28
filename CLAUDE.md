@@ -40,6 +40,19 @@ assumptions that testing disproved.
   `getComputedStyle` still reports the plate colour.
 - **Percent-encode `#` in SVG data URIs.** A literal `#` is a fragment
   delimiter and truncates the payload. `npm run lint` checks this.
+- **A bare colour cannot carry a `padding-box` keyword** in the `background`
+  shorthand — the whole declaration is dropped, silently. Wrap it:
+  `linear-gradient(var(--after-tube), var(--after-tube)) padding-box`.
+- **The tube must be a stacking context.** `position: relative` plus
+  `isolation: isolate` on `.workspace` (the ONE glass), or the scan layer's
+  `multiply` blends against the case and the aperture goes black. `npm run
+  test` enforces this, and that the scan sits *over* the content — under the
+  glyphs it has nothing bright to subtract from and the effect vanishes.
+- **The phosphor laws are mechanical.** `docs/chrome-spec/DESIGN-MODEL.md`
+  governs the chrome; `lint-phosphor.mjs` (wired into `npm run lint`) and the
+  rendered checks in `npm test` enforce it. Every lit chrome value derives
+  from `--after-phosphor` — a literal hex passes the hue lint and fails the
+  tube-switch test.
 - **`text-shadow` does not accumulate across rules.** Bloom, afterimage,
   chromatic split and the accent glow live in one stack; adding a second rule
   on a descendant silently replaces all of it.
@@ -59,6 +72,7 @@ versions.json          version → minAppVersion map
 fonts/                 real font binaries + their licence text (auditable)
 assets/new-tab.svg     original raster test pattern, embedded at build time
 experiments/           the glyph-raster spike and its findings
+docs/chrome-spec/      DESIGN-MODEL.md (governing), CHROME-REFERENCE.html, the lint, and the superseded first spec
 test/                  canonical fixtures + the DOM harnesses + a disposable vault
 scripts/               build, lint, audit, test, screenshot, probe, install
 docs/TESTING.md        what was and was NOT tested
@@ -75,7 +89,7 @@ theme folder.**
 
 ```bash
 npm run check          # build + lint + audit + fixture drift
-npm test               # 18 editing-behaviour checks in real Chromium
+npm test               # 37 editing + phosphor-law checks in real Chromium
 npm run preview        # serve on :8817 for the harnesses
 npm run shots          # deterministic screenshots
 npm run install:vault -- "/path/to/vault" [--activate|--link]

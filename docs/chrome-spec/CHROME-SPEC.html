@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="afterimage-fonts.css">
+<style>
+  body { margin:0; background:#131417; }
+  a { color:#7fc4ff; text-decoration:none; border-bottom:1px solid rgba(127,196,255,.35); }
+  a:hover { color:#a8d8ff; border-bottom-color:#a8d8ff; }
+  ::selection { background:#2e9dff; color:#050b11; }
+</style>
+</helmet>
+
+<div style="min-width:1780px;background:#131417;color:#c3ced8;font-family:'Courier Prime',monospace;font-size:15px;line-height:1.62;padding:0 0 160px;">
+
+  <div style="max-width:1780px;margin:0 auto;padding:0 90px;">
+
+    <!-- ══════════ MASTHEAD ══════════ -->
+    <div style="padding:88px 0 0;">
+      <div style="display:flex;align-items:baseline;gap:16px;font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:#6b8195;">
+        <span>Afterimage</span><span style="color:#3a4a58;">│</span><span>Chrome design specification</span><span style="color:#3a4a58;">│</span><span>rev A</span>
+      </div>
+      <h1 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:64px;line-height:1.04;letter-spacing:-0.01em;color:#eaf2f9;margin:26px 0 0;max-width:22ch;">One machine, and the interface drawn on its own tubes</h1>
+      <p style="max-width:74ch;margin:28px 0 0;color:#9fb0be;font-size:16.5px;text-wrap:pretty;">Everything here is a decision with a value attached. Where I had to choose, I have said what the rule was, so the next decision can be derived instead of re-litigated. Two directions are specified: <a href="#dir-a">A — Set-in modules</a>, the fix inside the concept you asked for, fully valued; and <a href="#dir-b">B — One tube</a>, the honest alternative, argued but not fully valued. A is my recommendation.</p>
+      <div style="display:flex;gap:0;margin:44px 0 0;border-top:1px solid #2a2f36;border-bottom:1px solid #2a2f36;">
+        <div style="flex:1;padding:18px 24px 18px 0;border-right:1px solid #2a2f36;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;">The test</div>
+          <div style="margin-top:8px;font-size:14.5px;color:#b6c3cf;">At 20% zoom, does it read as one machine?</div>
+        </div>
+        <div style="flex:1;padding:18px 24px;border-right:1px solid #2a2f36;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;">The rule</div>
+          <div style="margin-top:8px;font-size:14.5px;color:#b6c3cf;">Is it the machine, or what the machine is showing?</div>
+        </div>
+        <div style="flex:1;padding:18px 24px;border-right:1px solid #2a2f36;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;">The three changes</div>
+          <div style="margin-top:8px;font-size:14.5px;color:#b6c3cf;">Value ramp · the frame · the type ramp</div>
+        </div>
+        <div style="flex:1;padding:18px 0 18px 24px;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;">Motion</div>
+          <div style="margin-top:8px;font-size:14.5px;color:#b6c3cf;">Nothing moves. That is the answer.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ 01 THE VERDICT ══════════ -->
+    <div style="margin-top:104px;">
+      <div style="display:flex;align-items:baseline;gap:18px;">
+        <span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">01</span>
+        <h2 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:34px;letter-spacing:.01em;color:#eaf2f9;margin:0;">The verdict, bluntly</h2>
+      </div>
+      <p style="max-width:80ch;margin:20px 0 0;color:#9fb0be;">The concept is not the problem. "Rugged housing, flat CRT modules set into it, TUI drawn on the tubes" is a good idea and it is buildable. What went wrong is measurable, and it is four things.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2a2f36;border:1px solid #2a2f36;margin-top:34px;">
+        <div style="background:#191b1f;padding:28px 30px;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff6b6b;">Fault 01 · the value ramp is inverted</div>
+          <p style="margin:14px 0 0;color:#c3ced8;font-size:14.5px;">The housing is <span style="font-family:'Afterimage 3270',monospace;color:#eaf2f9;">#1c1d21</span> (L*&nbsp;≈&nbsp;11.5). The screens are <span style="font-family:'Afterimage 3270',monospace;color:#eaf2f9;">#0a141d</span> (L*&nbsp;≈&nbsp;7.0). A gap of 4.5 L* is below the threshold at which the eye reads two materials. Worse, an unlit hole in a lighter case is exactly what a <em>switched-off</em> monitor looks like. Nothing in the current build says the tubes are powered.</p>
+          <p style="margin:12px 0 0;color:#7e97ab;font-size:13.5px;">Worse still, the bezel was lit on its top edge and cast a shadow below — both raised-object cues, which is why the tubes sit <em>on</em> the case instead of in it. Fix: housing up to <span style="font-family:'Afterimage 3270',monospace;">#26282e</span>, tube down to <span style="font-family:'Afterimage 3270',monospace;">#050b11</span>, and invert the bezel into a countersink. See <a href="#ab-boundary">the boundary artboard</a>.</p>
+        </div>
+        <div style="background:#191b1f;padding:28px 30px;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff6b6b;">Fault 02 · there is no TUI, only a costume</div>
+          <p style="margin:14px 0 0;color:#c3ced8;font-size:14.5px;">Inverse video on one element and separator rules between tabs is not a system. A TUI is a <em>grammar</em>: a frame that encloses a region, a title set into that frame, focus expressed by the frame's weight, selection expressed by inversion, keys advertised in the bottom rule, values aligned in columns. Ten pieces of vocabulary, applied everywhere, without exception.</p>
+          <p style="margin:12px 0 0;color:#7e97ab;font-size:13.5px;">Fix: the frame, specified glyph by glyph in <a href="#ab-grammar">the grammar sheet</a> and <a href="#s-glyphs">§B7</a>.</p>
+        </div>
+        <div style="background:#191b1f;padding:28px 30px;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff6b6b;">Fault 03 · one size of one grey</div>
+          <p style="margin:14px 0 0;color:#c3ced8;font-size:14.5px;">Nearly every chrome label is 13.5&nbsp;px 3270 in <span style="font-family:'Afterimage 3270',monospace;color:#eaf2f9;">#8ba6bd</span>. Individually that clears AA at 7.3:1 — so contrast is not the failure. <em>Sameness</em> is. With no second step, the eye has no entry point and reads the whole pane as texture.</p>
+          <p style="margin:12px 0 0;color:#7e97ab;font-size:13.5px;">Fix: a seven-step chrome scale, C1–C7, each with a stated job, spanning #ffffff to #6b8195 and 11.5px to 15px. <a href="#s-type">§B6</a>.</p>
+        </div>
+        <div style="background:#191b1f;padding:28px 30px;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff6b6b;">Fault 04 · the empty regions are empty</div>
+          <p style="margin:14px 0 0;color:#c3ced8;font-size:14.5px;">Two thirds of the left sidebar and most of every right-hand pane is unpainted nothing. On a real terminal there is no such thing as unpainted: the frame runs to the corner, the bottom rule carries the key hints, and the space inside is deliberate overscan. Right now it reads as a half-built app, which is also the reason the single-icon dock strip "looks broken" — it isn't the strip, it's the absence of a frame to belong to.</p>
+          <p style="margin:12px 0 0;color:#7e97ab;font-size:13.5px;">Fix: the frame closes every region, and the focused pane's bottom rule carries its keys. <a href="#ab-degrade">Degradation</a>.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;border-left:2px solid #ffb000;padding:4px 0 4px 22px;">
+        <p style="margin:0;color:#c3ced8;font-size:15px;max-width:86ch;">Two things I would delete outright. The <strong style="color:#eaf2f9;">drifting refresh bar</strong>: a moving object on a 9-second cycle is invisible for a week and intolerable in month two, and it is consuming the third compositing layer you need for the tube stack. And the <strong style="color:#eaf2f9;">centre phosphor bloom as currently tuned</strong>: at its present strength it is doing no perceptual work while costing a full-pane gradient. Keep the bloom, raise it, and put the saved layer into the glass sheen.</p>
+      </div>
+    </div>
+
+    <!-- ══════════ 02 THE BOUNDARY RULE ══════════ -->
+    <div id="s-boundary" style="margin-top:104px;">
+      <div style="display:flex;align-items:baseline;gap:18px;">
+        <span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">02</span>
+        <h2 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:34px;letter-spacing:.01em;color:#eaf2f9;margin:0;">The boundary rule</h2>
+      </div>
+
+      <div style="margin-top:30px;background:#191b1f;border:1px solid #2a2f36;border-left:3px solid #2e9dff;padding:34px 38px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;">The principle</div>
+        <p style="font-family:'Afterimage 3270',monospace;font-size:27px;line-height:1.42;color:#eaf2f9;margin:16px 0 0;max-width:34ch;">Housing is what the machine <em style="color:#2e9dff;font-style:normal;">is</em>. Screen is what the machine is <em style="color:#2e9dff;font-style:normal;">showing</em>.</p>
+        <p style="margin:22px 0 0;color:#9fb0be;font-size:15px;max-width:82ch;">Operationally: <strong style="color:#c3ced8;">if it changes when you open a different note, it is screen.</strong> That single test settles every element in the inventory, including the dock tabs, which change with what you are looking at and are therefore screen — the same tube, inside the same bezel, under the same raster. It is why they have been flip-flopped three times: a control that <em>looks</em> like hardware but <em>behaves</em> like content will never sit still.</p>
+        <p style="margin:14px 0 0;color:#9fb0be;font-size:15px;max-width:82ch;">Two corollaries, both load-bearing. <strong style="color:#c3ced8;">One:</strong> housing and screen never meet without a bezel — there is no such thing as a flush join, because a flush join is what made the darker sub-panel behind the tab strip read as a seam. <strong style="color:#c3ced8;">Two:</strong> housing never lights up, with exactly one exception — the ribbon's open-dock indicator, which is a recessed lens over an LED and is allowed to be one.</p>
+        <p style="margin:14px 0 0;color:#9fb0be;font-size:15px;max-width:82ch;"><strong style="color:#c3ced8;">Three — the same rule decides controls, which is the metaphor.</strong> There are exactly two kinds of control on this machine and you can tell them apart without reading anything. <strong style="color:#c3ced8;">Keys</strong> are moulded, physical, and on the case; they operate <em>the machine</em> — which panel is open, settings — and they light a lens when engaged. <strong style="color:#c3ced8;">Fields</strong> are drawn, bracketed, and on the tube; they operate <em>content</em> — new note, sort, collapse — and the bracket <em>is</em> the button, exactly as <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">[ OK ]</span> is a button in <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">dialog(1)</span>. A control's shape tells you what it acts on before you read its glyph. Nothing on the ribbon ever gets brackets; nothing on a tube ever gets a keycap.</p>
+      </div>
+
+      <div style="margin-top:34px;border:1px solid #2a2f36;">
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:#7e97ab;">
+          <div style="padding:13px 22px;border-right:1px solid #2a2f36;">Element</div>
+          <div style="padding:13px 18px;border-right:1px solid #2a2f36;">Verdict</div>
+          <div style="padding:13px 22px;">Because</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Window ground</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#ffb000;letter-spacing:.1em;">HOUSING</div>
+          <div style="padding:14px 22px;color:#9fb0be;">The case. Identical in every vault, at every moment.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Left ribbon rail</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#ffb000;letter-spacing:.1em;">HOUSING</div>
+          <div style="padding:14px 22px;color:#9fb0be;">A fixed row of global controls. Never scrolls, never changes with the note. The only physical keys on the machine.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Vault switcher</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#ffb000;letter-spacing:.1em;">HOUSING</div>
+          <div style="padding:14px 22px;color:#9fb0be;">The machine's nameplate — which installation you are sitting at. Does not change when you open a different note. Engraved, not printed.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Resize handles</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#ffb000;letter-spacing:.1em;">HOUSING</div>
+          <div style="padding:14px 22px;color:#9fb0be;">There is no handle. The handle is the gap between two modules — bare case. It paints nothing at rest.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Tab group (pane)</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#2e9dff;letter-spacing:.1em;">SCREEN</div>
+          <div style="padding:14px 22px;color:#9fb0be;">The tube itself. Sidebars and editor are the same object at different sizes — no exceptions, no reduced treatment for small panes.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Editor tab strip</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#2e9dff;letter-spacing:.1em;">SCREEN</div>
+          <div style="padding:14px 22px;color:#9fb0be;">Lists open documents. Content by definition. It is the top rule of the frame it belongs to.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Sidebar dock tabs</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#2e9dff;letter-spacing:.1em;">SCREEN</div>
+          <div style="padding:14px 22px;color:#9fb0be;"><strong style="color:#c3ced8;">Settled.</strong> They select which view is showing, so they are showing. Identical grammar to editor tabs, minus the label. Never raised keys on the housing — that cut the row away from its pane.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Pane header</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#2e9dff;letter-spacing:.1em;">SCREEN</div>
+          <div style="padding:14px 22px;color:#9fb0be;">A second rule inside the frame. In sidebars it carries the view name; in the editor the name is already the tab, so it carries breadcrumb and actions only.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">File tree rows · nav actions</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#2e9dff;letter-spacing:.1em;">SCREEN</div>
+          <div style="padding:14px 22px;color:#9fb0be;">Content, and controls over content.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:250px 118px 1fr;border-top:1px solid #2a2f36;font-size:14px;">
+          <div style="padding:14px 22px;border-right:1px solid #2a2f36;color:#dbe6ef;">Status bar</div>
+          <div style="padding:14px 18px;border-right:1px solid #2a2f36;font-family:'Afterimage 3270',monospace;color:#2e9dff;letter-spacing:.1em;">SCREEN</div>
+          <div style="padding:14px 22px;color:#9fb0be;">It reports on the open document, so it cannot be case. <strong style="color:#c3ced8;">Give it its own tube</strong> — a letterbox strip set into the bottom of the housing, full width, same bezel, half-strength raster. This is the change that makes the machine look like a machine rather than an app with a footer.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ DIRECTION A HEADER ══════════ -->
+    <div id="dir-a" style="margin-top:112px;display:flex;align-items:baseline;gap:18px;">
+      <span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">03</span>
+      <h2 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:34px;letter-spacing:.01em;color:#eaf2f9;margin:0;">Direction A — Set-in modules</h2>
+    </div>
+    <p style="max-width:82ch;margin:20px 0 0;color:#9fb0be;">Five flat tubes set into a machined case, each one a framed Turbo&nbsp;Vision window drawn in its own phosphor. The case is lifted and the tubes are dropped so the two read as different materials; each tube spills a little light onto the case around it, which is the whole of what says <em>powered</em>. Everything inside a bezel is drawn with rules, glyphs and inverse video. Nothing inside a bezel is a physical object, and nothing outside one is a drawn one.</p>
+  </div>
+
+  <!-- ══════════ ARTBOARD 1 ══════════ -->
+  <div style="margin-top:46px;padding:0 90px;">
+    <div style="display:flex;align-items:baseline;gap:14px;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;margin-bottom:18px;">
+      <span style="color:#2e9dff;">Artboard 1</span><span style="color:#3a4a58;">│</span><span>Full window · dark · cobalt · 1600 × 950</span><span style="color:#3a4a58;">│</span><span>1:1</span>
+    </div>
+
+    <div style="position:relative;width:1600px;">
+      <div style="width:1600px;height:950px;display:flex;overflow:hidden;background:linear-gradient(180deg,#32353c 0%,#292b31 34%,#24262b 68%,#1d1f23 100%);box-shadow:0 24px 70px rgba(0,0,0,.6);">
+
+        <!-- ribbon: HOUSING -->
+        <div style="width:48px;flex:0 0 48px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:12px 0 10px;background:linear-gradient(90deg,#31343a 0%,#2a2d33 55%,#1e2024 100%);box-shadow:inset -1px 0 0 #131519, 1px 0 0 #3d424b;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+            <div style="position:relative;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:linear-gradient(180deg,#212329,#292c32);box-shadow:inset 0 2px 4px rgba(0,0,0,.65), inset 0 -1px 0 rgba(255,255,255,.05), 0 0 0 1px #1a1c20;color:#e4ebf3;font-family:'Afterimage 3270',monospace;font-size:17px;text-shadow:0 -1px 0 rgba(0,0,0,.5);">◫<div style="position:absolute;right:-8px;top:12px;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle at 38% 32%, #b9e0ff, #2e9dff 55%, #14446e);box-shadow:0 0 7px 1px rgba(46,157,255,.6), 0 0 0 1px #101216, inset 0 -1px 0 rgba(0,0,0,.45);"></div></div>
+            <div style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:linear-gradient(180deg,#34373e,#282b31);box-shadow:0 1px 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.5), 0 0 0 1px #1a1c20;color:#aeb6c0;font-family:'Afterimage 3270',monospace;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.06), 0 -1px 0 rgba(0,0,0,.55);">⌘</div>
+            <div style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:linear-gradient(180deg,#34373e,#282b31);box-shadow:0 1px 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.5), 0 0 0 1px #1a1c20;color:#aeb6c0;font-family:'Afterimage 3270',monospace;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.06), 0 -1px 0 rgba(0,0,0,.55);">◍</div>
+            <div style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:linear-gradient(180deg,#34373e,#282b31);box-shadow:0 1px 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.5), 0 0 0 1px #1a1c20;color:#aeb6c0;font-family:'Afterimage 3270',monospace;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.06), 0 -1px 0 rgba(0,0,0,.55);">▦</div>
+            <div style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:linear-gradient(180deg,#34373e,#282b31);box-shadow:0 1px 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.5), 0 0 0 1px #1a1c20;color:#aeb6c0;font-family:'Afterimage 3270',monospace;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.06), 0 -1px 0 rgba(0,0,0,.55);">⌸</div>
+            <div style="width:18px;height:1px;background:#16181c;box-shadow:0 1px 0 #3d424b;margin:5px 0;"></div>
+            <div style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:linear-gradient(180deg,#34373e,#282b31);box-shadow:0 1px 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.5), 0 0 0 1px #1a1c20;color:#aeb6c0;font-family:'Afterimage 3270',monospace;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.06), 0 -1px 0 rgba(0,0,0,.55);">★</div>
+          </div>
+          <div style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:linear-gradient(180deg,#34373e,#282b31);box-shadow:0 1px 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.5), 0 0 0 1px #1a1c20;color:#aeb6c0;font-family:'Afterimage 3270',monospace;font-size:17px;text-shadow:0 1px 0 rgba(255,255,255,.06), 0 -1px 0 rgba(0,0,0,.55);">⚙</div>
+        </div>
+
+        <!-- modules bay -->
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;padding:10px 10px 0;gap:10px;">
+          <div style="flex:1;min-height:0;display:flex;gap:10px;">
+
+            <!-- ══ MODULE: FILES (focused) ══ -->
+            <div style="position:relative;width:308px;flex:0 0 308px;display:flex;flex-direction:column;padding:5px;border:4px solid transparent;border-radius:9px;background:radial-gradient(132% 112% at 50% 50%, transparent 50%, rgba(0,0,0,.58) 100%) padding-box, radial-gradient(120% 92% at 50% 38%, rgba(174,208,232,.075), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 30px 6px rgba(168,204,230,.075), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);">
+              <!-- dock tab band -->
+              <div style="position:relative;height:31px;flex:0 0 31px;display:flex;align-items:stretch;background:linear-gradient(to bottom,#7fa8c4 0 1px,#050b11 1px 2px,#7fa8c4 2px 3px) 0 100%/100% 3px no-repeat;">
+                <div style="position:relative;display:flex;align-items:center;justify-content:center;width:44px;border:3px double #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;color:#ffffff;font-family:'Afterimage 3270',monospace;font-size:16px;">
+                  ◫
+                  <div style="position:absolute;left:0;right:0;bottom:-3px;height:3px;background:#050b11;"></div>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:center;width:44px;color:#93b0c7;font-family:'Afterimage 3270',monospace;font-size:16px;">⌕</div>
+                <div style="display:flex;align-items:center;justify-content:center;width:44px;color:#93b0c7;font-family:'Afterimage 3270',monospace;font-size:16px;">★</div>
+              </div>
+              <!-- frame body -->
+              <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;border:3px double #7fa8c4;border-top:none;border-radius:0 0 2px 2px;">
+                <!-- view header as a set-in rule -->
+                <div style="display:flex;align-items:center;gap:9px;padding:0 10px;height:30px;flex:0 0 30px;">
+                  <div style="color:#7fa8c4;font-family:'Afterimage 3270',monospace;font-size:14px;">┤</div>
+                  <div style="font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.14em;color:#eaf2f9;">FILES</div>
+                  <div style="color:#7fa8c4;font-family:'Afterimage 3270',monospace;font-size:14px;">├</div>
+                  <div style="flex:1;height:1px;background:#44637c;"></div>
+                  <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">┤</div>
+                  <div style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.02em;color:#93b0c7;font-variant-numeric:tabular-nums;">14</div>
+                  <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">├</div>
+                </div>
+                <!-- nav action bracket strip -->
+                <div style="display:flex;align-items:center;gap:2px;padding:0 12px 7px;">
+                  <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:14.5px;"><span style="color:#44637c;">[</span><span style="color:#dbe6ef;width:15px;text-align:center;display:inline-block;">+</span><span style="color:#44637c;">]</span></div>
+                  <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:14.5px;"><span style="color:#44637c;">[</span><span style="color:#93b0c7;width:15px;text-align:center;display:inline-block;">▤</span><span style="color:#44637c;">]</span></div>
+                  <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:14.5px;"><span style="color:#44637c;">[</span><span style="color:#93b0c7;width:15px;text-align:center;display:inline-block;">⇅</span><span style="color:#44637c;">]</span></div>
+                  <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:14.5px;"><span style="color:#44637c;">[</span><span style="color:#93b0c7;width:15px;text-align:center;display:inline-block;">⌄</span><span style="color:#44637c;">]</span></div>
+                  <div style="flex:1;"></div>
+                  <div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.1em;color:#6b8195;">A–Z</div>
+                </div>
+                <!-- tree -->
+                <div style="flex:1;min-height:0;display:flex;flex-direction:column;font-family:'Courier Prime',monospace;font-size:14.5px;">
+                  <div style="display:flex;align-items:center;gap:7px;padding:4px 12px;color:#dbe6ef;"><span style="color:#93b0c7;font-family:'Afterimage 3270',monospace;">▸</span><span style="white-space:nowrap;">00 Inbox</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;font-variant-numeric:tabular-nums;">2</span></div>
+                  <div style="display:flex;align-items:center;gap:7px;padding:4px 12px;color:#dbe6ef;"><span style="color:#93b0c7;font-family:'Afterimage 3270',monospace;">▾</span><span style="white-space:nowrap;">10 Projects</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;font-variant-numeric:tabular-nums;">4</span></div>
+                  <div style="display:flex;">
+                    <div style="width:20px;flex:0 0 20px;display:flex;justify-content:flex-end;padding-right:6px;"><div style="width:1px;background:rgba(68,99,124,.55);"></div></div>
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+                      <div style="position:relative;display:flex;align-items:center;gap:8px;padding:4px 12px 4px 8px;background:#cbe0f0;color:#050b11;margin-right:1px;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Properties-Heavy Note</span></div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:4px 12px 4px 8px;color:#dbe6ef;background:rgba(203,224,240,.07);"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Component Matrix</span></div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:4px 12px 4px 8px;color:#c3d6e6;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">A Note With An Unusually Long Titl…</span></div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:4px 12px 4px 8px;color:#c3d6e6;"><span>Hub</span></div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:7px;padding:4px 12px;color:#dbe6ef;"><span style="color:#93b0c7;font-family:'Afterimage 3270',monospace;">▸</span><span style="white-space:nowrap;">30 Resources</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;font-variant-numeric:tabular-nums;">7</span></div>
+                  <div style="display:flex;align-items:center;gap:7px;padding:4px 12px 4px 24px;color:#c3d6e6;"><span style="white-space:nowrap;">Workstation</span></div>
+                </div>
+                <!-- key hint rule: focused pane only -->
+                <div style="display:flex;align-items:center;gap:0;height:22px;flex:0 0 22px;padding:0 8px;transform:translateY(11px);">
+                  <div style="width:8px;height:1px;background:#44637c;"></div>
+                  <div style="display:flex;align-items:center;gap:5px;padding:0 8px;background:#050b11;font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.1em;"><span style="color:#6b8195;">[</span><span style="color:#2e9dff;">^N</span><span style="color:#93b0c7;">NEW</span><span style="color:#6b8195;">]</span></div>
+                  <div style="width:6px;height:1px;background:#44637c;"></div>
+                  <div style="display:flex;align-items:center;gap:5px;padding:0 8px;background:#050b11;font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.1em;"><span style="color:#6b8195;">[</span><span style="color:#2e9dff;">^F</span><span style="color:#93b0c7;">FIND</span><span style="color:#6b8195;">]</span></div>
+                  <div style="flex:1;height:1px;background:#44637c;"></div>
+                </div>
+              </div>
+              <!-- tube overlays -->
+              <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+              <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(166deg, rgba(196,224,248,.055) 0%, rgba(196,224,248,.014) 24%, transparent 44%);"></div>
+            </div>
+
+            <!-- ══ MODULE: EDITOR ══ -->
+            <div style="position:relative;flex:1;min-width:0;display:flex;flex-direction:column;padding:5px;border:4px solid transparent;border-radius:9px;background:radial-gradient(132% 112% at 50% 50%, transparent 52%, rgba(0,0,0,.55) 100%) padding-box, radial-gradient(118% 88% at 50% 40%, rgba(174,208,232,.07), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 30px 6px rgba(168,204,230,.075), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);">
+              <!-- editor tab band -->
+              <div style="position:relative;height:31px;flex:0 0 31px;display:flex;align-items:stretch;box-shadow:inset 0 -1px 0 #44637c;">
+                <div style="position:relative;display:flex;align-items:center;gap:8px;padding:0 14px;border:1px solid #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;max-width:220px;">
+
+                  <span style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.04em;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Properties-Heavy Note</span>
+                  <span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;">×</span>
+                  <div style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#050b11;"></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:0 14px;max-width:200px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.04em;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Component Matrix</span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;">×</span></div>
+                <div style="display:flex;align-items:center;"><div style="width:1px;height:13px;background:#2f4658;"></div></div>
+                <div style="display:flex;align-items:center;gap:8px;padding:0 14px;max-width:200px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.04em;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phosphor and Persist…</span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;">×</span></div>
+                <div style="flex:1;"></div>
+                <div style="display:flex;align-items:center;padding:0 12px;font-family:'Afterimage 3270',monospace;font-size:16px;color:#93b0c7;">＋</div>
+              </div>
+              <!-- frame body -->
+              <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid #44637c;border-top:none;border-radius:0 0 2px 2px;overflow:hidden;">
+                <!-- breadcrumb rule -->
+                <div style="display:flex;align-items:center;gap:10px;padding:0 12px;height:29px;flex:0 0 29px;">
+                  <div style="display:flex;gap:8px;font-family:'Afterimage 3270',monospace;font-size:14px;color:#6b8195;"><span>‹</span><span>›</span></div>
+                  <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">┤</div>
+                  <div style="font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.18em;color:#7e97ab;">10 PROJECTS</div>
+                  <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:12.5px;">/</div>
+                  <div style="font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.18em;color:#7e97ab;">AFTERIMAGE</div>
+                  <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">├</div>
+                  <div style="flex:1;height:1px;background:#2f4658;"></div>
+                  <div style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;">⋯</div>
+                </div>
+                <!-- note body -->
+                <div style="flex:1;min-height:0;padding:20px 0 0;display:flex;flex-direction:column;align-items:center;overflow:hidden;">
+                  <div style="width:700px;max-width:100%;">
+                    <div style="background:#cbe0f0;color:#050b11;font-family:'Afterimage VGA',monospace;font-size:32px;line-height:1.28;padding:10px 16px;letter-spacing:.01em;">PROPERTIES — EVERY FIELD TYPE AT ONCE</div>
+                    <div style="margin-top:22px;border:1px solid #2f4658;">
+                      <div style="display:flex;align-items:center;gap:9px;padding:7px 12px;border-bottom:1px solid #2f4658;"><span style="color:#93b0c7;font-family:'Afterimage 3270',monospace;font-size:13px;">▾</span><span style="font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.2em;color:#7e97ab;">PROPERTIES</span><span style="flex:1;height:1px;background:#22384a;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#6b8195;font-variant-numeric:tabular-nums;">8</span></div>
+                      <div style="display:flex;font-size:14.5px;font-family:'Courier Prime',monospace;">
+                        <div style="width:190px;flex:0 0 190px;border-right:1px solid #2f4658;">
+                          <div style="padding:6px 12px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.14em;color:#7e97ab;">TITLE</div>
+                          <div style="padding:6px 12px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.14em;color:#7e97ab;">STATUS</div>
+                          <div style="padding:6px 12px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.14em;color:#7e97ab;">PRIORITY</div>
+                          <div style="padding:6px 12px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.14em;color:#7e97ab;">OWNER</div>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                          <div style="padding:6px 12px;color:#dbe6ef;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Properties — Every Field Type At Once</div>
+                          <div style="padding:6px 12px;color:#dbe6ef;">in-review</div>
+                          <div style="padding:6px 12px;color:#dbe6ef;font-variant-numeric:tabular-nums;">2</div>
+                          <div style="padding:6px 12px;color:#2e9dff;">Mike Thompson</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="margin-top:30px;background:#cbe0f0;color:#050b11;font-family:'Afterimage VGA',monospace;font-size:24px;line-height:1.3;padding:8px 14px;">HEADING 1 — THE MAJOR LANDMARK</div>
+                    <p style="margin:20px 0 0;font-family:'Courier Prime',monospace;font-size:16px;line-height:1.72;color:#cbe0f0;">Body prose in the working face. The point of this paragraph is length and ordinary punctuation: “curly quotes”, an apostrophe’s tail, an em dash — like this — an ellipsis… and numerals 0123456789. Here is <strong style="color:#ffffff;text-shadow:0 0 5px rgba(203,224,240,.5);">bold text</strong>, <em>italic text</em>, and <span style="color:#2e9dff;">an internal link</span>.</p>
+                    <p style="margin:16px 0 0;font-family:'Courier Prime',monospace;font-size:16px;line-height:1.72;color:#cbe0f0;">A second paragraph, so the raster has enough emitted light to work against and the hierarchy can be judged by the gap each heading opens rather than by its size alone.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+              <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(166deg, rgba(196,224,248,.055) 0%, rgba(196,224,248,.014) 24%, transparent 44%);"></div>
+            </div>
+
+            <!-- ══ RIGHT STACK ══ -->
+            <div style="width:326px;flex:0 0 326px;display:flex;flex-direction:column;gap:10px;min-height:0;">
+
+              <div style="position:relative;flex:1.15;min-height:0;display:flex;flex-direction:column;padding:5px;border:4px solid transparent;border-radius:9px;background:radial-gradient(132% 112% at 50% 50%, transparent 50%, rgba(0,0,0,.58) 100%) padding-box, radial-gradient(120% 92% at 50% 38%, rgba(174,208,232,.07), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 30px 6px rgba(168,204,230,.07), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);">
+                <div style="position:relative;height:31px;flex:0 0 31px;display:flex;align-items:stretch;box-shadow:inset 0 -1px 0 #44637c;">
+                  <div style="position:relative;display:flex;align-items:center;justify-content:center;width:44px;border:1px solid #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;color:#eaf2f9;font-family:'Afterimage 3270',monospace;font-size:16px;">⧉<div style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#050b11;"></div></div>
+                  <div style="display:flex;align-items:center;justify-content:center;width:44px;color:#93b0c7;font-family:'Afterimage 3270',monospace;font-size:16px;">☰</div>
+                </div>
+                <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid #44637c;border-top:none;border-radius:0 0 2px 2px;">
+                  <div style="display:flex;align-items:center;gap:9px;padding:0 10px;height:30px;flex:0 0 30px;">
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">┤</div>
+                    <div style="font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.14em;color:#eaf2f9;">BACKLINKS</div>
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">├</div>
+                    <div style="flex:1;height:1px;background:#2f4658;"></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;padding:2px 12px 6px;"><span style="font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.2em;color:#7e97ab;white-space:nowrap;">LINKED MENTIONS</span><span style="flex:1;height:1px;background:#22384a;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">3</span></div>
+                  <div style="font-family:'Courier Prime',monospace;font-size:14.5px;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:4px 12px;color:#dbe6ef;"><span style="color:#93b0c7;font-family:'Afterimage 3270',monospace;">▾</span><span style="white-space:nowrap;">Hub</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;font-variant-numeric:tabular-nums;">1</span></div>
+                    <div style="display:flex;gap:0;padding:2px 12px 8px 30px;font-size:13.5px;color:#93b0c7;line-height:1.5;"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">…see <span style="background:#cbe0f0;color:#050b11;padding:0 3px;">Properties-Heavy Note</span> for the…</span></div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:4px 12px;color:#dbe6ef;"><span style="color:#93b0c7;font-family:'Afterimage 3270',monospace;">▸</span><span style="white-space:nowrap;">Component Matrix</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;font-variant-numeric:tabular-nums;">2</span></div>
+                  </div>
+                </div>
+                <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+                <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(166deg, rgba(196,224,248,.055) 0%, rgba(196,224,248,.014) 24%, transparent 44%);"></div>
+              </div>
+
+              <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:5px;border:4px solid transparent;border-radius:9px;background:radial-gradient(132% 112% at 50% 50%, transparent 50%, rgba(0,0,0,.58) 100%) padding-box, radial-gradient(120% 92% at 50% 38%, rgba(174,208,232,.07), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 30px 6px rgba(168,204,230,.07), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);">
+                <div style="position:relative;height:31px;flex:0 0 31px;display:flex;align-items:stretch;box-shadow:inset 0 -1px 0 #44637c;">
+                  <div style="position:relative;display:flex;align-items:center;justify-content:center;width:44px;border:1px solid #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;color:#eaf2f9;font-family:'Afterimage 3270',monospace;font-size:16px;">#<div style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#050b11;"></div></div>
+                </div>
+                <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid #44637c;border-top:none;border-radius:0 0 2px 2px;">
+                  <div style="display:flex;align-items:center;gap:9px;padding:0 10px;height:30px;flex:0 0 30px;">
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">┤</div>
+                    <div style="font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.14em;color:#eaf2f9;">TAGS</div>
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">├</div>
+                    <div style="flex:1;height:1px;background:#2f4658;"></div>
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">┤</div>
+                    <div style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">228</div>
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">├</div>
+                  </div>
+                  <div style="font-family:'Courier Prime',monospace;font-size:14.5px;">
+                    <div style="display:flex;align-items:baseline;gap:8px;padding:4px 12px;color:#dbe6ef;"><span style="white-space:nowrap;">waiting</span><span style="flex:1;border-bottom:1px dotted rgba(68,99,124,.5);transform:translateY(-4px);"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">1772</span></div>
+                    <div style="display:flex;align-items:baseline;gap:8px;padding:4px 12px;color:#dbe6ef;"><span style="white-space:nowrap;">concept</span><span style="flex:1;border-bottom:1px dotted rgba(68,99,124,.5);transform:translateY(-4px);"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">456</span></div>
+                    <div style="display:flex;align-items:baseline;gap:8px;padding:4px 12px;color:#dbe6ef;"><span style="white-space:nowrap;">ai-automation</span><span style="flex:1;border-bottom:1px dotted rgba(68,99,124,.5);transform:translateY(-4px);"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">32</span></div>
+                    <div style="display:flex;align-items:baseline;gap:8px;padding:4px 12px;color:#dbe6ef;"><span style="white-space:nowrap;">professional-services</span><span style="flex:1;border-bottom:1px dotted rgba(68,99,124,.5);transform:translateY(-4px);"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">23</span></div>
+                  </div>
+                </div>
+                <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+                <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(166deg, rgba(196,224,248,.055) 0%, rgba(196,224,248,.014) 24%, transparent 44%);"></div>
+              </div>
+
+              <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:5px;border:4px solid transparent;border-radius:9px;background:radial-gradient(132% 112% at 50% 50%, transparent 50%, rgba(0,0,0,.58) 100%) padding-box, radial-gradient(120% 92% at 50% 38%, rgba(174,208,232,.07), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 30px 6px rgba(168,204,230,.07), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);">
+                <div style="position:relative;height:31px;flex:0 0 31px;display:flex;align-items:stretch;box-shadow:inset 0 -1px 0 #44637c;">
+                  <div style="position:relative;display:flex;align-items:center;justify-content:center;width:44px;border:1px solid #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;color:#eaf2f9;font-family:'Afterimage 3270',monospace;font-size:16px;">⋮<div style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#050b11;"></div></div>
+                </div>
+                <div style="position:relative;flex:1;min-height:0;display:flex;flex-direction:column;border:1px solid #44637c;border-top:none;border-radius:0 0 2px 2px;">
+                  <div style="display:flex;align-items:center;gap:9px;padding:0 10px;height:30px;flex:0 0 30px;">
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">┤</div>
+                    <div style="font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.14em;color:#eaf2f9;">OUTLINE</div>
+                    <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:14px;">├</div>
+                    <div style="flex:1;height:1px;background:#2f4658;"></div>
+                  </div>
+                  <div style="font-family:'Courier Prime',monospace;font-size:14.5px;">
+                    <div style="display:flex;align-items:center;gap:8px;padding:4px 12px;color:#dbe6ef;"><span style="font-family:'Afterimage 3270',monospace;font-size:12px;color:#6b8195;">H1</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Heading 1 — the major landmark</span></div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:4px 12px 4px 24px;color:#c3d6e6;"><span style="font-family:'Afterimage 3270',monospace;font-size:12px;color:#6b8195;">H2</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">A distinct secondary band</span></div>
+                    <div style="display:flex;align-items:center;gap:8px;padding:4px 12px 4px 36px;color:#c3d6e6;"><span style="font-family:'Afterimage 3270',monospace;font-size:12px;color:#6b8195;">H3</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Compact terminal block</span></div>
+                  </div>
+                </div>
+                <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+                <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(166deg, rgba(196,224,248,.055) 0%, rgba(196,224,248,.014) 24%, transparent 44%);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ VAULT NAMEPLATE (housing) + STATUS TUBE ══ -->
+          <div style="flex:0 0 46px;display:flex;align-items:center;gap:10px;padding-bottom:9px;">
+            <div style="width:308px;flex:0 0 308px;display:flex;align-items:center;gap:10px;height:28px;padding:0 12px;box-shadow:inset 0 1px 0 #16181c, inset 0 2px 0 -1px #3d424b, inset 0 -1px 0 #16181c;">
+              <span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#9aa3ad;text-shadow:0 1px 0 rgba(255,255,255,.07), 0 -1px 0 rgba(0,0,0,.6);">TEST VAULT</span>
+              <span style="flex:1;"></span>
+              <span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#7d858e;text-shadow:0 1px 0 rgba(255,255,255,.06);">⌃</span>
+            </div>
+            <div style="flex:1;min-width:0;position:relative;height:28px;display:flex;align-items:center;justify-content:flex-end;gap:0;padding:0 14px;border:3px solid transparent;border-radius:6px;background:radial-gradient(140% 300% at 50% 50%, rgba(174,208,232,.05), transparent 70%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 6px 1px rgba(0,0,0,.45), 0 0 20px 4px rgba(168,204,230,.06), inset 0 2px 4px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.11);">
+              <div style="display:flex;align-items:center;gap:7px;padding:0 12px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;letter-spacing:.02em;">312</span><span style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.2em;color:#7e97ab;">WORDS</span></div>
+              <div style="width:1px;height:12px;background:#2f4658;"></div>
+              <div style="display:flex;align-items:center;gap:7px;padding:0 12px;"><span style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.2em;color:#7e97ab;">MODE</span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#dbe6ef;letter-spacing:.02em;">READING</span></div>
+              <div style="width:1px;height:12px;background:#2f4658;"></div>
+              <div style="display:flex;align-items:center;gap:7px;padding:0 0 0 12px;"><span style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.2em;color:#7e97ab;">BACKLINKS</span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#2e9dff;font-variant-numeric:tabular-nums;">3</span></div>
+              <div style="position:absolute;inset:0;border-radius:3px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.18) 2px 3px);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- annotations -->
+      <div style="{{ annoStyle }}">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#2a2f36;border:1px solid #2a2f36;border-top:none;">
+          <div style="background:#191b1f;padding:16px 20px;"><div style="font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.18em;color:#2e9dff;">A · THE COUNTERSINK</div><div style="margin-top:7px;font-size:13.5px;color:#9fb0be;">A 4px chamfer, dark at the top and light at the bottom, with no drop shadow anywhere. Light falls into the recess, not off the module.</div></div>
+          <div style="background:#191b1f;padding:16px 20px;"><div style="font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.18em;color:#2e9dff;">B · THE NOTCH</div><div style="margin-top:7px;font-size:13.5px;color:#9fb0be;">The active tab breaks the top rule and opens into the pane. Silhouette and rule weight — no fill, no accent bar. Survives 20% zoom, greyscale and all five presets.</div></div>
+          <div style="background:#191b1f;padding:16px 20px;"><div style="font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.18em;color:#2e9dff;">C · THE DOUBLE RULE</div><div style="margin-top:7px;font-size:13.5px;color:#9fb0be;">FILES has focus, so its frame is doubled and lifted to #7fa8c4, and its bottom rule shows its keys. Turbo Vision's own convention.</div></div>
+          <div style="background:#191b1f;padding:16px 20px;"><div style="font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.18em;color:#2e9dff;">D · KEYS vs FIELDS</div><div style="margin-top:7px;font-size:13.5px;color:#9fb0be;">Moulded caps on the case operate the machine and light a lens. Bracketed glyphs on the tube operate content. Shape tells you which before you read the glyph.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ ARTBOARD 2 · BOUNDARY ══════════ -->
+  <div id="ab-boundary" style="margin-top:104px;padding:0 90px;">
+    <div style="display:flex;align-items:baseline;gap:14px;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;margin-bottom:18px;">
+      <span style="color:#2e9dff;">Artboard 2</span><span style="color:#3a4a58;">│</span><span>The housing / screen boundary · 8×</span>
+    </div>
+    <div style="border:1px solid #2a2f36;border-left:3px solid #ff6b6b;background:#191b1f;padding:26px 30px;margin-bottom:26px;">
+      <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff6b6b;">Correction to the previous round</div>
+      <p style="margin:12px 0 0;max-width:88ch;color:#c3ced8;font-size:15px;">The bezel carried a 1px catch light along its <em>top</em> edge and an outward drop shadow beneath the module. Both of those are <strong style="color:#eaf2f9;">raised-object</strong> cues: a thing that sticks out of a surface is lit on top, shaded below, and throws a shadow onto whatever it sits on. A hole is the exact inverse. Its top wall faces away from the light and goes dark; its bottom wall faces the light and goes bright; and it casts nothing, anywhere. That inversion is the entire reason the modules read as panels lying on the case rather than screens set into it — and it is one gradient and one deletion to fix.</p>
+    </div>
+    <p style="max-width:82ch;margin:0 0 26px;color:#9fb0be;">Eight layers across roughly 6 real pixels. The load-bearing one is <strong style="color:#c3ced8;">the countersink wall</strong>: a 4px chamfer running dark at the top to light at the bottom, painted as a <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">border-box</span> gradient behind a transparent border. It is the only layer that states which way is up, and once it is right the module cannot be read as sitting on top of anything.</p>
+
+    <div style="display:flex;gap:0;border:1px solid #2a2f36;background:#191b1f;">
+      <div style="width:560px;flex:0 0 560px;padding:34px;background:#101114;">
+        <div style="display:flex;flex-direction:column;width:100%;">
+          <div style="height:84px;background:linear-gradient(180deg,#31343a,#26282e);position:relative;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 15%,rgba(168,204,230,.11));"></div></div>
+          <div style="height:8px;background:#0a0b0e;"></div>
+          <div style="height:32px;background:linear-gradient(180deg,#0d0e11,#191b1f);"></div>
+          <div style="height:14px;background:linear-gradient(180deg,#000000,#050b11);"></div>
+          <div style="height:104px;background:#050b11;"></div>
+          <div style="height:8px;background:rgba(190,224,244,.12);"></div>
+          <div style="height:32px;background:linear-gradient(180deg,#2c3037,#474c55);"></div>
+          <div style="height:8px;background:#0a0b0e;"></div>
+          <div style="height:52px;background:linear-gradient(180deg,#232529,#1d1f23);"></div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:#7e97ab;background:#1f2226;border-bottom:1px solid #2a2f36;"><div style="padding:11px 16px;">#</div><div style="padding:11px 16px;">Layer · value</div><div style="padding:11px 16px;">Job</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">1</div><div style="padding:10px 16px;color:#dbe6ef;">Housing <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">#26282e</span>, overhead ramp <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">#32353c → #1d1f23</span></div><div style="padding:10px 16px;color:#9fb0be;">The case. One light source, above, and it never moves.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">2</div><div style="padding:10px 16px;color:#dbe6ef;">Spill <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">0 0 30px 6px</span> of <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">mix(ink 60%, accent) @ 7.5%</span></div><div style="padding:10px 16px;color:#9fb0be;"><strong style="color:#c3ced8;">The proof the tube is on.</strong> Light from inside the recess falling back out onto the case.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">3</div><div style="padding:10px 16px;color:#dbe6ef;">Contact shadow <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">0 0 7px 1px rgba(0,0,0,.45)</span></div><div style="padding:10px 16px;color:#9fb0be;">Occlusion at the mouth of the aperture, over the spill. Every real hole has one.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">4</div><div style="padding:10px 16px;color:#dbe6ef;">Cut edge <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">0 0 0 1px #0a0b0e</span></div><div style="padding:10px 16px;color:#9fb0be;">Where the router broke through. Keeps the silhouette crisp at 20% zoom.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">5</div><div style="padding:10px 16px;color:#dbe6ef;"><strong style="color:#eaf2f9;">Countersink wall</strong> — 4px, <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">linear-gradient(180deg,#0d0e11,#191b1f 36%,#2c3037 70%,#474c55)</span></div><div style="padding:10px 16px;color:#9fb0be;"><strong style="color:#c3ced8;">Dark at the top, light at the bottom.</strong> The top wall faces away from the light; the bottom wall faces into it. Painted as a <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">border-box</span> gradient behind a 4px transparent border — one declaration, a true chamfer.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">6</div><div style="padding:10px 16px;color:#dbe6ef;">Aperture shadow <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">inset 0 3px 5px -2px rgba(0,0,0,.95)</span></div><div style="padding:10px 16px;color:#9fb0be;">The top wall throwing shade onto the glass. Soft, not a hairline.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">7</div><div style="padding:10px 16px;color:#dbe6ef;">Tube fill <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">#050b11</span></div><div style="padding:10px 16px;color:#9fb0be;">13 L* below the housing. Was 4.5.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">8</div><div style="padding:10px 16px;color:#dbe6ef;">Lit lip <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">inset 0 -1px 0 rgba(190,224,244,.12)</span></div><div style="padding:10px 16px;color:#9fb0be;">Emitted light catching the bottom of the aperture. Bottom only.</div></div>
+        <div style="display:grid;grid-template-columns:44px 1fr 340px;border-top:1px solid #2a2f36;font-size:13.5px;background:#191216;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#ff6b6b;">—</div><div style="padding:10px 16px;color:#ff8f8f;text-decoration:line-through;">Top catch light <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">0 -1px 0 3px #4a4f58</span> · outward drop shadow <span style="font-family:'Afterimage 3270',monospace;color:#9fb0be;">0 6px 20px 4px</span></div><div style="padding:10px 16px;color:#9fb0be;"><strong style="color:#c3ced8;">Delete both.</strong> They are the raised-object cues, and they are why it floats.</div></div>      </div>
+    </div>
+
+    <div style="display:flex;gap:26px;margin-top:26px;">
+      <div style="flex:1;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;margin-bottom:10px;">Now · Δ 4.5 L* · raised</div>
+        <div style="height:132px;background:#1c1d21;display:flex;align-items:center;justify-content:center;padding:16px;box-shadow:inset 0 0 0 1px #232428;"><div style="flex:1;height:100%;background:#0a141d;box-shadow:0 0 0 2px #06090d;"></div></div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#2e9dff;margin-bottom:10px;">Proposed · Δ 13 L* · countersunk</div>
+        <div style="height:132px;background:linear-gradient(180deg,#32353c,#1d1f23);display:flex;align-items:center;justify-content:center;padding:16px;"><div style="flex:1;height:100%;border:4px solid transparent;border-radius:7px;background:radial-gradient(120% 92% at 50% 38%, rgba(174,208,232,.075), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 32px 7px rgba(168,204,230,.085), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ ARTBOARD 3 · TAB STRIP ══════════ -->
+  <div id="ab-tabs" style="margin-top:104px;padding:0 90px;">
+    <div style="display:flex;align-items:baseline;gap:14px;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;margin-bottom:18px;">
+      <span style="color:#2e9dff;">Artboard 3</span><span style="color:#3a4a58;">│</span><span>Tab strip · every state · 3×</span>
+    </div>
+    <p style="max-width:82ch;margin:0 0 26px;color:#9fb0be;">Selection is carried by <strong style="color:#c3ced8;">silhouette first, rule weight second, brightness third</strong>. The active tab is the place where the frame's top rule breaks open into the pane below it — a shape change, which survives 20% zoom, greyscale, and every one of the five accent presets. It paints no fill, so it cannot punch a hole in the tube's glow.</p>
+    <p style="max-width:82ch;margin:0 0 26px;color:#9fb0be;"><strong style="color:#c3ced8;">No accent anywhere in the tab strip.</strong> A coloured bar across the top of the selected tab is the house style of every IDE and browser shipped since about 2015, and it is the one detail that would tell anyone looking that this is a modern app wearing a costume. A terminal never had it. The rule around the notch lifting from <span style="font-family:'Afterimage 3270',monospace;">#44637c</span> to <span style="font-family:'Afterimage 3270',monospace;">#7fa8c4</span> says the same thing in the vocabulary the machine already speaks — and it costs no hue, so all five presets get it free. Accent is now confined to four places in the whole chrome: hotkey glyphs, the <span style="font-family:'Afterimage 3270',monospace;">:focus-visible</span> ring, the ribbon's indicator lens, and a status value that is itself the subject.</p>
+
+    <div style="border:1px solid #2a2f36;background:#050b11;padding:52px 44px;border-radius:4px;">
+      <div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.2em;color:#7e97ab;margin-bottom:22px;">EDITOR TABS · COBALT · 3×</div>
+      <div style="position:relative;height:93px;display:flex;align-items:stretch;background:linear-gradient(to bottom,#44637c 0 3px,transparent 3px) 0 100%/100% 3px no-repeat;">
+        <div style="position:relative;display:flex;align-items:center;gap:24px;padding:0 42px;border:3px solid #7fa8c4;border-bottom:none;border-radius:9px 9px 0 0;">
+
+          <span style="font-family:'Afterimage 3270',monospace;font-size:42px;letter-spacing:.04em;color:#ffffff;white-space:nowrap;">Properties-Heavy</span>
+          <span style="font-family:'Afterimage 3270',monospace;font-size:36px;color:#93b0c7;">×</span>
+          <div style="position:absolute;left:0;right:0;bottom:-3px;height:5px;background:#050b11;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;padding:0 42px;background:rgba(203,224,240,.07);"><span style="font-family:'Afterimage 3270',monospace;font-size:42px;letter-spacing:.04em;color:#dbe6ef;white-space:nowrap;">Hovered</span><span style="font-family:'Afterimage 3270',monospace;font-size:36px;color:#93b0c7;">×</span></div>
+        <div style="display:flex;align-items:center;"><div style="width:3px;height:39px;background:#2f4658;"></div></div>
+        <div style="display:flex;align-items:center;gap:24px;padding:0 42px;"><span style="font-family:'Afterimage 3270',monospace;font-size:42px;letter-spacing:.04em;color:#93b0c7;white-space:nowrap;">At rest</span><span style="font-family:'Afterimage 3270',monospace;font-size:36px;color:#6b8195;">×</span></div>
+        <div style="display:flex;align-items:center;"><div style="width:3px;height:39px;background:#2f4658;"></div></div>
+        <div style="display:flex;align-items:center;gap:24px;padding:0 42px;"><span style="font-family:'Afterimage 3270',monospace;font-size:42px;letter-spacing:.04em;color:#93b0c7;white-space:nowrap;">Truncates har…</span><span style="font-family:'Afterimage 3270',monospace;font-size:36px;color:#6b8195;">×</span></div>
+        <div style="flex:1;"></div>
+        <div style="display:flex;align-items:center;padding:0 36px;font-family:'Afterimage 3270',monospace;font-size:46px;color:#93b0c7;">＋</div>
+      </div>
+      <div style="height:64px;border:3px solid #44637c;border-top:none;border-radius:0 0 6px 6px;"></div>
+
+      <div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.2em;color:#7e97ab;margin:52px 0 22px;">ACTIVE TAB, GROUP NOT FOCUSED · the label dims, the notch is unchanged</div>
+      <div style="position:relative;height:93px;display:flex;align-items:stretch;background:linear-gradient(to bottom,#44637c 0 3px,transparent 3px) 0 100%/100% 3px no-repeat;">
+        <div style="position:relative;display:flex;align-items:center;gap:24px;padding:0 42px;border:3px solid #7fa8c4;border-bottom:none;border-radius:9px 9px 0 0;">
+
+          <span style="font-family:'Afterimage 3270',monospace;font-size:42px;letter-spacing:.04em;color:#cbe0f0;white-space:nowrap;">Properties-Heavy</span>
+          <span style="font-family:'Afterimage 3270',monospace;font-size:36px;color:#6b8195;">×</span>
+          <div style="position:absolute;left:0;right:0;bottom:-3px;height:5px;background:#050b11;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;padding:0 42px;"><span style="font-family:'Afterimage 3270',monospace;font-size:42px;letter-spacing:.04em;color:#7e97ab;white-space:nowrap;">At rest</span></div>
+        <div style="flex:1;"></div>
+      </div>
+      <div style="height:64px;border:3px solid #44637c;border-top:none;border-radius:0 0 6px 6px;"></div>
+
+      <div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.2em;color:#7e97ab;margin:52px 0 22px;">DOCK TABS · ICON ONLY · AMBER PRESET · focused group, so the frame is doubled. The preset changed and nothing in the strip did</div>
+      <div style="position:relative;height:93px;display:flex;align-items:stretch;background:linear-gradient(to bottom,#c4a37f 0 3px,#050b11 3px 6px,#c4a37f 6px 9px) 0 100%/100% 9px no-repeat;">
+        <div style="position:relative;display:flex;align-items:center;justify-content:center;width:132px;border:9px double #c4a37f;border-bottom:none;border-radius:9px 9px 0 0;color:#ffffff;font-family:'Afterimage 3270',monospace;font-size:46px;">
+          ◫
+          <div style="position:absolute;left:0;right:0;bottom:-9px;height:11px;background:#050b11;"></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;width:132px;background:rgba(240,224,203,.07);color:#efe3d3;font-family:'Afterimage 3270',monospace;font-size:46px;">⌕</div>
+        <div style="display:flex;align-items:center;justify-content:center;width:132px;color:#c7b39b;font-family:'Afterimage 3270',monospace;font-size:46px;">★</div>
+        <div style="flex:1;"></div>
+      </div>
+      <div style="height:64px;border:9px double #c4a37f;border-top:none;border-radius:0 0 6px 6px;"></div>
+      <div style="display:flex;gap:44px;margin-top:26px;font-family:'Afterimage 3270',monospace;font-size:13px;color:#6b8195;letter-spacing:.06em;"><span>active ← notch + brighter rule + white ink</span><span>hover ← phosphor wash 7%, no geometry change</span><span>rest ← ink only</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════ ARTBOARD 4 · GRAMMAR SHEET ══════════ -->
+  <div id="ab-grammar" style="margin-top:104px;padding:0 90px;">
+    <div style="display:flex;align-items:baseline;gap:14px;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;margin-bottom:18px;">
+      <span style="color:#2e9dff;">Artboard 4</span><span style="color:#3a4a58;">│</span><span>TUI grammar sheet · the vocabulary drawn once</span>
+    </div>
+    <p style="max-width:82ch;margin:0 0 26px;color:#9fb0be;">Ten pieces. Every one of them appears somewhere in Artboard&nbsp;1, and nothing appears in Artboard&nbsp;1 that is not one of these. If a future element needs a treatment that is not on this sheet, the sheet is wrong, not the element.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2a2f36;border:1px solid #2a2f36;">
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">01 · RULE, CORNER, JUNCTION</div>
+        <div style="margin-top:20px;font-family:'Afterimage 3270',monospace;font-size:16px;line-height:1.5;color:#44637c;white-space:pre;">┌────────────────┬───────────────┐
+│                │               │
+├────────────────┼───────────────┤
+│                │               │
+└────────────────┴───────────────┘</div>
+        <div style="margin-top:16px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Corners and junctions are glyphs. The runs between them are 1px backgrounds in the same colour — tiling <span style="font-family:'Afterimage 3270',monospace;color:#93b0c7;">─</span> across a fluid width drifts and clips. #44637c at rest.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">02 · FOCUS = THE FRAME DOUBLES</div>
+        <div style="margin-top:20px;display:flex;gap:26px;align-items:stretch;">
+          <div style="flex:1;height:96px;border:1px solid #44637c;display:flex;align-items:center;justify-content:center;font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.16em;color:#6b8195;">UNFOCUSED</div>
+          <div style="flex:1;height:96px;border:3px double #7fa8c4;display:flex;align-items:center;justify-content:center;font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.16em;color:#eaf2f9;">FOCUSED</div>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">1px #44637c → 3px double #7fa8c4. No colour hue change, no glow, no accent. Turbo Vision's own convention, and it reads at any zoom.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">03 · TITLE SET INTO THE RULE</div>
+        <div style="margin-top:22px;display:flex;align-items:center;gap:9px;">
+          <div style="width:14px;height:1px;background:#44637c;"></div>
+          <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:15px;">┤</div>
+          <div style="font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.14em;color:#eaf2f9;">FILES</div>
+          <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:15px;">├</div>
+          <div style="flex:1;height:1px;background:#44637c;"></div>
+          <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:15px;">┤</div>
+          <div style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">14</div>
+          <div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:15px;">├</div>
+        </div>
+        <div style="margin-top:22px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Title left, count right, rule between. C1 15px 3270 +0.14em upper at #eaf2f9 — the brightest thing in the chrome, because it is the one label that answers "where am I".</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">04 · FIELD LABEL vs VALUE</div>
+        <div style="margin-top:20px;display:flex;border:1px solid #2f4658;">
+          <div style="width:150px;flex:0 0 150px;border-right:1px solid #2f4658;">
+            <div style="padding:6px 12px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.14em;color:#7e97ab;">STATUS</div>
+            <div style="padding:6px 12px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.14em;color:#7e97ab;">PRIORITY</div>
+          </div>
+          <div style="flex:1;font-family:'Courier Prime',monospace;font-size:14.5px;">
+            <div style="padding:6px 12px;color:#dbe6ef;">in-review</div>
+            <div style="padding:6px 12px;color:#dbe6ef;font-variant-numeric:tabular-nums;">2</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Label: 3270, tracked, uppercase, muted. Value: Courier Prime, untracked, true case, bright. Two axes change at once — face and brightness — so the pair is legible with no rule between them, and the rule is there anyway.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">05 · SELECTION = INVERSE VIDEO</div>
+        <div style="margin-top:20px;font-family:'Courier Prime',monospace;font-size:14.5px;">
+          <div style="padding:5px 12px;color:#c3d6e6;">Component Matrix</div>
+          <div style="position:relative;padding:5px 12px 5px 14px;background:#cbe0f0;color:#050b11;">Properties-Heavy Note</div>
+          <div style="padding:5px 12px;color:#c3d6e6;background:rgba(203,224,240,.07);">Hovered — phosphor wash, 7%</div>
+          <div style="padding:5px 12px;color:#c3d6e6;">Hub</div>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Full inversion only at ≥14px, and only for <em>current</em>. Hover is a 7% wash of the same ink — never a new hue, because an emitting region emits the phosphor it has.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">06 · KEY HINTS IN THE BOTTOM RULE</div>
+        <div style="margin-top:26px;display:flex;align-items:center;">
+          <div style="width:14px;height:1px;background:#44637c;"></div>
+          <div style="display:flex;align-items:center;gap:5px;padding:0 9px;font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.1em;"><span style="color:#6b8195;">[</span><span style="color:#2e9dff;">^N</span><span style="color:#93b0c7;">NEW</span><span style="color:#6b8195;">]</span></div>
+          <div style="width:8px;height:1px;background:#44637c;"></div>
+          <div style="display:flex;align-items:center;gap:5px;padding:0 9px;font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.1em;"><span style="color:#6b8195;">[</span><span style="color:#2e9dff;">^F</span><span style="color:#93b0c7;">FIND</span><span style="color:#6b8195;">]</span></div>
+          <div style="flex:1;height:1px;background:#44637c;"></div>
+        </div>
+        <div style="margin-top:26px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Focused pane only. This is what fills the dead space at the bottom of a sidebar, and it is the one place accent is allowed on a non-selected element — the key glyph, never the word.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">07 · COUNTS, BADGES, LEADERS</div>
+        <div style="margin-top:20px;font-family:'Courier Prime',monospace;font-size:14.5px;">
+          <div style="display:flex;align-items:baseline;gap:8px;padding:4px 0;color:#dbe6ef;"><span>waiting</span><span style="flex:1;border-bottom:1px dotted rgba(68,99,124,.5);transform:translateY(-4px);"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">1772</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:4px 0;color:#dbe6ef;"><span>concept</span><span style="flex:1;border-bottom:1px dotted rgba(68,99,124,.5);transform:translateY(-4px);"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">456</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding:4px 0;color:#dbe6ef;"><span>ai-automation</span><span style="flex:1;border-bottom:1px dotted rgba(68,99,124,.5);transform:translateY(-4px);"></span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">32</span></div>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Right-aligned, tabular, 3270 at 13px. A dotted leader carries the eye — the oldest trick in printed tables and the reason a tag pane stops looking like two unrelated columns.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">08 · EMPTY STATE</div>
+        <div style="margin-top:20px;height:120px;border:1px solid #2f4658;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
+          <div style="font-family:'Afterimage 3270',monospace;font-size:24px;color:#2f4658;letter-spacing:.3em;">░░░░</div>
+          <div style="font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.2em;color:#6b8195;">NO LINKED MENTIONS</div>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Never blank. The frame closes, and a centred C4 line states the condition. <span style="font-family:'Afterimage 3270',monospace;color:#93b0c7;">░</span> U+2591 at 24px is the only decorative glyph in the system.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">09 · TRUNCATION</div>
+        <div style="margin-top:20px;font-family:'Courier Prime',monospace;font-size:14.5px;color:#dbe6ef;">
+          <div style="width:250px;padding:5px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">A Note With An Unusually Long Title That Should Ellipsize</div>
+          <div style="width:250px;padding:5px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;direction:rtl;text-align:left;">Vault/10 Projects/Afterimage/Chrome Spec.md</div>
+        </div>
+        <div style="margin-top:16px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Titles clip at the end. Paths clip at the <em>start</em> (<span style="font-family:'Afterimage 3270',monospace;color:#93b0c7;">direction:rtl</span>) — the leaf is the informative end. Never fade-out masks: a gradient over live text fights the multiply raster.</div>
+      </div>
+
+      <div style="background:#050b11;padding:30px 32px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;color:#7e97ab;">10 · BRACKETED CONTROLS</div>
+        <div style="margin-top:22px;display:flex;align-items:center;gap:4px;">
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:15px;"><span style="color:#44637c;">[</span><span style="color:#dbe6ef;width:16px;text-align:center;display:inline-block;">+</span><span style="color:#44637c;">]</span></div>
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:15px;"><span style="color:#7fa8c4;">[</span><span style="color:#ffffff;width:16px;text-align:center;display:inline-block;">▤</span><span style="color:#7fa8c4;">]</span></div>
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:15px;"><span style="color:#2e9dff;">[</span><span style="color:#ffffff;width:16px;text-align:center;display:inline-block;">⇅</span><span style="color:#2e9dff;">]</span></div>
+          <div style="display:flex;align-items:center;gap:3px;font-family:'Afterimage 3270',monospace;font-size:15px;"><span style="color:#44637c;">[</span><span style="color:#93b0c7;width:16px;text-align:center;display:inline-block;">⌄</span><span style="color:#44637c;">]</span></div>
+          <div style="margin-left:20px;font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.14em;color:#6b8195;">REST · HOVER · ON · REST</div>
+        </div>
+        <div style="margin-top:22px;font-size:13px;color:#6b8195;font-family:'Courier Prime',monospace;">Every icon button wears brackets, drawn as <span style="font-family:'Afterimage 3270',monospace;color:#93b0c7;">::before</span> / <span style="font-family:'Afterimage 3270',monospace;color:#93b0c7;">::after</span> content. The bracket carries the state; the glyph only brightens. This is why no icon button ever needs a background.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ ARTBOARD 5 · DEGRADATION ══════════ -->
+  <div id="ab-degrade" style="margin-top:104px;padding:0 90px;">
+    <div style="display:flex;align-items:baseline;gap:14px;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#6b8195;margin-bottom:18px;">
+      <span style="color:#2e9dff;">Artboard 5</span><span style="color:#3a4a58;">│</span><span>Where it falls apart in the real app</span>
+    </div>
+
+    <div style="display:flex;gap:18px;align-items:flex-start;">
+
+      <div style="width:200px;flex:0 0 200px;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.18em;color:#7e97ab;margin-bottom:12px;">200px SIDEBAR</div>
+        <div style="position:relative;height:330px;display:flex;flex-direction:column;padding:5px;border:3px solid transparent;border-radius:8px;background:radial-gradient(120% 92% at 50% 38%, rgba(174,208,232,.07), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 30px 6px rgba(168,204,230,.07), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);">
+          <div style="position:relative;height:28px;flex:0 0 28px;display:flex;align-items:stretch;box-shadow:inset 0 -1px 0 #44637c;">
+            <div style="position:relative;display:flex;align-items:center;justify-content:center;width:36px;border:1px solid #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;color:#eaf2f9;font-family:'Afterimage 3270',monospace;font-size:15px;">◫<div style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#050b11;"></div></div>
+            <div style="display:flex;align-items:center;justify-content:center;width:36px;color:#93b0c7;font-family:'Afterimage 3270',monospace;font-size:15px;">⌕</div>
+          </div>
+          <div style="flex:1;border:1px solid #44637c;border-top:none;display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:7px;padding:0 8px;height:26px;"><div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:13px;">┤</div><div style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.1em;color:#eaf2f9;">FILES</div><div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:13px;">├</div><div style="flex:1;height:1px;background:#44637c;"></div></div>
+            <div style="font-family:'Courier Prime',monospace;font-size:13.5px;">
+              <div style="display:flex;gap:6px;padding:3px 8px;color:#dbe6ef;"><span style="color:#93b0c7;font-family:'Afterimage 3270',monospace;">▾</span><span style="white-space:nowrap;">10 Projects</span></div>
+              <div style="padding:3px 8px 3px 20px;color:#050b11;background:#cbe0f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Properties-Heavy…</div>
+              <div style="padding:3px 8px 3px 20px;color:#c3d6e6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">A Note With An Unus…</div>
+            </div>
+          </div>
+          <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+        </div>
+        <div style="margin-top:12px;font-size:12.5px;color:#6b8195;font-family:'Courier Prime',monospace;">Padding drops 9→8px, dock tabs 44→36px, tree rows to C2 at 13.5px. The frame never thins and the title never shortens.</div>
+      </div>
+
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.18em;color:#7e97ab;margin-bottom:12px;">TWELVE TABS · a 40-character title · one icon tab</div>
+        <div style="position:relative;padding:5px;border:3px solid transparent;border-radius:8px;background:radial-gradient(120% 92% at 50% 38%, rgba(174,208,232,.06), transparent 66%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 30px 6px rgba(168,204,230,.06), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);">
+          <div style="position:relative;height:30px;display:flex;align-items:stretch;box-shadow:inset 0 -1px 0 #44637c;">
+            <div style="position:relative;display:flex;align-items:center;gap:7px;padding:0 12px;border:1px solid #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;min-width:78px;max-width:150px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">A Very Long Doc…</span><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;">×</span><div style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#050b11;"></div></div>
+            <div style="flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Comp…</span></div>
+            <div style="display:flex;align-items:center;"><div style="width:1px;height:12px;background:#2f4658;"></div></div>
+            <div style="flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Phos…</span></div>
+            <div style="display:flex;align-items:center;"><div style="width:1px;height:12px;background:#2f4658;"></div></div>
+            <div style="flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Rast…</span></div>
+            <div style="display:flex;align-items:center;"><div style="width:1px;height:12px;background:#2f4658;"></div></div>
+            <div style="flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Hub</span></div>
+            <div style="display:flex;align-items:center;"><div style="width:1px;height:12px;background:#2f4658;"></div></div>
+            <div style="flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Work…</span></div>
+            <div style="display:flex;align-items:center;"><div style="width:1px;height:12px;background:#2f4658;"></div></div>
+            <div style="flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Inbo…</span></div>
+            <div style="display:flex;align-items:center;"><div style="width:1px;height:12px;background:#2f4658;"></div></div>
+            <div style="flex:1;min-width:0;display:flex;align-items:center;padding:0 10px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;color:#93b0c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Quic…</span></div>
+            <div style="display:flex;align-items:center;padding:0 8px 0 12px;font-family:'Afterimage 3270',monospace;font-size:12px;color:#6b8195;font-variant-numeric:tabular-nums;">+4</div>
+            <div style="display:flex;align-items:center;padding:0 10px;font-family:'Afterimage 3270',monospace;font-size:15px;color:#93b0c7;">＋</div>
+          </div>
+          <div style="height:56px;border:1px solid #44637c;border-top:none;"></div>
+
+          <div style="position:relative;height:30px;margin-top:22px;display:flex;align-items:stretch;box-shadow:inset 0 -1px 0 #44637c;">
+            <div style="position:relative;display:flex;align-items:center;justify-content:center;width:44px;border:1px solid #7fa8c4;border-bottom:none;border-radius:3px 3px 0 0;color:#eaf2f9;font-family:'Afterimage 3270',monospace;font-size:15px;">⋮<div style="position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#050b11;"></div></div>
+            <div style="flex:1;"></div>
+          </div>
+          <div style="height:56px;border:1px solid #44637c;border-top:none;display:flex;align-items:center;padding:0 10px;gap:9px;"><div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:13px;">┤</div><div style="font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.14em;color:#eaf2f9;">OUTLINE</div><div style="color:#44637c;font-family:'Afterimage 3270',monospace;font-size:13px;">├</div><div style="flex:1;height:1px;background:#2f4658;"></div></div>
+          <div style="position:absolute;inset:0;border-radius:5px;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+        </div>
+        <div style="display:flex;gap:26px;margin-top:12px;">
+          <div style="flex:1;font-size:12.5px;color:#6b8195;font-family:'Courier Prime',monospace;">Tabs flex down to a 78px floor, then the strip scrolls and an overflow count <span style="font-family:'Afterimage 3270',monospace;color:#93b0c7;">+4</span> appears before the "+". Only the active tab is guaranteed its full 150px. Titles clip; the close × is dropped below 96px on inactive tabs.</div>
+          <div style="flex:1;font-size:12.5px;color:#6b8195;font-family:'Courier Prime',monospace;">The one-icon strip stops looking broken the moment the rule runs to the corner and the pane title sits in the header rule beneath it. The strip was never the problem — the missing frame was.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ DIRECTION B ══════════ -->
+  <div id="dir-b" style="margin-top:112px;padding:0 90px;">
+    <div style="max-width:1780px;margin:0 auto;">
+      <div style="display:flex;align-items:baseline;gap:18px;">
+        <span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#ffb000;">04</span>
+        <h2 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:34px;letter-spacing:.01em;color:#eaf2f9;margin:0;">Direction B — One tube</h2>
+      </div>
+      <p style="max-width:82ch;margin:20px 0 0;color:#9fb0be;">The honest alternative, and the thing I would build if the gutters keep failing. One CRT fills the whole window. The housing is reduced to a 16px bezel around the window edge plus the ribbon rail. Panes are divided not by case but by box-drawing rules on the same continuous raster — which is what a real terminal actually does. Norton Commander is one screen with two framed panels; tmux is one screen with a status line.</p>
+
+      <div style="display:flex;gap:26px;margin-top:34px;">
+        <div style="flex:1;">
+          <div style="width:100%;height:420px;padding:14px;background:linear-gradient(180deg,#32353c,#1d1f23);box-shadow:0 16px 44px rgba(0,0,0,.5);">
+            <div style="position:relative;width:100%;height:100%;display:flex;border:4px solid transparent;border-radius:7px;background:radial-gradient(128% 108% at 50% 50%, transparent 54%, rgba(0,0,0,.55) 100%) padding-box, radial-gradient(110% 84% at 50% 42%, rgba(174,208,232,.07), transparent 68%) padding-box, linear-gradient(#050b11,#050b11) padding-box, linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%) border-box;box-shadow:0 0 0 1px #0a0b0e, 0 0 7px 1px rgba(0,0,0,.45), 0 0 40px 8px rgba(168,204,230,.09), inset 0 3px 5px -2px rgba(0,0,0,.95), inset 0 -1px 0 rgba(190,224,244,.12);overflow:hidden;">
+              <div style="width:210px;flex:0 0 210px;border-right:1px solid #44637c;display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:center;gap:8px;padding:0 10px;height:28px;border-bottom:1px solid #44637c;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.14em;color:#eaf2f9;">FILES</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:12px;color:#93b0c7;">14</span></div>
+                <div style="font-family:'Courier Prime',monospace;font-size:13.5px;padding-top:4px;">
+                  <div style="padding:3px 10px;color:#dbe6ef;">▾ 10 Projects</div>
+                  <div style="padding:3px 10px 3px 20px;background:#cbe0f0;color:#050b11;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Properties-Heavy Note</div>
+                  <div style="padding:3px 10px 3px 20px;color:#c3d6e6;">Component Matrix</div>
+                  <div style="padding:3px 10px 3px 20px;color:#c3d6e6;">Hub</div>
+                </div>
+              </div>
+              <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+                <div style="display:flex;height:28px;border-bottom:1px solid #44637c;align-items:stretch;">
+                  <div style="position:relative;display:flex;align-items:center;padding:0 12px;border-right:1px solid #44637c;border-left:none;"><div style="position:absolute;left:0;right:0;top:0;height:2px;background:#2e9dff;"></div><span style="font-family:'Afterimage 3270',monospace;font-size:13.5px;color:#ffffff;">Properties-Heavy</span></div>
+                  <div style="display:flex;align-items:center;padding:0 12px;border-right:1px solid #44637c;"><span style="font-family:'Afterimage 3270',monospace;font-size:13.5px;color:#93b0c7;">Component Matrix</span></div>
+                </div>
+                <div style="flex:1;padding:18px 26px;">
+                  <div style="background:#cbe0f0;color:#050b11;font-family:'Afterimage VGA',monospace;font-size:20px;padding:6px 10px;">PROPERTIES — EVERY FIELD TYPE</div>
+                  <p style="margin:14px 0 0;font-family:'Courier Prime',monospace;font-size:14px;line-height:1.7;color:#cbe0f0;">Body prose in the working face, on the same unbroken raster as the sidebar beside it and the status line below it. Nothing here is a separate object.</p>
+                </div>
+              </div>
+              <div style="width:180px;flex:0 0 180px;border-left:1px solid #44637c;display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:center;gap:8px;padding:0 10px;height:28px;border-bottom:1px solid #44637c;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.14em;color:#eaf2f9;">TAGS</span></div>
+                <div style="font-family:'Courier Prime',monospace;font-size:13.5px;padding-top:4px;">
+                  <div style="display:flex;padding:3px 10px;color:#dbe6ef;"><span>waiting</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:12px;color:#93b0c7;">1772</span></div>
+                  <div style="display:flex;padding:3px 10px;color:#dbe6ef;"><span>concept</span><span style="flex:1;"></span><span style="font-family:'Afterimage 3270',monospace;font-size:12px;color:#93b0c7;">456</span></div>
+                </div>
+              </div>
+              <div style="position:absolute;left:0;right:0;bottom:0;height:22px;border-top:1px solid #44637c;display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:0 12px;font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.12em;color:#7e97ab;"><span>312 WORDS</span><span style="color:#2f4658;">│</span><span>READING</span><span style="color:#2f4658;">│</span><span>BACKLINKS <span style="color:#2e9dff;">3</span></span></div>
+              <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;background:repeating-linear-gradient(180deg, transparent 0 2px, rgba(0,0,0,.34) 2px 3px);"></div>
+              <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(166deg, rgba(196,224,248,.05) 0%, rgba(196,224,248,.012) 24%, transparent 44%);"></div>
+            </div>
+          </div>
+        </div>
+        <div style="width:460px;flex:0 0 460px;">
+          <div style="border:1px solid #2a2f36;background:#191b1f;padding:24px 26px;">
+            <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#43ff7d;">For</div>
+            <ul style="margin:12px 0 0;padding-left:20px;color:#c3ced8;font-size:14px;line-height:1.7;">
+              <li>The raster is continuous across the entire window, which passes the 20% test with no help from value contrast at all.</li>
+              <li>No dark gutters. Roughly 4% more usable area, and the sidebars stop looking half-empty.</li>
+              <li>The TUI becomes structural rather than applied — the rules are the only thing dividing anything, so the grammar cannot be skipped.</li>
+              <li>Substantially less CSS, and no per-module bezel stack to keep in sync.</li>
+            </ul>
+          </div>
+          <div style="border:1px solid #2a2f36;border-top:none;background:#191b1f;padding:24px 26px;">
+            <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff6b6b;">Against</div>
+            <ul style="margin:12px 0 0;padding-left:20px;color:#c3ced8;font-size:14px;line-height:1.7;">
+              <li>It contradicts "leave space around the screens", and it loses the gadget quality — five modules in a machined case is simply <em>more machine</em> than one flat panel.</li>
+              <li>One unbroken raster across 1600px is more insistent than five smaller ones. Over eight hours that matters.</li>
+              <li>To be truly continuous, no pane may ever paint a fill — including modals, the graph view and any plugin that assumes it can. That constraint is permanent.</li>
+            </ul>
+          </div>
+          <div style="border:1px solid #2a2f36;border-top:none;background:#14161a;padding:24px 26px;">
+            <div style="font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#7e97ab;">My call</div>
+            <p style="margin:12px 0 0;color:#c3ced8;font-size:14px;line-height:1.7;">Build A. Its failure was never the concept; it was that the case and the tubes were the same value and nothing said "powered". Both are one-line fixes. Keep B in your pocket: if you make the changes in <a href="#s-build">§B10</a> and it still reads as an app rather than a machine, the gutters are the thing to delete, not the frame.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ PART B ══════════════════════ -->
+  <div style="max-width:1780px;margin:0 auto;padding:0 90px;">
+
+    <div style="margin-top:132px;padding-top:44px;border-top:2px solid #2a2f36;">
+      <div style="font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:#2e9dff;">Part B</div>
+      <h2 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:44px;letter-spacing:.01em;color:#eaf2f9;margin:14px 0 0;">The spec</h2>
+      <p style="max-width:80ch;margin:16px 0 0;color:#9fb0be;">Values for Direction A, dark mode, at 1× on a 100% display. Every colour is either a fixed neutral or a stated relationship to <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">--after-accent</span> / <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">--after-text</span>, so all five presets work unchanged. §B1 is <a href="#s-boundary">§02 above</a>.</p>
+    </div>
+
+    <!-- B2 SURFACE MANIFEST -->
+    <div id="s-surface" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B2</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">Surface manifest</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;">The column that stops the regression. <strong style="color:#c3ced8;">Default is PAINTS NOTHING.</strong> A surface on a tube reads as a card sitting on a screen, with a seam, which is exactly what broke twice. Three exemptions only, and each has a reason that generalises: inverse video (the terminal's own selection mechanism), a phosphor wash (an emitting region emitting more), and a knockout (painting the tube's own colour to interrupt a rule).</p>
+      <div style="margin-top:26px;border:1px solid #2a2f36;">
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:#7e97ab;"><div style="padding:12px 20px;">Element</div><div style="padding:12px 16px;">Surface?</div><div style="padding:12px 20px;">If yes, what and why</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Window ground</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#ffb000;">PAINTS</div><div style="padding:11px 20px;color:#9fb0be;">It is the only real material in the design. Ramp + stipple.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Tab group / tube</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#ffb000;">PAINTS</div><div style="padding:11px 20px;color:#9fb0be;">The tube fill, plus bloom and vignette as background layers under content.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Tab strip (the band)</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING</div><div style="padding:11px 20px;color:#9fb0be;">Only a 1px bottom hairline. <strong style="color:#c3ced8;">Never a fill, never a darker sub-panel.</strong> That was the seam.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Tab — rest / hover</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING / WASH</div><div style="padding:11px 20px;color:#9fb0be;">Hover only: <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">rgba(ink, .07)</span>. A wash of the ink already present, not a new colour.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Tab — active</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING <span style="color:#6b8195;">+ knockout</span></div><div style="padding:11px 20px;color:#9fb0be;">Three borders at <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">#7fa8c4</span>, and nothing else. The only paint is a 2px strip of tube fill at the bottom edge, interrupting the band's hairline. It is 2px tall at the top of the module where bloom is under 1/255 — imperceptible.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Pane header / nav row</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING</div><div style="padding:11px 20px;color:#9fb0be;">Rules and glyphs only.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Tree row — rest</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING</div><div style="padding:11px 20px;color:#9fb0be;">—</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Tree row — hover</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#ffb000;">WASH</div><div style="padding:11px 20px;color:#9fb0be;"><span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">rgba(ink, .07)</span>, full row width to the frame's inner edge.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Tree row — current</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#ffb000;">INVERSE</div><div style="padding:11px 20px;color:#9fb0be;">Full <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">--after-text</span> plate, tube-fill ink, no accent bar — inverse video is complete on its own, and a coloured stripe beside it is a modern list affordance, not a terminal one. Inversion is permitted at ≥14px only.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Icon buttons · ribbon keys</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING / <span style="color:#ffb000;">MOULDING</span></div><div style="padding:11px 20px;color:#9fb0be;">On the tube: brackets, no fill, ever. On the housing: a real moulded key, because the housing is real.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Vault nameplate</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING</div><div style="padding:11px 20px;color:#9fb0be;">Two 1px milled grooves and engraved text. The plate is the case, not a plate on the case.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Status bar</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#ffb000;">PAINTS</div><div style="padding:11px 20px;color:#9fb0be;">It is a tube. Its items paint nothing.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 190px 2fr;border-top:1px solid #2a2f36;font-size:13.5px;"><div style="padding:11px 20px;color:#dbe6ef;">Resize handle</div><div style="padding:11px 16px;font-family:'Afterimage 3270',monospace;color:#43ff7d;">NOTHING</div><div style="padding:11px 20px;color:#9fb0be;">Hover: a 2px × 60%-height <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">#7fa8c4</span> line, centred, fading at both ends. Drag: accent.</div></div>
+      </div>
+    </div>
+
+    <!-- B3 PER-ELEMENT VALUES -->
+    <div id="s-values" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B3</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">Per-element, per-state values</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;"><span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">ACC</span> = <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">--after-accent</span>. <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">INK</span> = <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">--after-text</span>. Type steps C1–C7 are defined in <a href="#s-type">§B6</a>.</p>
+
+      <div style="margin-top:26px;border:1px solid #2a2f36;font-size:13px;">
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e97ab;"><div style="padding:11px 16px;">Element</div><div style="padding:11px 12px;">State</div><div style="padding:11px 14px;">Background</div><div style="padding:11px 14px;">Border / rule</div><div style="padding:11px 14px;">Ink · type · spacing</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 3;border-right:1px solid #232830;">Editor tab</div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">band hairline 1px #44637c below; 1px × 13px #2f4658 divider between tabs</div><div style="padding:10px 14px;color:#9fb0be;">#93b0c7 · C3 14px 3270 · +0.04em · pad 0 14px · h 31px</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">hover</div><div style="padding:10px 14px;color:#9fb0be;">rgba(INK, .07)</div><div style="padding:10px 14px;color:#9fb0be;">unchanged</div><div style="padding:10px 14px;color:#9fb0be;">#dbe6ef · no size change</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">active</div><div style="padding:10px 14px;color:#9fb0be;">none · 2px knockout strip in tube fill at bottom −1px</div><div style="padding:10px 14px;color:#9fb0be;">1px <strong style="color:#c3ced8;">#7fa8c4</strong> top+sides, radius 3px 3px 0 0, no bottom. No accent, no glow, no fill.</div><div style="padding:10px 14px;color:#9fb0be;">#ffffff · C3 · close × #93b0c7 · <em>group unfocused:</em> ink #cbe0f0, rule unchanged</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 3;border-right:1px solid #232830;">Dock tab (icon)</div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">band hairline only</div><div style="padding:10px 14px;color:#9fb0be;">#93b0c7 · glyph 16px 3270 · box 44 × 31px</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">hover</div><div style="padding:10px 14px;color:#9fb0be;">rgba(INK, .07)</div><div style="padding:10px 14px;color:#9fb0be;">unchanged</div><div style="padding:10px 14px;color:#9fb0be;">#eaf2f9</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">active</div><div style="padding:10px 14px;color:#9fb0be;">none + knockout</div><div style="padding:10px 14px;color:#9fb0be;">identical to editor tab</div><div style="padding:10px 14px;color:#9fb0be;">#ffffff · glyph 16px</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 2;border-right:1px solid #232830;">Pane frame</div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">1px solid #44637c, no top, radius 0 0 2px 2px</div><div style="padding:10px 14px;color:#9fb0be;">title C1 15px 3270 +0.14em UPPER #eaf2f9, in <span style="font-family:'Afterimage 3270',monospace;">┤ ├</span> at #44637c</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">focused</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;"><strong style="color:#c3ced8;">3px double #7fa8c4</strong>, no top; band hairline becomes <span style="font-family:'Afterimage 3270',monospace;">linear-gradient(#7fa8c4 0 1px, tube 1px 2px, #7fa8c4 2px 3px)</span></div><div style="padding:10px 14px;color:#9fb0be;">title unchanged · <span style="font-family:'Afterimage 3270',monospace;">┤ ├</span> lift to #7fa8c4 · bottom rule reveals key hints</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 4;border-right:1px solid #232830;">Tree row</div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">indent guide 1px rgba(#44637c,.55) per level, 20px apart</div><div style="padding:10px 14px;color:#9fb0be;">file #c3d6e6 · folder #dbe6ef · C2 14.5px Courier Prime · pad 4px 12px</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">hover</div><div style="padding:10px 14px;color:#9fb0be;">rgba(INK, .07)</div><div style="padding:10px 14px;color:#9fb0be;">—</div><div style="padding:10px 14px;color:#9fb0be;">#dbe6ef</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">current</div><div style="padding:10px 14px;color:#9fb0be;">INK, solid (#cbe0f0 on cobalt)</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">tube fill #050b11 · C2 · pad-left 8px</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">focused</div><div style="padding:10px 14px;color:#9fb0be;">as current</div><div style="padding:10px 14px;color:#9fb0be;">+ <span style="font-family:'Afterimage 3270',monospace;">outline 1px solid ACC; outline-offset 1px</span> — <span style="font-family:'Afterimage 3270',monospace;">:focus-visible</span> only</div><div style="padding:10px 14px;color:#9fb0be;">as current</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 3;border-right:1px solid #232830;">Nav action button</div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">brackets <span style="font-family:'Afterimage 3270',monospace;">[ ]</span> 14.5px 3270 #44637c</div><div style="padding:10px 14px;color:#9fb0be;">glyph #93b0c7 · 15px box, centred</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">hover</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">brackets → #7fa8c4</div><div style="padding:10px 14px;color:#9fb0be;">glyph #ffffff</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">on</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">brackets → ACC</div><div style="padding:10px 14px;color:#9fb0be;">glyph #ffffff</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 3;border-right:1px solid #232830;">Ribbon key <span style="color:#ffb000;font-size:11px;">HOUSING</span></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">linear-gradient(180deg,#34373e,#282b31) · radius 4px · 30 × 30px</div><div style="padding:10px 14px;color:#9fb0be;">0 1px 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.10), inset 0 −1px 0 rgba(0,0,0,.5), 0 0 0 1px #1a1c20 — <strong style="color:#c3ced8;">a moulded cap, always, not on hover</strong></div><div style="padding:10px 14px;color:#9fb0be;">#aeb6c0 · 17px 3270 · engraved: text-shadow 0 1px 0 rgba(255,255,255,.06), 0 −1px 0 rgba(0,0,0,.55)</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">hover</div><div style="padding:10px 14px;color:#9fb0be;">unchanged</div><div style="padding:10px 14px;color:#9fb0be;">unchanged · <span style="font-family:'Afterimage 3270',monospace;">transform: translateY(1px)</span>, 60ms</div><div style="padding:10px 14px;color:#9fb0be;">#dfe6ee</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">dock open</div><div style="padding:10px 14px;color:#9fb0be;"><strong style="color:#c3ced8;">pressed in</strong> — linear-gradient(180deg,#212329,#292c32)</div><div style="padding:10px 14px;color:#9fb0be;">inset 0 2px 4px rgba(0,0,0,.65), inset 0 −1px 0 rgba(255,255,255,.05), 0 0 0 1px #1a1c20 · <strong style="color:#c3ced8;">lens</strong> 5px circle at the rail's inner edge: <span style="font-family:'Afterimage 3270',monospace;">radial-gradient(circle at 38% 32%, #b9e0ff, ACC 55%, shade(ACC))</span>, 0 0 7px 1px rgba(ACC,.6), 0 0 0 1px #101216, inset 0 −1px 0 rgba(0,0,0,.45)</div><div style="padding:10px 14px;color:#9fb0be;">#e4ebf3 · <strong style="color:#c3ced8;">the only lit thing on the housing</strong></div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 2;border-right:1px solid #232830;">Vault nameplate <span style="color:#ffb000;font-size:11px;">HOUSING</span></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">inset 0 1px 0 #16181c, inset 0 2px 0 −1px #3d424b, inset 0 −1px 0 #16181c · h 28px</div><div style="padding:10px 14px;color:#9fb0be;">#9aa3ad · 13px 3270 · +0.20em UPPER · <span style="font-family:'Afterimage 3270',monospace;">text-shadow 0 1px 0 rgba(255,255,255,.07), 0 −1px 0 rgba(0,0,0,.6)</span></div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">hover</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">unchanged</div><div style="padding:10px 14px;color:#9fb0be;">#cfd5dc · <strong style="color:#c3ced8;">never accent</strong> — hardware does not light</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;border-right:1px solid #232830;">Status tube</div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">all</div><div style="padding:10px 14px;color:#9fb0be;">#050b11 + faint bloom · radius 3px · h 28px</div><div style="padding:10px 14px;color:#9fb0be;">bezel 2px #16181c, catch 1px #4a4f58 top, lit lip rgba(190,224,244,.12) · dividers 1px × 12px #2f4658</div><div style="padding:10px 14px;color:#9fb0be;">label C4 12px +0.20em #7e97ab · value C5 13px tabular #dbe6ef · subject value ACC · raster at half strength (.18)</div></div>
+
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;color:#dbe6ef;grid-row:span 3;border-right:1px solid #232830;">Resize handle <span style="color:#ffb000;font-size:11px;">HOUSING</span></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">rest</div><div style="padding:10px 14px;color:#9fb0be;">none — the 10px gutter is the handle</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">—</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#93b0c7;">hover</div><div style="padding:10px 14px;color:#9fb0be;">2px × 60%h #7fa8c4, centred, mask-fade top and bottom 20%</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">—</div></div>
+        <div style="display:grid;grid-template-columns:150px 92px 1fr 1fr 1fr;border-top:1px solid #232830;"><div></div><div style="padding:10px 12px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">dragging</div><div style="padding:10px 14px;color:#9fb0be;">2px × 100%h ACC</div><div style="padding:10px 14px;color:#9fb0be;">none</div><div style="padding:10px 14px;color:#9fb0be;">—</div></div>
+      </div>
+    </div>
+
+    <!-- B4 TUBE STACK -->
+    <div id="s-stack" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B4</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">The tube stack, in paint order</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;">Back to front. The break point is between 3 and 4: layers 1–3 are <em>background layers of the module element</em>, so they are under content automatically and need no z-index. Layers 5–6 are pseudo-elements and must be over it. Get that wrong and the multiply layer lands under the glyphs, where it has nothing bright to subtract from — which is how the effect silently disappears.</p>
+      <div style="margin-top:26px;border:1px solid #2a2f36;font-size:13.5px;">
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e97ab;"><div style="padding:11px 16px;">#</div><div style="padding:11px 14px;">Layer · geometry</div><div style="padding:11px 14px;">Colour · alpha</div><div style="padding:11px 14px;">Blend</div><div style="padding:11px 14px;">Carrier</div></div>
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">1</div><div style="padding:10px 14px;color:#dbe6ef;">Countersink wall — 4px transparent border, gradient clipped to <span style="font-family:'Afterimage 3270',monospace;">border-box</span></div><div style="padding:10px 14px;color:#9fb0be;">#0d0e11 → #474c55</div><div style="padding:10px 14px;color:#9fb0be;">normal</div><div style="padding:10px 14px;color:#6b8195;">bg-image 4</div></div>
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;border-top:1px solid #232830;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">2</div><div style="padding:10px 14px;color:#dbe6ef;">Tube fill — clipped to <span style="font-family:'Afterimage 3270',monospace;">padding-box</span>, so it stops at the wall — then phosphor bloom — <span style="font-family:'Afterimage 3270',monospace;">radial-gradient(120% 92% at 50% 38%, …, transparent 66%)</span></div><div style="padding:10px 14px;color:#9fb0be;">mix(INK 60%, ACC) @ 7.5%</div><div style="padding:10px 14px;color:#9fb0be;">normal</div><div style="padding:10px 14px;color:#6b8195;">bg-image 2</div></div>
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;border-top:1px solid #232830;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">3</div><div style="padding:10px 14px;color:#dbe6ef;">Corner vignette — <span style="font-family:'Afterimage 3270',monospace;">radial-gradient(132% 112% at 50% 50%, transparent 50%, … 100%)</span></div><div style="padding:10px 14px;color:#9fb0be;">#000 · 0 → 58%</div><div style="padding:10px 14px;color:#9fb0be;">normal</div><div style="padding:10px 14px;color:#6b8195;">bg-image 1</div></div>
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;border-top:1px solid #2a2f36;background:#101216;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#ffb000;">4</div><div style="padding:10px 14px;color:#ffb000;">CONTENT — tabs, frame, rows, prose, the editor's own raster</div><div style="padding:10px 14px;color:#6b8195;">—</div><div style="padding:10px 14px;color:#6b8195;">—</div><div style="padding:10px 14px;color:#6b8195;">DOM</div></div>
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;border-top:1px solid #2a2f36;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">5</div><div style="padding:10px 14px;color:#dbe6ef;">Scan grid — <span style="font-family:'Afterimage 3270',monospace;">repeating-linear-gradient(180deg, transparent 0 2px, … 2px 3px)</span>, inset 0, radius 5px</div><div style="padding:10px 14px;color:#9fb0be;">rgba(0,0,0,.34)</div><div style="padding:10px 14px;color:#c3ced8;font-family:'Afterimage 3270',monospace;">multiply</div><div style="padding:10px 14px;color:#6b8195;">::before</div></div>
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;border-top:1px solid #232830;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#2e9dff;">6</div><div style="padding:10px 14px;color:#dbe6ef;">Glass sheen — <span style="font-family:'Afterimage 3270',monospace;">linear-gradient(166deg, … 0%, … 24%, transparent 44%)</span></div><div style="padding:10px 14px;color:#9fb0be;">#c4e0f8 · 5.5% → 1.4% → 0</div><div style="padding:10px 14px;color:#c3ced8;font-family:'Afterimage 3270',monospace;">screen</div><div style="padding:10px 14px;color:#6b8195;">::after</div></div>
+        <div style="display:grid;grid-template-columns:52px 1fr 190px 150px 122px;border-top:1px solid #2a2f36;background:#191216;"><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#ff6b6b;">7</div><div style="padding:10px 14px;color:#ff8f8f;text-decoration:line-through;">Drifting refresh bar</div><div style="padding:10px 14px;color:#9fb0be;">—</div><div style="padding:10px 14px;color:#9fb0be;">—</div><div style="padding:10px 14px;color:#6b8195;">DELETE</div></div>
+      </div>
+      <p style="max-width:86ch;margin:20px 0 0;color:#9fb0be;font-size:14px;">Three rules that go with the stack. <strong style="color:#c3ced8;">One:</strong> both pseudo-elements carry <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">pointer-events:none</span> — no overlay may intercept a pointer. <strong style="color:#c3ced8;">Two:</strong> the module must be a stacking context (<span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">position:relative; isolation:isolate</span>) or <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">multiply</span> will blend against the housing instead of the tube and the bezel will go black. <strong style="color:#c3ced8;">Three:</strong> layer 5 is the <em>module</em> raster and is deliberately coarser than the editor's own body-text raster; they are separate systems on separate elements and must not be merged.</p>
+    </div>
+
+    <!-- B5 TOKENS -->
+    <div id="s-tokens" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B5</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">Tokens, as roles</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;">Nothing below is "blue". Light mode is the same machine with the room lights on: the case lightens, the bezel stays dark plastic (that is what keeps it recognisable), the tube becomes a daylight-washed phosphor, and the one asymmetry is that <strong style="color:#c3ced8;">the spill becomes a shadow</strong> — emitted light does not read against a bright case.</p>
+      <div style="margin-top:26px;border:1px solid #2a2f36;font-size:13.5px;">
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e97ab;"><div style="padding:11px 18px;">Role</div><div style="padding:11px 14px;">Dark</div><div style="padding:11px 14px;">Light</div><div style="padding:11px 16px;">Note</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #2a2f36;"><div style="padding:9px 18px;color:#dbe6ef;">housing-lit (ramp top)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#32353c</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#d3d7dd</div><div style="padding:9px 16px;color:#6b8195;">one light source, above</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">housing (base)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#26282e</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#c3c7cd</div><div style="padding:9px 16px;color:#6b8195;">was #1c1d21</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">housing-shade (ramp foot)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#1d1f23</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#adb2ba</div><div style="padding:9px 16px;color:#6b8195;">—</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">wall-top (recess, in shade)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#0d0e11</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#6d737c</div><div style="padding:9px 16px;color:#6b8195;">faces away from the light</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">wall-foot (recess, lit)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#474c55</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#eef1f5</div><div style="padding:9px 16px;color:#6b8195;">faces into it. The gap between this and wall-top is the whole illusion</div></div><div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">cut-edge</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#0a0b0e</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#3f444b</div><div style="padding:9px 16px;color:#6b8195;">1px, hard, over everything</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">tube-fill</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#050b11</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#e8edf1</div><div style="padding:9px 16px;color:#6b8195;">13 L* from the case, both modes</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">spill / shadow</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">mix(INK 60%,ACC) 7.5%</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">rgba(40,48,58,.22)</div><div style="padding:9px 16px;color:#6b8195;">the one asymmetry: glow → 0 6px 16px shadow</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">frame</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#44637c</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#8ea2b2</div><div style="padding:9px 16px;color:#6b8195;">3.2:1 vs tube — UI-component floor</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">frame-hi (focused)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#7fa8c4</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#3d5d76</div><div style="padding:9px 16px;color:#6b8195;">7.9:1</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">frame-faint (sub-rules)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#2f4658</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#c0ccd6</div><div style="padding:9px 16px;color:#6b8195;">dividers, property grid</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">ink-hi · C1, active tab</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#ffffff / #eaf2f9</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#000d16 / #16222c</div><div style="padding:9px 16px;color:#6b8195;">14.6:1</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">ink · C2 rows</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#dbe6ef / #c3d6e6</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#1e2a35 / #33424f</div><div style="padding:9px 16px;color:#6b8195;">folder / file</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">ink-muted · C3, C5</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#93b0c7</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#3f5568</div><div style="padding:9px 16px;color:#6b8195;">8.7:1</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">ink-label · C4</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#7e97ab</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#516576</div><div style="padding:9px 16px;color:#6b8195;">6.4:1</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">ink-faint · C6 brackets</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#6b8195</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#5f7183</div><div style="padding:9px 16px;color:#6b8195;">4.9:1 — <strong style="color:#c3ced8;">the floor.</strong> Nothing in the chrome goes below it</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">housing-ink · nameplate</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#9aa3ad → #cfd5dc</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#4e545c → #23272c</div><div style="padding:9px 16px;color:#6b8195;">rest → hover; 5.8:1 on the case</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">inverse plate / plate ink</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">INK / tube-fill</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">#16222c / #e8edf1</div><div style="padding:9px 16px;color:#6b8195;">derived, never literal</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">wash (hover)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">rgba(INK, .07)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">rgba(22,34,44,.06)</div><div style="padding:9px 16px;color:#6b8195;">never a hue</div></div>
+        <div style="display:grid;grid-template-columns:210px 148px 148px 1fr;border-top:1px solid #232830;"><div style="padding:9px 18px;color:#dbe6ef;">scan</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">rgba(0,0,0,.34)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">rgba(0,0,0,.10)</div><div style="padding:9px 16px;color:#6b8195;">daylight washes the raster out; do not fight it</div></div>
+      </div>
+    </div>
+
+    <!-- B6 TYPE SCALE -->
+    <div id="s-type" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B6</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">The chrome type scale</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;">Seven steps. <strong style="color:#c3ced8;">Size carries hierarchy between C1 and C4</strong> — the pane title is deliberately larger than the row text beneath it, which is the inversion of most app chrome and the thing that makes a terminal feel like a terminal. <strong style="color:#c3ced8;">Colour carries state within a step</strong>, never across one. Face carries kind: 3270 for anything the machine says about itself, Courier Prime for anything that came out of your vault.</p>
+      <div style="margin-top:26px;border:1px solid #2a2f36;">
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e97ab;"><div style="padding:11px 18px;">Step</div><div style="padding:11px 14px;">Specimen</div><div style="padding:11px 14px;">Face · size · tracking</div><div style="padding:11px 16px;">Job · where hierarchy sits</div></div>
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;border-top:1px solid #2a2f36;align-items:center;background:#050b11;"><div style="padding:14px 18px;font-family:'Afterimage 3270',monospace;color:#2e9dff;font-size:13px;">C1</div><div style="padding:14px;"><span style="font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.14em;color:#eaf2f9;">FILES</span></div><div style="padding:14px;font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#9fb0be;">3270 · 15px · +0.14em · UPPER</div><div style="padding:14px 16px;color:#9fb0be;font-size:13.5px;">Pane title, set into the frame. The brightest and largest thing in the chrome. <strong style="color:#c3ced8;">Size is the hierarchy.</strong></div></div>
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;border-top:1px solid #232830;align-items:center;background:#050b11;"><div style="padding:14px 18px;font-family:'Afterimage 3270',monospace;color:#2e9dff;font-size:13px;">C2</div><div style="padding:14px;"><span style="font-family:'Courier Prime',monospace;font-size:14.5px;color:#dbe6ef;">Properties-Heavy Note</span></div><div style="padding:14px;font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#9fb0be;">Courier Prime · 14.5px · 0</div><div style="padding:14px 16px;color:#9fb0be;font-size:13.5px;">Anything from the vault: file names, outline entries, search results, tag names. True case, always. <strong style="color:#c3ced8;">Face is the hierarchy.</strong></div></div>
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;border-top:1px solid #232830;align-items:center;background:#050b11;"><div style="padding:14px 18px;font-family:'Afterimage 3270',monospace;color:#2e9dff;font-size:13px;">C3</div><div style="padding:14px;"><span style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.04em;color:#ffffff;">Properties-Heavy</span> <span style="font-family:'Afterimage 3270',monospace;font-size:14px;letter-spacing:.04em;color:#93b0c7;">Component</span></div><div style="padding:14px;font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#9fb0be;">3270 · 14px · +0.04em</div><div style="padding:14px 16px;color:#9fb0be;font-size:13.5px;">Tab titles. #ffffff active / #93b0c7 rest. <strong style="color:#c3ced8;">Colour is the hierarchy</strong> — six steps of it, and no size change between states.</div></div>
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;border-top:1px solid #232830;align-items:center;background:#050b11;"><div style="padding:14px 18px;font-family:'Afterimage 3270',monospace;color:#2e9dff;font-size:13px;">C4</div><div style="padding:14px;"><span style="font-family:'Afterimage 3270',monospace;font-size:12.5px;letter-spacing:.2em;color:#7e97ab;">LINKED MENTIONS</span></div><div style="padding:14px;font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#9fb0be;">3270 · 12.5px · +0.20em · UPPER</div><div style="padding:14px 16px;color:#9fb0be;font-size:13.5px;">Field labels, section stamps, column heads, breadcrumbs, status labels. Tracking is what makes 12.5px legible; do not reduce it.</div></div>
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;border-top:1px solid #232830;align-items:center;background:#050b11;"><div style="padding:14px 18px;font-family:'Afterimage 3270',monospace;color:#2e9dff;font-size:13px;">C5</div><div style="padding:14px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;color:#93b0c7;font-variant-numeric:tabular-nums;">1772&nbsp;&nbsp;456&nbsp;&nbsp;32</span></div><div style="padding:14px;font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#9fb0be;">3270 tabular · 13px · +0.02em</div><div style="padding:14px 16px;color:#9fb0be;font-size:13.5px;">Every numeral in the chrome. Right-aligned, tabular, dotted leader where the label is far away. Goes accent only when the count <em>is</em> the subject.</div></div>
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;border-top:1px solid #232830;align-items:center;background:#050b11;"><div style="padding:14px 18px;font-family:'Afterimage 3270',monospace;color:#2e9dff;font-size:13px;">C6</div><div style="padding:14px;"><span style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.1em;"><span style="color:#6b8195;">[</span> <span style="color:#2e9dff;">^N</span> <span style="color:#93b0c7;">NEW</span> <span style="color:#6b8195;">]</span></span></div><div style="padding:14px;font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#9fb0be;">3270 · 12px · +0.10em</div><div style="padding:14px 16px;color:#9fb0be;font-size:13.5px;">Key hints and bracketed controls. Three colours in one run — bracket, key, word — which is the whole reason it reads as a terminal and not a caption.</div></div>
+        <div style="display:grid;grid-template-columns:64px 300px 200px 1fr;border-top:1px solid #232830;align-items:center;background:#050b11;"><div style="padding:14px 18px;font-family:'Afterimage 3270',monospace;color:#2e9dff;font-size:13px;">C7</div><div style="padding:14px;"><span style="font-family:'Afterimage 3270',monospace;font-size:15px;color:#44637c;">┤ ─ ├ ▸ ▾ ░</span></div><div style="padding:14px;font-family:'Afterimage 3270',monospace;font-size:12.5px;color:#9fb0be;">3270 · 13–16px · 0</div><div style="padding:14px 16px;color:#9fb0be;font-size:13.5px;">Structure glyphs. Always 3270, never the bitmap face — box-drawing on a 16px-locked grid cannot align to a fluid layout.</div></div>
+      </div>
+      <p style="max-width:86ch;margin:20px 0 0;color:#9fb0be;font-size:14px;">On the housing there are two steps only: <strong style="color:#c3ced8;">H1</strong>, the nameplate, 13px 3270 +0.20em UPPER engraved; and <strong style="color:#c3ced8;">H2</strong>, ribbon glyphs at 17px. The case does not carry paragraphs.</p>
+    </div>
+
+    <!-- B7 GLYPHS -->
+    <div id="s-glyphs" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B7</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">The glyphs, literally</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;">Paste these into <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">content:</span>. All in 3270. All rendered at their stated size in <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">--after-frame</span> unless noted.</p>
+      <div style="margin-top:26px;border:1px solid #2a2f36;font-size:13.5px;">
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e97ab;"><div style="padding:11px 18px;">Glyph</div><div style="padding:11px 14px;">Codepoint</div><div style="padding:11px 14px;">Used for</div><div style="padding:11px 14px;">Size · colour</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #2a2f36;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">┤ ├</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+2524 U+251C</div><div style="padding:9px 14px;color:#9fb0be;">Brackets around any title or count set into a rule</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">14–15px · #44637c<br>focused pane: #7fa8c4</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #232830;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">┌ ┐ └ ┘</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+250C…U+2518</div><div style="padding:9px 14px;color:#9fb0be;">Frame corners <em>only where a 3px radius will not do</em> — the grammar sheet, the empty state. Real corners on real panes are radii.</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">16px · #44637c</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #232830;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">│</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+2502</div><div style="padding:9px 14px;color:#9fb0be;">Divider between inactive tabs; between status items</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">as a 1px × 12–13px div, #2f4658</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #232830;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">▸ ▾</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+25B8 U+25BE</div><div style="padding:9px 14px;color:#9fb0be;">Collapse indicator, collapsed / open</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">14.5px · #93b0c7 · no rotation transition</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #232830;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">[ ]</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+005B U+005D</div><div style="padding:9px 14px;color:#9fb0be;">Every icon button and every key hint</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">14.5px buttons / 12px hints<br>#44637c → #7fa8c4 → ACC</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #232830;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">░</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+2591</div><div style="padding:9px 14px;color:#9fb0be;">Empty state mark, four repeats, centred above the C4 line</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">24px · +0.3em · #2f4658</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #232830;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">·</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+00B7</div><div style="padding:9px 14px;color:#9fb0be;">Dotted leader between a label and its count (as <span style="font-family:'Afterimage 3270',monospace;">border-bottom: 1px dotted</span>, not repeated glyphs)</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">rgba(#44637c,.5)</div></div>
+        <div style="display:grid;grid-template-columns:92px 132px 1fr 260px;border-top:1px solid #232830;align-items:center;"><div style="padding:9px 18px;font-family:'Afterimage 3270',monospace;font-size:19px;color:#c3ced8;">…</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">U+2026</div><div style="padding:9px 14px;color:#9fb0be;">Truncation. Native <span style="font-family:'Afterimage 3270',monospace;">text-overflow</span>, never a mask</div><div style="padding:9px 14px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">inherits</div></div>
+      </div>
+      <div style="margin-top:20px;border-left:2px solid #ff6b6b;padding:4px 0 4px 22px;"><p style="margin:0;max-width:86ch;color:#c3ced8;font-size:14px;"><strong style="color:#eaf2f9;">Do not tile box-drawing characters to make a line.</strong> A run of <span style="font-family:'Afterimage 3270',monospace;">─</span> in a fluid container clips mid-glyph at the end and shifts by a fraction of a cell at every width. Corners and junctions are glyphs because they are single characters at fixed positions. Runs are 1px backgrounds. The two match at 13–16px in 3270 to within half a pixel.</p></div>
+    </div>
+
+    <!-- B8 DEGRADATION -->
+    <div id="s-degrade" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B8</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">Degradation</h3></div>
+      <div style="margin-top:26px;border:1px solid #2a2f36;font-size:13.5px;">
+        <div style="display:grid;grid-template-columns:250px 1fr;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e97ab;"><div style="padding:11px 20px;">Condition</div><div style="padding:11px 18px;">Behaviour</div></div>
+        <div style="display:grid;grid-template-columns:250px 1fr;border-top:1px solid #2a2f36;"><div style="padding:11px 20px;color:#dbe6ef;">Sidebar at 200px</div><div style="padding:11px 18px;color:#9fb0be;">Tube padding 9 → 8px. Dock tabs 44 → 36px. Tree rows C2 14.5 → 13.5px, pad 4px → 3px. Nav buttons drop to four and lose their gap. <strong style="color:#c3ced8;">The frame never thins, the title never abbreviates, and the bezel never changes.</strong> Below 180px, Obsidian's own minimum, nothing further is specified.</div></div>
+        <div style="display:grid;grid-template-columns:250px 1fr;border-top:1px solid #232830;"><div style="padding:11px 20px;color:#dbe6ef;">40-character tab title</div><div style="padding:11px 18px;color:#9fb0be;">Tab max-width 220px, title ellipsizes at the end. Below 96px the close × is hidden on inactive tabs (it reappears on hover) — the active tab keeps its × at every width.</div></div>
+        <div style="display:grid;grid-template-columns:250px 1fr;border-top:1px solid #232830;"><div style="padding:11px 20px;color:#dbe6ef;">Twelve open tabs</div><div style="padding:11px 18px;color:#9fb0be;">Tabs flex down to a 78px floor, then the strip scrolls horizontally with no visible scrollbar. The active tab is pinned to a 150px minimum and scrolled into view. An overflow count — C5, <span style="font-family:'Afterimage 3270',monospace;">+4</span> — sits immediately before the "+".</div></div>
+        <div style="display:grid;grid-template-columns:250px 1fr;border-top:1px solid #232830;"><div style="padding:11px 20px;color:#dbe6ef;">A group with one icon tab</div><div style="padding:11px 18px;color:#9fb0be;">Nothing special happens, and that is the fix. The band's hairline runs from the tab to the far corner and turns down into the frame; the pane title sits in the header rule directly beneath. It looked broken before because there was no frame for the empty run to belong to. <strong style="color:#c3ced8;">Do not centre the tab, do not stretch it, do not hide the strip.</strong></div></div>
+        <div style="display:grid;grid-template-columns:250px 1fr;border-top:1px solid #232830;"><div style="padding:11px 20px;color:#dbe6ef;">A pane with no content</div><div style="padding:11px 18px;color:#9fb0be;">Frame closes, four <span style="font-family:'Afterimage 3270',monospace;">░</span> at 24px centred, a C4 line stating the condition beneath. Vertically centred in the frame body, not top-aligned.</div></div>
+        <div style="display:grid;grid-template-columns:250px 1fr;border-top:1px solid #232830;"><div style="padding:11px 20px;color:#dbe6ef;">Window below 900px wide</div><div style="padding:11px 18px;color:#9fb0be;">Gutters 10 → 6px, bezel 3 → 2px, spill 34 → 20px. Proportional, so the machine just gets smaller. Below 700px Obsidian switches to its mobile layout and the effect stack is already off by default.</div></div>
+      </div>
+    </div>
+
+    <!-- B9 MOTION -->
+    <div id="s-motion" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B9</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">Motion</h3></div>
+      <div style="margin-top:22px;border:1px solid #2a2f36;border-left:3px solid #43ff7d;background:#191b1f;padding:30px 34px;">
+        <p style="margin:0;font-family:'Afterimage 3270',monospace;font-size:22px;color:#eaf2f9;">Nothing in the chrome moves on its own. Ever.</p>
+        <p style="margin:16px 0 0;max-width:84ch;color:#9fb0be;font-size:15px;">This is the cheap answer and it is also the right one. A machine that is idle is idle. The drifting refresh bar is the single thing in the current build most likely to be switched off by a real user in week three, it costs a compositing layer you need, and it undermines the theme's own claim — that this stays interesting while completely motionless.</p>
+      </div>
+      <div style="margin-top:20px;border:1px solid #2a2f36;font-size:13.5px;">
+        <div style="display:grid;grid-template-columns:230px 200px 1fr;background:#1f2226;font-family:'Afterimage 3270',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7e97ab;"><div style="padding:11px 20px;">Transition</div><div style="padding:11px 16px;">Duration · easing</div><div style="padding:11px 18px;">Reduced motion</div></div>
+        <div style="display:grid;grid-template-columns:230px 200px 1fr;border-top:1px solid #2a2f36;"><div style="padding:10px 20px;color:#dbe6ef;">Selection → inverse video</div><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">90ms · steps(2)</div><div style="padding:10px 18px;color:#9fb0be;">identical — a step is not motion</div></div>
+        <div style="display:grid;grid-template-columns:230px 200px 1fr;border-top:1px solid #232830;"><div style="padding:10px 20px;color:#dbe6ef;">Hover wash</div><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">0ms in · 120ms out · linear</div><div style="padding:10px 18px;color:#9fb0be;">identical</div></div>
+        <div style="display:grid;grid-template-columns:230px 200px 1fr;border-top:1px solid #232830;"><div style="padding:10px 20px;color:#dbe6ef;">Frame single → double (focus)</div><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">0ms</div><div style="padding:10px 18px;color:#9fb0be;">identical</div></div>
+        <div style="display:grid;grid-template-columns:230px 200px 1fr;border-top:1px solid #232830;"><div style="padding:10px 20px;color:#dbe6ef;">Ribbon key press</div><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">60ms · ease-out (1px down)</div><div style="padding:10px 18px;color:#9fb0be;">no travel; brightness only</div></div>
+        <div style="display:grid;grid-template-columns:230px 200px 1fr;border-top:1px solid #232830;"><div style="padding:10px 20px;color:#dbe6ef;">Pane resize</div><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">none — track the pointer</div><div style="padding:10px 18px;color:#9fb0be;">identical</div></div>
+        <div style="display:grid;grid-template-columns:230px 200px 1fr;border-top:1px solid #232830;"><div style="padding:10px 20px;color:#dbe6ef;">Scan grid, bloom, sheen</div><div style="padding:10px 16px;font-family:'Afterimage 3270',monospace;color:#9fb0be;">static</div><div style="padding:10px 18px;color:#9fb0be;">identical</div></div>
+      </div>
+      <p style="max-width:86ch;margin:18px 0 0;color:#9fb0be;font-size:14px;">Because nothing animates, <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">prefers-reduced-motion</span> needs one rule — kill the 60ms key travel — and the theme's existing master motion switch has nothing left to switch off in the chrome. That is a feature: the setting becomes about the <em>editor</em>, which is where the user actually wants control.</p>
+    </div>
+
+    <!-- B10 BUILD ORDER -->
+    <div id="s-build" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B10</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">Build order</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;">If you only get three in, take 1, 2 and 3. They are also the three cheapest.</p>
+      <div style="margin-top:26px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#2a2f36;border:1px solid #2a2f36;">
+        <div style="background:#191b1f;padding:26px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:30px;color:#2e9dff;">1</div><div style="margin-top:10px;font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.1em;color:#eaf2f9;">THE VALUE RAMP + THE SPILL</div><p style="margin:12px 0 0;color:#9fb0be;font-size:13.5px;">Housing to #26282e with the ramp, tube to #050b11, and a 34px ink-tinted spill on every module. Four token changes and one box-shadow. This is the change that fixes "dark panels on a dark background", and it fixes it completely.</p></div>
+        <div style="background:#191b1f;padding:26px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:30px;color:#2e9dff;">2</div><div style="margin-top:10px;font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.1em;color:#eaf2f9;">THE FRAME</div><p style="margin:12px 0 0;color:#9fb0be;font-size:13.5px;">1px inset frame on every tab group, pane title set into the top rule, 3px double on focus. Roughly forty lines, and it is the entire difference between "app with a filter" and "TUI".</p></div>
+        <div style="background:#191b1f;padding:26px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:30px;color:#2e9dff;">3</div><div style="margin-top:10px;font-family:'Afterimage 3270',monospace;font-size:15px;letter-spacing:.1em;color:#eaf2f9;">THE TYPE RAMP</div><p style="margin:12px 0 0;color:#9fb0be;font-size:13.5px;">C1–C7 in place of the one dim grey. Largest legibility gain per byte in the whole document, and it is the fault the owner keeps describing as "too small" — the problem was never the size, it was that nothing was bigger.</p></div>
+        <div style="background:#16181c;padding:22px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:22px;color:#7e97ab;">4</div><div style="margin-top:8px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.1em;color:#c3ced8;">TABS AS NOTCHES</div><p style="margin:10px 0 0;color:#7e97ab;font-size:13px;">Retire the solid accent block. Silhouette-based selection, no fill, one knockout strip.</p></div>
+        <div style="background:#16181c;padding:22px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:22px;color:#7e97ab;">5</div><div style="margin-top:8px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.1em;color:#c3ced8;">THE STATUS TUBE</div><p style="margin:10px 0 0;color:#7e97ab;font-size:13px;">Its own module. High gadget-per-line ratio and the bottom of the window stops being dead.</p></div>
+        <div style="background:#16181c;padding:22px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:22px;color:#7e97ab;">6</div><div style="margin-top:8px;font-family:'Afterimage 3270',monospace;font-size:13.5px;letter-spacing:.1em;color:#c3ced8;">BRACKETS · KEY HINTS · LEADERS · NAMEPLATE</div><p style="margin:10px 0 0;color:#7e97ab;font-size:13px;">Polish, in that order. Delete the refresh bar whenever you touch the tube stack.</p></div>
+      </div>
+    </div>
+
+    <!-- CSS -->
+    <div id="s-css" style="margin-top:74px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#2e9dff;">B11</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">Token block, ready to paste</h3></div>
+      <p style="max-width:82ch;margin:14px 0 0;color:#9fb0be;">Names follow the existing <span style="font-family:'Afterimage 3270',monospace;color:#c3ced8;">--after-</span> convention. Everything derived stays derived, so the five presets and the Style Settings sliders keep working.</p>
+      <pre style="margin:22px 0 0;padding:28px 30px;background:#050b11;border:1px solid #2a2f36;overflow-x:auto;font-family:'Afterimage 3270',monospace;font-size:13.5px;line-height:1.7;color:#c3d6e6;">.theme-dark {
+  /* housing — the case. One light source, above. */
+  --after-chassis:        #26282e;
+  --after-chassis-lit:    #32353c;
+  --after-chassis-shade:  #1d1f23;
+  --after-chassis-ink:    #9aa3ad;
+  --after-chassis-ink-hi: #cfd5dc;
+
+  /* the aperture — a hole, not a raised frame.
+     Top wall faces away from the light and is dark; the foot faces into it. */
+  --after-wall-w:    4px;
+  --after-wall:      linear-gradient(180deg,#0d0e11 0%,#191b1f 36%,#2c3037 70%,#474c55 100%);
+  --after-cut-edge:  #0a0b0e;
+
+  /* tube */
+  --after-tube:           #050b11;
+  --after-tube-radius:    8px;   /* outer; the glass reads 4px inside the wall */
+  --after-tube-pad:       5px;
+  --after-gutter:         10px;
+
+  /* emission — always derived, never literal */
+  --after-emit:  color-mix(in srgb, var(--after-text) 60%, var(--after-accent));
+  --after-spill: 0 0 30px 6px color-mix(in srgb, var(--after-emit) 7.5%, transparent);
+  --after-bloom: radial-gradient(120% 92% at 50% 38%,
+                   color-mix(in srgb, var(--after-emit) 7.5%, transparent), transparent 66%);
+  --after-vignette: radial-gradient(132% 112% at 50% 50%,
+                   transparent 50%, rgba(0,0,0,.58) 100%);
+  --after-sheen: linear-gradient(166deg,
+                   rgba(196,224,248,.055) 0%, rgba(196,224,248,.014) 24%, transparent 44%);
+  --after-scan:  repeating-linear-gradient(180deg,
+                   transparent 0 2px, rgba(0,0,0,.34) 2px 3px);
+
+  /* frame */
+  --after-frame:       #44637c;
+  --after-frame-hi:    #7fa8c4;
+  --after-frame-faint: #2f4658;
+
+  /* chrome ink ramp — C1 → C6 */
+  --after-c1: #eaf2f9;   --after-c2: #dbe6ef;   --after-c2-file: #c3d6e6;
+  --after-c3: #93b0c7;   --after-c3-on: #ffffff;
+  --after-c4: #7e97ab;   --after-c5: #93b0c7;   --after-c6: #6b8195;
+
+  --after-wash: color-mix(in srgb, var(--after-text) 7%, transparent);
+}
+
+/* the module */
+.workspace-tabs {
+  position: relative; isolation: isolate;
+  padding: var(--after-tube-pad);
+  border: var(--after-wall-w) solid transparent;   /* the countersink */
+  border-radius: var(--after-tube-radius);
+  background:
+    var(--after-vignette) padding-box,
+    var(--after-bloom)    padding-box,
+    linear-gradient(var(--after-tube), var(--after-tube)) padding-box,
+    var(--after-wall)     border-box;              /* dark at the top, lit at the foot */
+  box-shadow:
+    0 0 0 1px var(--after-cut-edge),
+    0 0 7px 1px rgba(0,0,0,.45),                   /* contact shade at the mouth */
+    var(--after-spill),
+    inset 0 3px 5px -2px rgba(0,0,0,.95),          /* the top wall, shading the glass */
+    inset 0 -1px 0 rgba(190,224,244,.12);
+  /* NO outward drop shadow. A hole does not cast one. */
+}
+.workspace-tabs::before,                 /* 5 · scan, over content */
+.workspace-tabs::after {                 /* 6 · sheen, over scan   */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  border-radius: var(--after-tube-radius);
+}
+.workspace-tabs::before { background: var(--after-scan);  mix-blend-mode: multiply; z-index: 40; }
+.workspace-tabs::after  { background: var(--after-sheen); mix-blend-mode: screen;   z-index: 41; }
+
+/* the notch */
+.workspace-tab-header-container-inner { box-shadow: inset 0 -1px 0 var(--after-frame); }
+.workspace-tab-header.is-active {
+  border: 1px solid var(--after-frame-hi); border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  /* no accent bar, no fill, no glow — the broken rule IS the selection */
+}
+.workspace-tab-header.is-active::after {          /* knockout: break the rule */
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: var(--after-tube);
+}</pre>
+    </div>
+
+    <!-- LIMITS -->
+    <div id="s-limits" style="margin-top:74px;margin-bottom:40px;">
+      <div style="display:flex;align-items:baseline;gap:18px;"><span style="font-family:'Afterimage 3270',monospace;font-size:13px;letter-spacing:.2em;color:#ffb000;">B12</span><h3 style="font-family:'Afterimage 3270',monospace;font-weight:400;font-size:27px;color:#eaf2f9;margin:0;">What CSS on Obsidian's DOM cannot do</h3></div>
+      <div style="margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2a2f36;border:1px solid #2a2f36;">
+        <div style="background:#191b1f;padding:24px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.16em;color:#ffb000;">TWO PSEUDO-ELEMENTS, NO MORE</div><p style="margin:10px 0 0;color:#9fb0be;font-size:13.5px;">The tube needs two over-content layers and you have exactly two. <strong style="color:#c3ced8;">Fallback:</strong> deleting the refresh bar is what makes this work. If you insist on a third layer, hang it on <span style="font-family:'Afterimage 3270',monospace;">.workspace-tab-container</span> — but it will not cover the tab strip.</p></div>
+        <div style="background:#191b1f;padding:24px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.16em;color:#ffb000;">TITLES CANNOT MOVE INTO THE FRAME</div><p style="margin:10px 0 0;color:#9fb0be;font-size:13.5px;">A true TUI sets the title in the top rule. You cannot reparent <span style="font-family:'Afterimage 3270',monospace;">.view-header-title</span>. <strong style="color:#c3ced8;">Fallback:</strong> the header row <em>becomes</em> a rule — <span style="font-family:'Afterimage 3270',monospace;">┤ TITLE ├</span> then a 1px flex-fill to the frame edge. Visually identical, and it is what Artboard 1 shows.</p></div>
+        <div style="background:#191b1f;padding:24px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.16em;color:#ffb000;">COUNTS CANNOT BE HOISTED</div><p style="margin:10px 0 0;color:#9fb0be;font-size:13.5px;">The <span style="font-family:'Afterimage 3270',monospace;">14</span> in the FILES rule cannot be read out of the tree below it. <strong style="color:#c3ced8;">Fallback:</strong> where a count exists in the DOM (backlinks, tags, search) it already sits in <span style="font-family:'Afterimage 3270',monospace;">.tree-item-flair</span> and can be styled in place. Where it does not, omit it — do not fake it.</p></div>
+        <div style="background:#191b1f;padding:24px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.16em;color:#ffb000;">KEY HINTS ARE STATIC TEXT</div><p style="margin:10px 0 0;color:#9fb0be;font-size:13.5px;">CSS cannot read the user's keymap. <span style="font-family:'Afterimage 3270',monospace;">^N</span> would be a hard-coded string. <strong style="color:#c3ced8;">Fallback:</strong> ship hints only for bindings Obsidian does not let the user rebind away, or make the whole row a Style Settings toggle, default on, with a one-line caveat. Do not invent shortcuts.</p></div>
+        <div style="background:#191b1f;padding:24px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.16em;color:#ffb000;">MULTIPLY NEEDS A STACKING CONTEXT</div><p style="margin:10px 0 0;color:#9fb0be;font-size:13.5px;">Without <span style="font-family:'Afterimage 3270',monospace;">isolation: isolate</span> on the module, the scan layer blends against the housing and the bezel goes black. This is the failure that reads as "the effect disappeared".</p></div>
+        <div style="background:#191b1f;padding:24px 28px;"><div style="font-family:'Afterimage 3270',monospace;font-size:12px;letter-spacing:.16em;color:#ffb000;">THE EDITING SAFETY RULES STILL BIND</div><p style="margin:10px 0 0;color:#9fb0be;font-size:13.5px;"><span style="font-family:'Afterimage 3270',monospace;">.cm-content</span> stays <span style="font-family:'Afterimage 3270',monospace;">position: static</span>; nothing here touches it. Both tube layers are <span style="font-family:'Afterimage 3270',monospace;">pointer-events: none</span>. No chrome element clips, filters or recolours editable text, and the module raster is deliberately a separate, coarser system from the body-text raster — do not merge them.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;annotations&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Artboards&quot;},&quot;zoom&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:100,&quot;min&quot;:20,&quot;max&quot;:100,&quot;step&quot;:5,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Artboards&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const z = this.props.zoom ?? 100;
+    return {
+      annoStyle: (this.props.annotations ?? true) ? 'margin-top:0;' : 'display:none;',
+      zoom: z,
+    };
+  }
+}
+</script>
+</body>
+</html>

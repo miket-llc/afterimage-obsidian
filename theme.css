@@ -122,6 +122,12 @@
      default to, toward a cooler, more luminous phosphor blue — it reads as
      something emitting rather than something filled. */
   --after-cobalt: #2e9dff;
+  /* THE PHOSPHOR — the coating on the one tube (docs/chrome-spec/DESIGN-MODEL.md,
+     law 2). Every lit chrome colour is a derivation of this, so a profile is a
+     different TUBE rather than a different accent. Declared here, before the
+     profile overrides, because lint-phosphor.mjs reads the FIRST declaration
+     in the file as the coating under test. */
+  --after-phosphor: #b6d5ea;   /* Cobalt default — a P4-class blue-white */
   --after-red: #e8453b;      /* true error state only */
   --after-accent-green: #35c98a;
   --after-gold:    #d7a531;
@@ -2476,6 +2482,13 @@ body.after-cards .workspace-split.mod-root .workspace-leaf-content[data-type="ma
   z-index: 5;
 }
 
+/* On the one-tube machine the editor's bottom fade dissolves into a surface
+   colour the glass no longer has — a phantom panel at the foot of the note.
+   The scroll edge is the frame rule now; nothing needs to fade. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-split.mod-root .workspace-leaf-content[data-type="markdown"]::after {
+  background: none;
+}
+
 /* ───────────────────────────  FLOATING & GLASS (+ chrome & plugins) — opt-in soft looks layered over the brutalist base, then: tabs · side docks · graph · search · CRT & phosphor · tooltips · fullscreen CRT  ─────────────────────────── */
 
 /* Heavier card float — more space around each card + a deeper, clip-safe shadow,
@@ -2724,7 +2737,10 @@ body:not(.is-mobile).after-pill-chrome .titlebar { background-color: transparent
    with a lit top edge, reading as the bottom lip of the machine rather than
    as a highlighted strip. */
 .status-bar {
-  background-color: var(--after-chassis, var(--after-bg-alt));
+  /* NOT --after-chassis: that token is the one-tube case metal now, and this
+     base rule also serves mobile and cards-off, where a grey case strip on a
+     dark surface reads as a bug. */
+  background-color: var(--after-bg-alt);
   border-top: 1px solid var(--after-border);
   box-shadow: inset 0 1px 0 color-mix(in srgb, var(--after-veil) 5%, transparent);
 }
@@ -3998,6 +4014,13 @@ body.after-anim:not(.is-mobile).after-tooltip-type .tooltip {
   70% { opacity: var(--after-scan-dip, 0); } 71.5% { opacity: 1; }
   73%, 100% { opacity: 1; }
 }
+/* This is Bureau's per-pane rolling scanline, predating the one-tube
+   rework. The tube now carries its OWN refresh band across the whole glass
+   (§ARTIFACTS below) — running both at once is two moving lines fighting
+   for the same job, one per editor pane and one across the machine. Killed
+   directly below wherever the one-tube chrome is actually rendering; it
+   still fires under the opt-in soft looks (pill/glass/wallpaper) and with
+   Cards off, none of which have a tube to carry the job instead. */
 body.after-anim:not(.is-mobile).after-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content { position: relative; }
 body.after-anim:not(.is-mobile).after-scan-anim .workspace-leaf-content[data-type="markdown"] .view-content::after {
   content: "";
@@ -4011,6 +4034,13 @@ body.after-anim:not(.is-mobile).after-scan-anim .workspace-leaf-content[data-typ
   box-shadow: 0 0 6px 1px rgba(255, 255, 255, calc(var(--after-scan-bright, 0.2) * 0.4));
   animation: after-scanline-roll calc(var(--after-anim-speed, 600) * 36ms) linear infinite,
              after-scanline-flick calc(var(--after-scan-interval, 7) * 1s) linear infinite;
+}
+/* The kill switch, using the exact guard the one-tube chrome uses
+   everywhere else in this file — so this and the tube's own refresh band
+   are governed by the same condition and can never both be on. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  .workspace-leaf-content[data-type="markdown"] .view-content::after {
+  content: none;
 }
 
 body.after-anim:not(.is-mobile).after-glow-pulse::after {
@@ -4154,6 +4184,7 @@ body:is(.after-mode-low, .after-mode-medium) *::before,
 body:is(.after-mode-low, .after-mode-medium) *::after,
 body:is(.after-mode-low, .after-mode-medium)::before,
 body:is(.after-mode-low, .after-mode-medium)::after { animation: none; transition: none; }
+body:is(.after-mode-low, .after-mode-medium) { --after-screen-on: 0; }
 body:is(.after-mode-low, .after-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view, .view-content)::before,
 body:is(.after-mode-low, .after-mode-medium) :is(.cm-editor, .markdown-source-view.mod-cm6, .markdown-reading-view, .view-content)::after { display: none; }
 body:is(.after-mode-low, .after-mode-medium) :is(.cm-line, .markdown-rendered p, .markdown-rendered li, .markdown-rendered pre code) { text-shadow: none; }
@@ -5284,6 +5315,7 @@ body.after-profile-cobalt {
 /* ── AMBER — P3 amber phosphor on a neutral black chassis. Warmer, and a
       longer decay, because that is what amber tubes actually did. ─────────── */
 body.after-profile-amber {
+  --after-phosphor: #ffc46a;   /* P3 amber */
   --after-p-bg: #070502;        --after-p-chassis: #030201;
   --after-p-surface: #0e0a04;   --after-p-raised: #171006;
   --after-p-border: #3a2a12;    --after-p-border-hi: #56401d;
@@ -5301,6 +5333,7 @@ body.theme-light.after-profile-amber { --after-accent: #8a5a00; }
 /* ── GHOST — P1 green phosphor, deeper surface, the longest persistence that
       is still readable. Mild terminal character, not a costume. ───────────── */
 body.after-profile-ghost {
+  --after-phosphor: #9df5bd;   /* P1 green */
   --after-p-bg: #020603;        --after-p-chassis: #010301;
   --after-p-surface: #051009;   --after-p-raised: #08190f;
   --after-p-border: #16351f;    --after-p-border-hi: #22502f;
@@ -5319,6 +5352,7 @@ body.theme-light.after-profile-ghost { --after-accent: #046a53; }
       profile that ships with convergence error on. No gradients: this is a
       badly converged monitor, not a synthwave poster. ─────────────────────── */
 body.after-profile-uv {
+  --after-phosphor: #b3b9e8;   /* violet-blue, badly converged */
   --after-p-bg: #05060f;        --after-p-chassis: #020310;
   --after-p-surface: #0a0b1a;   --after-p-raised: #101228;
   --after-p-border: #262a4a;    --after-p-border-hi: #3a3f68;
@@ -5337,6 +5371,7 @@ body.theme-light.after-profile-uv { --after-accent: #4a3cc8; }
       the test that the theme's personality is material and typography rather
       than colour. Raster and bloom stay, so it is still a tube. ───────────── */
 body.after-profile-mono {
+  --after-phosphor: #d9dde2;   /* P4 white; saturation below the lint's neutral floor on purpose */
   --after-p-bg: #050505;        --after-p-chassis: #000000;
   --after-p-surface: #0d0d0d;   --after-p-raised: #161616;
   --after-p-border: #2b2b2b;    --after-p-border-hi: #444444;
@@ -6064,6 +6099,1659 @@ body :is(.side-dock-ribbon-action, .workspace-ribbon .clickable-icon) svg {
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   AFTERIMAGE — ONE TUBE IN A MACHINED CASE
+   ═══════════════════════════════════════════════════════════════════════════
+   Implements docs/chrome-spec/DESIGN-MODEL.md against the values in
+   CHROME-REFERENCE.html. The model supersedes CHROME-SPEC.md — its reversal
+   log records exactly what changed and why. The falsification test that
+   decides every question this section does not answer explicitly:
+
+     IF A CHANGE WOULD BE IMPOSSIBLE ON A REAL CATHODE-RAY TUBE,
+     IT IS THE WRONG CHANGE.
+
+   The object is ONE CRT: one tube, one phosphor coating, one character
+   generator, and a TUI drawn on the glass that divides the screen into
+   regions. Not five small screens set into a housing — that was the previous
+   pass, and a machine with five separate countersunk tubes is a thing no one
+   ever built. The four laws:
+
+     1  THE GLYPHS EMIT. Glow is text-shadow on characters, never a radial
+        gradient on a panel background. Halation, the spill onto the case,
+        the whole sense that the machine is powered — all downstream of
+        light coming out of the letters.                         → §EMISSION
+
+     2  ONE PHOSPHOR. There is no accent colour; there is a coating, and
+        things are brighter or dimmer in it. Every lit value derives from
+        --after-phosphor, so a profile is a different TUBE.  → lint-phosphor
+
+     3  FOUR INTENSITIES. Intensified, normal, protected (dim), reverse
+        video — the real IBM field attributes, and the entire vocabulary.
+
+     4  NOTHING IS A SURFACE. Regions divide by rules and frames, not
+        fills. Three exemptions: reverse video, a 7% phosphor wash on
+        hover, and a knockout.
+
+   WHAT IS CASE AND WHAT IS GLASS: the ribbon rail is case — a fixed rail of
+   keys in machined wells, left of the aperture. Everything else, status bar
+   and vault switcher included, is drawn on the tube. The aperture is still a
+   recess (top wall dark, foot lit, casts nothing) — that part of the old
+   spec was right and survives verbatim.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+body {
+  /* ── HOUSING ────────────────────────────────────────────────────────────
+     A flat neutral grey, deliberately NOT derived from the palette: a case
+     does not change colour when you swap the tube, and an amber terminal and
+     a green one are the same grey box. One light source, above, and it never
+     moves — every lit edge and every shadow in this section agrees with it. */
+  --after-chassis:        #26282e;
+  --after-chassis-lit:    #32353c;
+  --after-chassis-shade:  #1d1f23;
+  /* Ink ON the case. Engraved, never emitting — the nameplate is the one piece
+     of text in the window that is obviously not a display. 5.8:1 on the case. */
+  --after-chassis-ink:    #9aa3ad;
+  --after-chassis-ink-hi: #cfd5dc;
+  /* No stipple. CHROME-REFERENCE.html draws the case as smooth machined
+     metal — hard radii and bevels, not moulded polymer — and with one tube
+     the exposed case is a rail and a few reveals anyway. */
+
+  /* ── THE APERTURE ───────────────────────────────────────────────────────
+     A hole is not a frame. Eight layers across roughly six real pixels, and
+     the load-bearing one is the countersink WALL: a 4px chamfer running dark
+     at the top to light at the foot, painted as a border-box gradient behind
+     a transparent border. It is the only layer that states which way is up,
+     and once it is right the module cannot be read as sitting on anything. */
+  --after-wall-w: 4px;
+  --after-wall: linear-gradient(180deg,
+    #0d0e11 0%,     /* top wall — faces away from the light */
+    #191b1f 36%,
+    #2c3037 70%,
+    #474c55 100%);  /* the foot — faces into it. The gap between these two
+                       ends is the whole illusion. */
+  --after-cut-edge: #0a0b0e;
+  /* --after-bezel is kept because the flat-edges toggle and a handful of older
+     rules read it; it now names the cut edge rather than a raised surround. */
+  --after-bezel: var(--after-cut-edge);
+  /* Split into three tokens so the Flat card edges toggle can zero exactly the
+     light-direction cues and leave the silhouette alone. */
+  --after-recess-top: inset 0 3px 5px -2px rgba(0, 0, 0, 0.95);   /* top wall shading the glass */
+  --after-recess-lip: inset 0 -1px 0 rgba(190, 224, 244, 0.12);   /* emitted light on the foot */
+  --after-cutout:
+    0 0 0 1px var(--after-cut-edge),      /* where the router broke through */
+    0 0 7px 1px rgba(0, 0, 0, 0.45),      /* occlusion at the mouth */
+    var(--after-spill);                   /* light falling back out onto the case */
+  /* NO OUTWARD DROP SHADOW ANYWHERE. A hole does not cast one, and that single
+     deletion is most of the difference between "panel on a case" and "screen
+     set into a case". */
+
+  /* ── THE TUBE — one piece of glass ──────────────────────────────────────
+     Fill from CHROME-REFERENCE.html: near-black with a whisper of the
+     coating, because a powered tube's black is the phosphor unlit, not the
+     absence of a screen. Every derivation here follows the coating, which is
+     what makes a preset a different TUBE rather than a different accent. */
+  --after-tube: color-mix(in srgb, var(--after-phosphor) 3%, #010204);
+  --after-tube-radius: 16px;   /* outer; the glass reads 12px inside the wall */
+  /* ── CASE GEOMETRY. The rail carries the keys; the reveal is the strip of
+     case left visible around the aperture; the glass pad is tube-side. */
+  --after-rail-w: calc(var(--after-icon-box) + var(--after-s2) * 2 + var(--after-s3));
+  /* A real bezel, not a hairline. The reference's case reads as a physical
+     object because there is enough of it to read as a material — 8px was a
+     seam, not a case. This is also where the window gets dragged from: the
+     bezel is Obsidian's own .titlebar element, already wired for it. */
+  --after-topbar-h: 34px;
+  --after-case-reveal: 18px;
+  --after-status-h: 26px;
+  --after-glass-pad: 6px;
+  /* GLASS between drawn frames — the TUI's breathing room, on the tube, not
+     bare case any more. Rides the card-gap slider so it stays tunable. */
+  /* The resize handle's own hit-box (--divider-width-hover, below) is
+     anchored flush to the SPLIT's true edge, which sits INSIDE this gutter
+     on the sidebar side only — so a 14px gutter left ~2px of open case on
+     one side of the handle and the full 14px on the other. Floor raised so
+     both sides clear the handle's width with room to spare, confirmed by
+     measuring the live boxes rather than guessing. */
+  --after-gutter: max(24px, var(--after-card-gap));
+
+  /* ── EMISSION — always derived, never literal ───────────────────────────
+     Law 1: the glyphs emit. There is deliberately NO centre bloom on the
+     tube background any more — glow on a panel is the single most common way
+     a "CRT theme" ends up a dark theme with a filter. What remains here is
+     light that has already left the letters: the aggregate SPILL falling out
+     of the recess onto the case, and the vignette, which is the glass, not
+     the picture. */
+  --after-emit: var(--after-phosphor);
+  --after-spill: 0 0 30px 6px color-mix(in srgb,
+    var(--after-emit) calc(var(--after-tube-glow) * var(--after-screen-on) * 15%), transparent);
+  /* Glyph glow, per intensity. NORMAL is inherited by everything on the
+     glass; INTENSIFIED is the beam driven hard plus halation; PROTECTED and
+     REVERSE set text-shadow: none — a dim field does not bloom, and a
+     reverse plate is the absence of glyph glow with a halo on the PLATE. */
+  --after-glow-norm: 0 0 4px color-mix(in srgb, var(--after-phosphor) 50%, transparent);
+  --after-glow-int:
+    0 0 3px color-mix(in srgb, var(--after-phosphor) 25%, #ffffff),
+    0 0 9px color-mix(in srgb, var(--after-phosphor) 80%, transparent);
+  --after-halo: 0 0 9px color-mix(in srgb, var(--after-phosphor) 35%, transparent);
+  --after-tube-vig: radial-gradient(132% 112% at 50% 50%,
+    transparent 50%,
+    rgba(0, 0, 0, calc(var(--after-tube-vignette) * var(--after-screen-on) * 1.16)) 100%);
+  --after-tube-sheen: linear-gradient(166deg,
+    rgba(196, 224, 248, calc(var(--after-screen-on) * 0.055)) 0%,
+    rgba(196, 224, 248, calc(var(--after-screen-on) * 0.014)) 24%,
+    transparent 44%);
+  /* The MODULE raster, deliberately one step coarser than the editor's own
+     body-text raster: two clear rows then one dark, against the editor's
+     one-and-one. Separate systems on separate elements — do not merge them. */
+  /* A fixed 1px dark line, not a fraction of the period: `period * 1.5`
+     lands on a HALF pixel for every odd value the slider allows (3, 5, 7),
+     which the renderer can only paint by anti-aliasing — the blurred,
+     uneven edge that shows up worst over a bright reverse-video plate,
+     where multiply actually has something to darken. 1px stays a crisp,
+     single-device-pixel-friendly line at every period in the slider's
+     range, not only the documented "correct" default. */
+  --after-tube-grid: repeating-linear-gradient(180deg,
+    transparent 0 var(--after-raster-period),
+    rgba(0, 0, 0, calc(var(--after-tube-scan) * var(--after-screen-on)))
+      var(--after-raster-period) calc(var(--after-raster-period) + 1px));
+
+  /* ── THE FOUR INTENSITIES (law 3) ───────────────────────────────────────
+     The real IBM field attributes, each a derivation of the coating so that
+     switching tube changes every lit pixel and no layout:
+
+       INTENSIFIED  the beam driven hard — titles, the active tab, counts
+                    that are the subject. Carries the strong glow.
+       NORMAL       the coating at its own colour — content the machine is
+                    showing: file names, values, the current tab of an
+                    unfocused group.
+       PROTECTED    a dim field — labels, inactive tabs, structure, hints.
+       REVERSE      ink and ground swapped: the plate is NORMAL, the letters
+                    are the tube. Selection, and nothing else.
+
+     The old C1–C7 names survive as aliases until step 4 of the build order
+     retires them; every alias resolves to one of the four. */
+  --after-int:  color-mix(in srgb, var(--after-phosphor) 28%, #fdfeff);
+  --after-norm: var(--after-phosphor);
+  --after-prot: color-mix(in srgb, var(--after-phosphor) 47%, #0b1016);
+  /* frames are drawn in the dim field; the focused frame is driven normal */
+  --after-frame:       var(--after-prot);
+  --after-frame-hi:    var(--after-norm);   /* the focused frame is driven normal — now actually true */
+  --after-frame-faint: color-mix(in srgb, var(--after-prot) 55%, transparent); /* prot at half alpha: same intensity, less of it — not a fifth value */
+  /* Hover is a wash of the coating, never a new hue: an emitting region
+     emits the phosphor it has. Law 4's second exemption. */
+  --after-wash: color-mix(in srgb, var(--after-phosphor) 7%, transparent);
+  --after-tube-glow: 0.5;       /* how hard the tube is driven      */
+  --after-tube-vignette: 0.5;   /* faceplate falloff at the edges   */
+  --after-tube-scan: 0.34;      /* the module raster over the glass */
+  /* One kill switch for the whole screen treatment, so the opt-in soft looks
+     can turn the material off without restating the layer stack. */
+  --after-screen-on: 1;
+}
+
+/* LIGHT MODE is the same machine with the room lights on. One asymmetry, and
+   it is the interesting one: THE SPILL BECOMES A SHADOW. Emitted light does
+   not read against a bright case, so the thing that proved the tube was on in
+   the dark has to prove it by occlusion instead. Daylight also washes the
+   raster out — do not fight that, it is what a real screen does. */
+body.theme-light {
+  /* Intensity on paper inverts: the four attributes become ink weights, a
+     reverse plate is a DARK slate carrying paper-coloured letters, and
+     nothing blooms — paper does not glow. */
+  --after-int:  color-mix(in srgb, var(--after-phosphor) 16%, #0e161d);
+  --after-norm: color-mix(in srgb, var(--after-phosphor) 28%, #202c36);
+  --after-prot: color-mix(in srgb, var(--after-phosphor) 26%, #5a6874);
+  --after-glow-norm: none;
+  --after-glow-int: none;
+  --after-halo: 0 1px 5px rgba(22, 32, 42, 0.28);
+  --after-chassis:        #c3c7cd;
+  --after-chassis-lit:    #d3d7dd;
+  --after-chassis-shade:  #adb2ba;
+  --after-chassis-ink:    #4e545c;
+  --after-chassis-ink-hi: #23272c;
+  --after-wall: linear-gradient(180deg, #6d737c 0%, #9aa1a9 40%, #cdd3da 74%, #eef1f5 100%);
+  --after-cut-edge: #3f444b;
+  --after-tube: #e8edf1;
+  --after-tube-glow: 0.12;
+  --after-tube-scan: 0.1;
+  --after-spill: 0 6px 16px rgba(40, 48, 58, 0.22);
+  --after-recess-top: inset 0 3px 5px -2px rgba(0, 0, 0, 0.26);
+  --after-recess-lip: inset 0 -1px 0 rgba(255, 255, 255, 0.55);
+  --after-tube-sheen: linear-gradient(166deg,
+    rgba(255, 255, 255, calc(var(--after-screen-on) * 0.5)) 0%,
+    rgba(255, 255, 255, calc(var(--after-screen-on) * 0.14)) 24%,
+    transparent 44%);
+  --after-wash: rgba(22, 34, 44, 0.06);
+}
+/* The opt-in soft looks replace this material with their own; neutralise the
+   layer stack rather than fighting it selector-by-selector. */
+:is(body.after-glass-cards, body.after-wallpaper) { --after-screen-on: 0; }
+
+
+/* ── §BEZEL — THE TOP OF THE CASE, AND HOW THE WINDOW MOVES ────────────────
+   Obsidian already renders `.titlebar`: a fixed, full-width strip pinned to
+   the window's top edge, and Obsidian's OWN app.css already marks it
+   `-webkit-app-region: drag` — verified by reading the shipped app.css, not
+   assumed. It was invisible here because nothing gave it a height or a
+   material: the rail and the glass both started at y:0 and painted straight
+   over it. It is real case now, sized to actually read as one, and it is
+   the ONLY place the window can be dragged from — so it is never covered.
+   `-webkit-app-region: drag` is restated directly for the same reason every
+   other load-bearing fact in this file is restated: so the next reader does
+   not have to go back to app.css to find out why dragging still works. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .titlebar {
+  -webkit-app-region: drag;
+  display: block;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--after-topbar-h);
+  z-index: 50;
+  background-color: var(--after-chassis-lit);
+  border-bottom: 1px solid var(--after-cut-edge);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .titlebar-button-container {
+  -webkit-app-region: no-drag;
+}
+
+/* ── §HOUSING — THE CASE ──────────────────────────────────────────────────
+   The case is what is left when one aperture is cut for one tube: the rail
+   of keys down the left, a reveal around the glass, and the strip the
+   traffic lights sit on. Colour only — .app-container's background-image
+   belongs to the sidebar-grain toggle, and grain over the case is a
+   perfectly good machined finish when it is on. */
+body.after-cards:not(.is-mobile):not(.after-wallpaper) .app-container {
+  background-color: var(--after-chassis);
+}
+
+
+/* ── §APERTURE — ONE TUBE ─────────────────────────────────────────────────
+   .workspace IS the glass. The ribbon and the status bar leave its flow —
+   the rail becomes a fixed column of case on the left, the status line a
+   fixed run of drawn text over the tube's foot — so the one element that
+   contains every pane can be the one piece of glass that shows them.
+
+   Paint order, outside in: cut edge, contact shadow, spill, countersink
+   wall, aperture shadow, tube fill, lit lip. The wall is a border-box
+   gradient behind a transparent border. The recess grammar is inherited
+   from the old spec unchanged: top wall dark, foot lit, casts nothing.
+
+   The guard chain is long but every link is load-bearing: Pill terminal,
+   Frosted glass and Wallpaper each make the leaf (or the split) their own
+   visible surface, and mobile drops the whole machine. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace {
+  position: relative;
+  /* MANDATORY. Without it the multiply layer below blends against the case
+     instead of against the tube, and the whole aperture goes black. This is
+     the failure that reads as "the effect disappeared". */
+  isolation: isolate;
+  margin: var(--after-topbar-h)
+          var(--after-case-reveal)
+          var(--after-case-reveal)
+          calc(var(--after-rail-w) + var(--after-case-reveal));
+  border: var(--after-wall-w) solid transparent;
+  border-radius: var(--after-tube-radius);
+  /* the glass pad, plus a reserved line at the foot for the status run */
+  padding: var(--after-glass-pad)
+           var(--after-glass-pad)
+           var(--after-status-h)
+           var(--after-glass-pad);
+  /* NOTE: a bare colour cannot carry a padding-box keyword in the background
+     shorthand — the whole declaration is dropped, silently. Wrap it in a
+     gradient. This cost an hour the first time. */
+  background:
+    var(--after-tube-vig) padding-box,
+    linear-gradient(var(--after-tube), var(--after-tube)) padding-box,
+    var(--after-wall) border-box;
+  box-shadow:
+    var(--after-cutout),
+    var(--after-recess-top),
+    var(--after-recess-lip);
+}
+/* Bureau divides splits with hairline borders; on one piece of glass those
+   read as seams in the tube. Regions divide by drawn frames, and the bare
+   glass between frames IS the divider (and the resize grip). */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) :is(.workspace-split.mod-left-split, .workspace-split.mod-right-split, .workspace-split.mod-root) {
+  border: none;
+}
+/* A TUBE HAS NO DEPTH. The Rolodex suite (further up, gated on after-anim)
+   still scales tabs and rows toward the viewer and drop-shadows them on
+   hover — physical-object cues on things that are now fields of a raster.
+   Flat, at every state, whatever the animation toggle says. And Bureau's
+   card-era pane padding goes with it: the frame margins own the spacing,
+   so the old padding just double-inset every frame (17px + 10px on the
+   right sidebar, which is why nothing sat where the reference put it). */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs {
+  padding-left: 0;
+  padding-right: 0;
+  padding-inline-end: 0;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.workspace-tab-header, .workspace-tab-header:hover,
+      .tree-item-self, .tree-item-self:hover, .tree-item-self.is-active,
+      .nav-file-title, .nav-folder-title, .nav-file-title:hover, .nav-folder-title:hover) {
+  transform: none;
+  filter: none;
+}
+
+/* Everything on the glass is DRAWN on it. Panes carry frames, never fills. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs {
+  position: relative;
+  background: none;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
+  margin: calc(var(--after-gutter) / 2) var(--after-gutter);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  :is(.workspace-leaf-content, .workspace-leaf, .view-content, .workspace-tab-container) {
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+/* The note's own surfaces go transparent too — glyphs sit directly on the
+   glass, which is the whole point of a terminal. background-COLOR only: the
+   edge-rail and ruler artwork on these elements are background-images, and
+   the editor's optical stack is untouched (EDITING SAFETY still binds). */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  :is(.markdown-reading-view, .markdown-preview-view, .markdown-source-view,
+      .markdown-source-view.mod-cm6 .cm-editor, .markdown-source-view.mod-cm6 .cm-scroller) {
+  background-color: transparent;
+}
+
+/* THE TWO OVER-CONTENT LAYERS. Scan and sheen must be OVER the content —
+   put the scan under the glyphs and it has nothing bright to subtract from,
+   which is exactly how the effect silently disappears. Multiply is
+   proportional: it takes almost nothing off the tube fill and a third off a
+   lit glyph, which is what a real dark gap between scan lines does. One
+   raster for one tube — the module-vs-editor split died with the modules. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: calc(var(--after-tube-radius) - var(--after-wall-w));
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace::before {
+  background-image: var(--after-tube-grid);
+  /* Force nearest-neighbour rasterisation of the repeating gradient. A hard-
+     edged pattern this fine gets anti-aliased by default whenever the
+     glass's own top-left origin lands on a fractional device pixel — which
+     it does, because it is the sum of several calc() chains — and that
+     softened edge is invisible over the near-black tube fill but reads as
+     a visibly uneven line the moment it crosses a bright reverse-video
+     plate, which is exactly where it was reported as looking wrong. */
+  image-rendering: pixelated;
+  mix-blend-mode: multiply;
+  z-index: 40;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace::after {
+  background-image: var(--after-tube-sheen);
+  mix-blend-mode: screen;
+  z-index: 41;
+}
+/* ── §ARTIFACTS — THE TUBE MOVES; NOTHING DRAWN ON IT DOES ───────────────
+   The refresh bar is a CRT artifact, not decoration (DESIGN-MODEL.md,
+   forbidden moves — "deleting ambient motion"): a 132px band of the coating
+   crossing the glass every ~9s, riding the SAME screen-blended overlay as
+   the sheen so it is light leaving the phosphor, not an element. The mains
+   flicker is two sub-2% dips in that overlay's own brightness — on the
+   halation layer only, never on content. Both gate on the theme's
+   Animations toggle, and the global reduced-motion block zeroes them. */
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  .workspace::after {
+  background-image:
+    linear-gradient(to bottom,
+      transparent 0%,
+      color-mix(in srgb, var(--after-phosphor) calc(var(--after-screen-on) * 5%), transparent) 40%,
+      color-mix(in srgb, var(--after-phosphor) calc(var(--after-screen-on) * 9%), transparent) 50%,
+      color-mix(in srgb, var(--after-phosphor) calc(var(--after-screen-on) * 5%), transparent) 60%,
+      transparent 100%),
+    var(--after-tube-sheen);
+  background-size: 100% 132px, auto;
+  background-repeat: no-repeat, no-repeat;
+  background-position: 0 -140px, 0 0;
+  animation:
+    after-refresh 9s linear infinite,
+    after-flicker 6s linear infinite;
+}
+@keyframes after-refresh {
+  from { background-position: 0 -140px, 0 0; }
+  to   { background-position: 0 calc(100% + 140px), 0 0; }
+}
+@keyframes after-flicker {
+  0%, 100% { opacity: 1; }
+  43%      { opacity: 0.978; }
+  47%      { opacity: 1; }
+  88%      { opacity: 0.986; }
+}
+
+
+/* ── §EMISSION — THE GLYPHS EMIT (law 1) ──────────────────────────────────
+   Glow is text-shadow on characters, never a gradient on a panel. The
+   NORMAL glow is set once on the glass and INHERITED — the editor is
+   unaffected because its own optical stack (bloom · ghost · convergence) is
+   declared directly on .markdown-preview-sizer / .cm-content, and a rule on
+   the element always beats an inherited value. Dim fields then opt out,
+   and driven fields opt up. The test is the model's own: remove every
+   text-shadow in the chrome and the screen must look DEAD. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace {
+  text-shadow: var(--after-glow-norm);
+}
+/* PROTECTED fields do not bloom: labels, counts, structure, hints, the
+   inactive tab row, bracketed controls. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.tree-item-flair, .tag-pane-tag-count, .tree-item-heading,
+      .view-header-breadcrumb, .view-header-breadcrumb-separator,
+      .workspace-tab-header:not(.is-active),
+      .nav-action-button, .nav-buttons-container .clickable-icon,
+      .workspace-tab-header-new-tab, .tree-item-icon,
+      .workspace-sidedock-vault-profile, .pane-empty) {
+  text-shadow: none;
+}
+/* INTENSIFIED: the one label per pane that answers "where am I", and any
+   count that is itself the subject. Halation included — light spreading
+   through the faceplate is what "driven hard" looks like. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header-title {
+  text-shadow: var(--after-glow-int);
+}
+
+
+/* ── §FRAME — THE PANE IS A DRAWN BOX ─────────────────────────────────────
+   A terminal draws its panels; it does not fill them. So the pane is a 1px
+   rule on three sides with the tab strip's own hairline as its fourth, and
+   NOTHING inside it paints a surface. That last part is the entire rule, and
+   getting it wrong is what made both previous attempts read as broken: a
+   surface drawn on a screen is a PANEL ON the screen, which is the thing we
+   are trying to stop.
+
+   FOCUS DOUBLES THE FRAME — 1px solid → 3px double, no hue change and no
+   glow. It is Turbo Vision's own convention, it survives greyscale, and it
+   costs no accent. The padding compensation is what makes it free: 1px border
+   + 2px padding and 3px border + 0 padding are the same box, so the content
+   does not move by a pixel when focus arrives.                             */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-container {
+  border: 1px solid var(--after-frame);
+  border-top: none;
+  border-radius: 0 0 2px 2px;
+  padding: 0 2px 2px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-tab-header.mod-active) .workspace-tab-container {
+  border: 3px double var(--after-frame-hi);
+  border-top: none;
+  padding: 0;
+}
+
+/* THE BAND HAIRLINE is the frame's top rule, and it runs the full width of the
+   strip to the far corner — including past the "+" and past a lone icon tab.
+   A group with one dock tab looked broken before not because the run was empty
+   but because there was no frame for it to belong to.
+
+   Painted as a background layer rather than a border so the strip's height
+   never moves, and so the active tab (a descendant, therefore painted above
+   its ancestor's background) can knock a hole in it. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
+  background-color: transparent;
+  background-image: linear-gradient(var(--after-frame), var(--after-frame));
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  border-bottom: none;
+  box-shadow: none;
+  align-items: flex-end;
+  min-height: 0;
+  padding: 0;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-tab-header.mod-active) .workspace-tab-header-container {
+  background-image: linear-gradient(
+    var(--after-frame-hi) 0 1px,
+    var(--after-tube) 1px 2px,
+    var(--after-frame-hi) 2px 3px);
+  background-size: 100% 3px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner {
+  align-items: flex-end;
+  margin: 0;
+  /* 2px, so the first tab's own corner is not welded to the countersink wall.
+     It goes on the INNER, not on the container: the band hairline is a
+     background on the container and has to run the full width of the frame. */
+  padding: 0 0 0 2px;
+  gap: 0;
+}
+
+
+/* ── §REVERSE — SELECTION IS REVERSE VIDEO ────────────────────────────────
+   The active tab is a reverse-video plate: the plate is the coating at
+   NORMAL intensity, the letters are the tube, and a halo of halation sits
+   around it — which is what a solid field actually looks like on a CRT.
+   This replaces the notch-in-the-rule silhouette; DESIGN-MODEL.md's reversal
+   log is explicit that selection is reverse video, and the greyscale law
+   holds because a plate is a luminance event, not a hue.
+
+   Still NO ACCENT ANYWHERE IN THE TAB STRIP — there is no accent to have.
+   A coloured bar across the top of the selected tab is the house style of
+   every IDE shipped since about 2015, and a terminal never had it. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
+  position: relative;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  box-shadow: none;
+  margin-top: 0;
+  padding-top: 0;
+  height: 31px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header .workspace-tab-header-inner {
+  transform: none;
+  /* Proportional, because this padding is charged straight to the label. A flat
+     14px is right at 220px and eats the whole title at the 78px floor — where
+     Bureau's centring grid also reserves both fixed gutters, so between them
+     the title got 4px and vanished, which is how twelve open tabs turned into
+     a row of identical file icons. */
+  padding: 0 clamp(6px, 6%, 14px);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .mod-root .workspace-tab-header .workspace-tab-header-inner,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header .workspace-tab-header-inner {
+  grid-template-columns: 18px minmax(0, 1fr) 18px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header:not(.is-active):hover {
+  background-color: var(--after-wash);
+  box-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
+  background-color: var(--after-norm);
+  background-image: none;
+  border-color: transparent;
+  border-radius: 2px 2px 0 0;
+  /* halation around a lit plate — light through the faceplate, not a drop
+     shadow: no offset, no direction */
+  box-shadow: var(--after-halo);
+}
+/* Reverse ink: the letters are the TUBE. A reverse plate is the absence of
+   glyph glow, so the text-shadow goes too. The svg is load-bearing — dock
+   icons are svgs and an earlier rule paints them at higher specificity. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active
+  :is(.workspace-tab-header-inner-title, .workspace-tab-header-inner-icon,
+      .workspace-tab-header-inner-close-button, .workspace-tab-header-inner-icon svg) {
+  color: var(--after-tube);
+  -webkit-text-fill-color: var(--after-tube);
+  text-shadow: none;
+}
+/* The active tab of a group WITHOUT focus is the same plate driven lower —
+   a region of the raster at protected intensity, exactly what a real tube
+   does to a field it is not refreshing hard. The greyscale gap survives. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):not(:has(.workspace-tab-header.mod-active)) .workspace-tab-header.is-active {
+  background-color: var(--after-prot);
+  box-shadow: none;
+}
+/* A drawn divider between inactive tabs — a terminal separates fields with a
+   character, not with whitespace and a shadow. At cap height, where a box
+   glyph would actually sit. Suppressed on either side of the active tab: the
+   notch already ends the run, and a rule butting into a frame corner reads as
+   a rendering fault rather than as structure. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  .workspace-tab-header + .workspace-tab-header::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 13px;
+  transform: translateY(-50%);
+  background-color: var(--after-frame-faint);
+  pointer-events: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.workspace-tab-header.is-active + .workspace-tab-header, .workspace-tab-header.is-active)::before {
+  content: none;
+}
+/* Dock tabs are the same object at a smaller size: same grammar, no label. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
+  width: 44px;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header .workspace-tab-header-inner {
+  padding: 0;
+  justify-content: center;
+}
+/* The "+" is a control on the tube, so it gets no fill either — and it takes
+   the STRIP's ink rather than the theme's, because it lives in the strip. It
+   was reading --after-text-hi, which is profile-dependent, so switching to the
+   amber unit turned the one accent-free row in the chrome amber. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-new-tab {
+  align-self: center;
+  background-color: transparent;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) :is(.workspace-tab-header-new-tab, .workspace-tab-header-new-tab .clickable-icon) {
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) :is(.workspace-tab-header-new-tab, .workspace-tab-header-new-tab .clickable-icon):hover {
+  color: var(--after-int);
+  -webkit-text-fill-color: var(--after-int);
+  background-color: transparent;
+}
+
+
+/* ── §TYPE — FOUR INTENSITIES, ONE FACE ──────────────────────────────────
+   Size carries hierarchy — the pane title is deliberately LARGER than the
+   rows beneath it, the inversion of most app chrome and the thing that makes
+   a terminal feel like a terminal. Intensity carries state. One character
+   generator carries everything (law 1's sibling): hierarchy never comes from
+   a second face.                           */
+
+/* C1 · pane title, set into the top rule of the frame. A true TUI reparents
+   the title into the border; Obsidian will not let you move .view-header-title,
+   so the header ROW becomes the rule instead: ┤ TITLE ├ then a 1px flex fill
+   out to the frame's inner edge. Visually identical, no DOM surgery. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header {
+  display: flex;
+  align-items: center;
+  gap: var(--after-s2);
+  height: 28px;
+  min-height: 28px;
+  padding: 0 var(--after-s2);
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header::after {
+  content: "";
+  display: block;
+  /* `order` rather than DOM position: a pseudo-element is always the last flex
+     item, and the rule has to run BETWEEN the title and the action icons. */
+  order: 5;
+  flex: 1 1 auto;
+  min-width: 12px;
+  height: 1px;
+  background-color: var(--after-frame);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header > .view-actions {
+  order: 9;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header-title-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 1 auto;
+  min-width: 0;
+  background-color: transparent;
+  /* A RULE IS ONE LINE HIGH. Obsidian leaves the breadcrumb run wrapping, which
+     is harmless in a 40px header band and fatal in a 28px rule — the container
+     grew to 38px and hung out of both ends of its own row. Everything in here
+     is a single line that clips; nothing in a rule may wrap. */
+  white-space: nowrap;
+  overflow: hidden;
+  height: 100%;
+  /* Cap it, so the RULE always reads as a rule. A note title plus a breadcrumb
+     will happily eat every pixel of a wide header and leave the flex fill as a
+     two-pixel stub, which looks like a rendering fault rather than like a
+     title set into a line. Two thirds is the point where a long title still
+     shows more than the tab does and the rule still reads as structure. */
+  max-width: 66%;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header > .view-header-left {
+  flex: 0 0 auto;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header :is(.view-header-breadcrumb, .view-header-breadcrumb-separator) {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+/* The brackets. Single characters at fixed positions, which is the ONLY way a
+   box-drawing glyph is allowed in here — a tiled run of ─ clips mid-glyph at
+   the end of a fluid container and shifts by a fraction of a cell at every
+   width, so runs are 1px backgrounds and corners are glyphs. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header-title-container::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header-title-container::after {
+  display: block;
+  flex: 0 0 auto;
+  font-family: var(--after-font-label);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--after-frame);
+  -webkit-text-fill-color: var(--after-frame);
+  text-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header-title-container::before { content: "\2524"; }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header-title-container::after  { content: "\251C"; }
+/* Focused: the title rule lifts with the frame. Same weight, same size — the
+   pane's identity does not change, only which pane you are in. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-tab-header.mod-active) .view-header::after {
+  background-color: var(--after-frame-hi);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-tab-header.mod-active) .view-header-title-container::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-tab-header.mod-active) .view-header-title-container::after {
+  color: var(--after-frame-hi);
+  -webkit-text-fill-color: var(--after-frame-hi);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header-title {
+  font-family: var(--after-font-label);
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--after-int);
+  -webkit-text-fill-color: var(--after-int);
+  /* Titles clip at the END. Never a fade-out mask — a gradient over live text
+     fights the multiply raster and turns the last two characters to mud. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* C3 · tab titles. Colour is the hierarchy here and nothing else moves: no
+   size change between rest and active, because a tab that grows when you
+   select it is a physical object, and a tube has no depth. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header
+  :is(.workspace-tab-header-inner-title, .workspace-tab-header-inner-icon, .workspace-tab-header-inner-close-button) {
+  font-family: var(--after-font-label);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+  text-shadow: none;
+  background: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header:hover
+  :is(.workspace-tab-header-inner-title, .workspace-tab-header-inner-icon) {
+  color: var(--after-norm);
+  -webkit-text-fill-color: var(--after-norm);
+}
+/* The active tab's ink is owned by §REVERSE above: plate at normal (or
+   protected, when the group lacks focus), letters always the tube. */
+
+/* C2 · anything that came out of the vault, in the working face and in TRUE
+   CASE always — file names, outline entries, search results, tags. Face is
+   the hierarchy: the machine speaks in 3270, the vault speaks in Courier. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.tree-item-inner, .nav-file-title-content, .nav-folder-title-content, .search-result-file-title .tree-item-inner) {
+  /* ONE CHARACTER GENERATOR. The rows used to take the body face so vault
+     names read as "content"; the model's law is that a terminal has one
+     font, and hierarchy comes from intensity, reverse video and position —
+     CHROME-REFERENCE.html draws every row in the label face. */
+  font-family: var(--after-font-label);
+  font-size: var(--after-ui-size);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--after-norm);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .nav-folder-title-content {
+  /* Folders are structure, files are content: protected vs normal, which is
+     also the reference's own ordering — the tree's names outshine its bones. */
+  color: var(--after-prot);
+}
+/* C4 · field labels, section stamps, column heads, breadcrumbs. Tracking is
+   what makes 12.5px legible; do not reduce it. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.tree-item-heading, .view-header-breadcrumb, .view-header-breadcrumb-separator, .search-result-count) {
+  font-family: var(--after-font-label);
+  font-size: 12.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+}
+/* C5 · every numeral. Right-aligned, tabular, and joined to its label by a
+   dotted leader wherever the DOM gives us a flair wrapper to hang one on.
+   Accent ONLY when the count is itself the subject — which it never is in a
+   file tree, so it never happens here. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.tree-item-flair, .tag-pane-tag-count) {
+  font-family: var(--after-font-label);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .tree-item-self > .tree-item-flair-outer {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+/* The leader is a border, not a run of · glyphs: a repeated character drifts
+   against a fluid width and clips mid-glyph at the end. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .tree-item-self > .tree-item-flair-outer::before {
+  content: "";
+  display: block;
+  flex: 1 1 auto;
+  min-width: 8px;
+  height: 0;
+  border-bottom: 1px dotted color-mix(in srgb, var(--after-frame) 50%, transparent);
+}
+
+
+/* ── §ROWS — SELECTION IS INVERSE VIDEO ───────────────────────────────────
+   The way a terminal has always shown selection: swap ink and ground for that
+   run of characters. Full inversion for CURRENT only, and no accent bar — an
+   inverse block is complete on its own, and the bar was a second signal for
+   the same fact. Hover is a 7% wash of the ink already there, never a new
+   hue, because an emitting region emits the phosphor it has.               */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .tree-item-self {
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .tree-item-self.is-clickable:hover {
+  background-color: var(--after-wash);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.tree-item-self.is-active, .nav-file-title.is-active, .tree-item-self.is-clickable.is-active) {
+  background-color: var(--after-norm);
+  box-shadow: var(--after-halo);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.tree-item-self.is-active, .nav-file-title.is-active)
+  :is(.tree-item-inner, .nav-file-title-content, .nav-folder-title-content, .tree-item-icon, .tree-item-flair) {
+  color: var(--after-tube);
+  -webkit-text-fill-color: var(--after-tube);
+  /* an inverse block is the ABSENCE of glyph glow, not more of it */
+  text-shadow: none;
+}
+/* Indent guides are structure, so they are drawn in the frame colour rather
+   than in a tint of the row. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) {
+  --nav-indentation-guide-color: color-mix(in srgb, var(--after-frame) 55%, transparent);
+}
+/* C7 · structure glyphs. Always 3270 — the bitmap display face is locked to a
+   16px grid and box-drawing on a locked grid cannot align to a fluid layout. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .tree-item-icon {
+  font-family: var(--after-font-label);
+  color: var(--after-prot);
+}
+/* Never blank. The frame closes, four ░ mark the dead region, and a C4 line
+   states the condition — an empty pane should say it is empty, not look
+   broken. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .pane-empty {
+  font-family: var(--after-font-label);
+  font-size: 12.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--after-prot);
+  text-align: center;
+  padding-top: var(--after-s5);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .pane-empty::before {
+  content: "\2591\2591\2591\2591";
+  display: block;
+  font-size: 24px;
+  letter-spacing: 0.3em;
+  color: var(--after-frame-faint);
+  margin-bottom: var(--after-s3);
+}
+
+
+/* ── §CONTROLS — KEYS ON THE CASE, FIELDS ON THE TUBE ─────────────────────
+   This is the metaphor, and it is what makes a control readable before you
+   read its glyph:
+
+     KEYS    on the case. A moulded cap with an engraved glyph. Operates the
+             MACHINE — which panel is open, settings. Presses in, lights a lens.
+     FIELDS  on the tube. A drawn glyph in [ ] brackets. Operates CONTENT —
+             new note, sort, collapse. The bracket carries the state; the glyph
+             only brightens.
+
+   Nothing on the ribbon ever gets brackets. Nothing on a tube ever gets a
+   keycap. The bracket is `dialog(1)`'s own [ OK ]; the cap is a function key. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .nav-header {
+  padding: var(--after-s1) var(--after-s2) 0;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .nav-buttons-container {
+  gap: var(--after-s1);
+  width: 100%;
+  align-items: center;
+}
+/* THE SIDEBAR HAS NO PANE TITLE, and cannot have one: Obsidian does not build
+   a .view-header for a side-dock leaf at all — verified in the app, not
+   assumed — so C1 has nowhere to live there and the pane is identified by its
+   dock tab instead. Inventing a label from [data-type] would be fabricated,
+   English-only text, so it is not done.
+
+   What the control row CAN do is be a RULE. Brackets, then a 1px fill out to
+   the frame's inner edge: the same grammar as a title set into a rule, minus
+   the title, and it stops the row of brackets floating in open space between
+   the band hairline and the first tree item. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .nav-header .nav-buttons-container::after {
+  content: "";
+  display: block;
+  flex: 1 1 auto;
+  min-width: 12px;
+  height: 1px;
+  margin-left: var(--after-s2);
+  background-color: var(--after-frame);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-tab-header.mod-active) .nav-header .nav-buttons-container::after {
+  background-color: var(--after-frame-hi);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon) {
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  gap: 3px;
+  color: var(--after-prot);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon)::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon)::after {
+  display: block;
+  font-family: var(--after-font-label);
+  font-size: 14.5px;
+  line-height: 1;
+  color: var(--after-frame);
+  -webkit-text-fill-color: var(--after-frame);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon)::before { content: "["; }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon)::after  { content: "]"; }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon):hover {
+  background-color: transparent;
+  color: var(--after-int);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon):hover::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon):hover::after {
+  color: var(--after-frame-hi);
+  -webkit-text-fill-color: var(--after-frame-hi);
+}
+/* ON — the bracket is driven hard. There is no accent (law 2); a control
+   reporting a setting is simply the brightest thing a field can be. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon).is-active::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.nav-action-button, .nav-buttons-container .clickable-icon).is-active::after {
+  color: var(--after-int);
+  -webkit-text-fill-color: var(--after-int);
+}
+/* Header action icons stay unbracketed — they sit in the title RULE, and a
+   bracket inside a rule reads as a break in the rule. Colour only. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  .view-header :is(.clickable-icon, .view-action) {
+  background-color: transparent;
+  color: var(--after-prot);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  .view-header :is(.clickable-icon, .view-action):hover {
+  background-color: transparent;
+  color: var(--after-norm);
+}
+
+
+/* ── §STATUS — A DRAWN LINE ON THE GLASS ──────────────────────────────────
+   It reports on the open document, so it is something the machine is
+   SHOWING: a protected-intensity run of text over the tube's reserved
+   bottom line, right-aligned the way the reference draws it. Fixed, because
+   its DOM position is outside .workspace and CSS cannot reparent — the
+   glass reserves --after-status-h at its foot for exactly this strip. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .status-bar {
+  position: fixed;
+  left: auto;
+  right: calc(var(--after-case-reveal) + var(--after-wall-w) + var(--after-glass-pad) + 8px);
+  bottom: calc(var(--after-case-reveal) + var(--after-wall-w));
+  height: var(--after-status-h);
+  max-width: 60vw;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  z-index: 20;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  .status-bar :is(.status-bar-item, .status-bar-item span, .status-bar-item-segment, .status-bar-item-icon) {
+  font-family: var(--after-font-label);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--after-prot);
+  background: transparent;
+}
+/* A drawn divider between items, at cap height. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .status-bar .status-bar-item + .status-bar-item {
+  background-image: linear-gradient(var(--after-frame-faint), var(--after-frame-faint));
+  background-size: 1px 12px;
+  background-position: 0 50%;
+  background-repeat: no-repeat;
+  padding-left: var(--after-s3);
+  margin-left: var(--after-s2);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .status-bar .status-bar-item:hover :is(span, .status-bar-item-segment) {
+  color: var(--after-norm);
+}
+
+/* ── §HARDWARE — THE RIBBON RAIL AND ITS KEYS ─────────────────────────────
+   The one part of the window that is genuinely a physical control, because it
+   sits outside every pane. A moulded rail with real caps on it: lit top edge,
+   shadowed underside, engraved glyph. The cap is there AT REST, not on hover —
+   a key you can only see when you point at it is not a key.                */
+body:not(.is-mobile) .workspace-ribbon.mod-left {
+  background-color: var(--after-chassis);
+  background-image: linear-gradient(to right,
+    rgba(255, 255, 255, 0.05) 0,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(0, 0, 0, 0.26) 100%);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.5);
+  border-right: none;
+}
+/* On the one-tube machine the rail leaves the glass's flow entirely: a fixed
+   column of case running the full window height, left of the aperture. The
+   glass begins at --after-rail-w; the rail owns everything before it. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-ribbon.mod-left {
+  position: fixed;
+  left: 0;
+  top: var(--after-topbar-h);
+  bottom: 0;
+  height: auto;
+  z-index: 30;
+}
+body:not(.is-mobile) .side-dock-actions {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+body:not(.is-mobile).theme-dark :is(.side-dock-actions, .side-dock-settings) :is(.clickable-icon, .side-dock-ribbon-action) {
+  border-radius: 4px;
+  background-color: transparent;
+  background-image: linear-gradient(180deg, #34373e, #282b31);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 0 0 1px #1a1c20;
+  color: #aeb6c0;
+  /* engraved, not printed: light from above catches the lower edge of the cut */
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.06), 0 -1px 0 rgba(0, 0, 0, 0.55);
+}
+body:not(.is-mobile).theme-light :is(.side-dock-actions, .side-dock-settings) :is(.clickable-icon, .side-dock-ribbon-action) {
+  border-radius: 4px;
+  background-color: transparent;
+  background-image: linear-gradient(180deg, #d6dae0, #c2c6cd);
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.14),
+    0 0 0 1px #9ba0a8;
+  color: #4e545c;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+/* The cap does not change on hover — only the glyph brightens and the key
+   travels 1px. Restating the moulding here is what would break light mode:
+   the shadow stack is per-mode and this rule is not. */
+body:not(.is-mobile) :is(.side-dock-actions, .side-dock-settings) :is(.clickable-icon, .side-dock-ribbon-action):hover {
+  background-color: transparent;
+  color: var(--after-chassis-ink-hi);
+  transform: translateY(1px);
+  transition: transform 60ms ease-out;
+}
+/* Dock open: the key is PRESSED IN — the gradient flips, the shadow goes
+   inside — and its lens comes up. The lens is the single exception to
+   "housing never lights", and it is the only lit thing on the case. */
+body:not(.is-mobile).theme-dark :is(.side-dock-actions, .side-dock-settings) :is(.clickable-icon, .side-dock-ribbon-action).is-active {
+  background-image: linear-gradient(180deg, #212329, #292c32);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.65),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px #1a1c20;
+  color: #e4ebf3;
+  position: relative;
+  transform: none;
+}
+body:not(.is-mobile) :is(.side-dock-actions, .side-dock-settings) :is(.clickable-icon, .side-dock-ribbon-action).is-active::after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  /* A case lamp has its own bulb — CHROME-REFERENCE.html draws exactly
+     these literals, and hardware does not change colour with the tube. */
+  background-image: radial-gradient(circle at 38% 32%,
+    #eaf7ff, #7fd4ff 55%, #14536f 100%);
+  box-shadow:
+    0 0 7px 1px rgba(127, 212, 255, 0.5),
+    0 0 0 1px #101216,
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+
+/* ── §NAMEPLATE — A FIELD ON THE GLASS ────────────────────────────────────
+   The vault switcher names the installation, but there is no case beneath
+   the sidebar any more — everything inside the aperture is drawn. So it
+   becomes what the reference draws: a protected VAULT label and the name as
+   a reverse-video chip, exactly the grammar of every other field. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-sidedock-vault-profile {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  height: 26px;
+  min-height: 26px;
+  margin: 0 var(--after-gutter) calc(var(--after-gutter) / 2);
+  padding: 0 var(--after-s2);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-sidedock-vault-profile::before {
+  content: "VAULT";
+  display: block;
+  flex: 0 0 auto;
+  font-family: var(--after-font-label);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+  margin-right: var(--after-s2);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-sidedock-vault-profile .workspace-drawer-vault-name {
+  font-family: var(--after-font-label);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  padding: 1px 7px;
+  background-color: var(--after-norm);
+  color: var(--after-tube);
+  -webkit-text-fill-color: var(--after-tube);
+  text-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-sidedock-vault-profile .clickable-icon {
+  color: var(--after-prot);
+  background-color: transparent;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-sidedock-vault-profile .clickable-icon:hover,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace-sidedock-vault-profile:hover .clickable-icon {
+  color: var(--after-norm);
+}
+
+
+/* ── §HANDLE — THERE IS NO HANDLE ─────────────────────────────────────────
+   The handle is the gutter between two modules: bare case, and the one place
+   the housing is doing a job. At rest it shows nothing at all. On hover a
+   short 2px rule appears, faded out at both ends so it reads as a grip mark
+   rather than as a seam; dragging drives the grip to full intensity — the
+   beam's way of saying "held".
+
+   Measured live: Obsidian pins the hit-box flush to the SPLIT's true right
+   edge (inset-inline-end:0), and that edge sits INSIDE the sidebar's own
+   gutter, not between the two frames. At the stock 3px width that left ~2px
+   of open case on the sidebar side of the handle and the full gutter on the
+   root side — visually fused to the sidebar's frame, exactly as reported.
+   Widened to 12px and the gutter floor raised to clear it on both sides
+   (§ tokens, --after-gutter) — asymmetric clearance is unavoidable without
+   touching Obsidian's own positioning (risking the drag math), but both
+   sides now clear the handle with room, rather than one side clearing none. */
+body:not(.is-mobile) {
+  --divider-width-hover: 12px;
+}
+body:not(.is-mobile) .workspace-leaf-resize-handle {
+  background-color: transparent;
+  opacity: 0;
+  transition: opacity 120ms linear;
+}
+body:not(.is-mobile) .workspace-leaf-resize-handle:hover {
+  opacity: 1;
+  background-color: transparent;
+  background-image: linear-gradient(var(--after-frame-hi), var(--after-frame-hi));
+  background-size: 2px 60%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(transparent 0%, #000 22%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(transparent 0%, #000 22%, #000 78%, transparent 100%);
+}
+body:not(.is-mobile) .workspace-leaf-resize-handle:active {
+  background-image: linear-gradient(var(--after-int), var(--after-int));
+  background-size: 2px 100%;
+}
+
+
+/* ── §DEGRADATION ─────────────────────────────────────────────────────────
+   The machine just gets smaller. The frame never thins, the title never
+   abbreviates, and the wall never changes — those three are the identity, and
+   a design that drops its identity when the window narrows did not have one.  */
+/* TWELVE OPEN TABS. Tabs flex down to a 78px floor and then the strip SCROLLS —
+   they do not keep shrinking. Left to Obsidian's own flex the twelfth tab takes
+   every label in the row down with it and the strip becomes a line of identical
+   file icons, which is worse than a scrollbar by any measure. The active tab is
+   pinned wider still, because it is the one whose name you actually need. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
+  flex: 0 1 220px;
+  min-width: 78px;
+  max-width: 220px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
+  min-width: 150px;
+}
+/* Dock tabs do not flex at all — an icon has one right size… */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
+  max-width: 44px;
+}
+/* …EXCEPT the active one, because IN A SIDEBAR THE DOCK TAB IS THE PANE
+   TITLE. Two reverse plates stacked at two offsets were saying the same
+   thing (DESIGN-MODEL.md, forbidden moves — "two elements saying the same
+   thing"), so they are one plate now: the icon plus the label the tab
+   already carries in aria-label. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
+  width: auto;
+  max-width: none;
+  padding: 0 10px 0 7px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active::after {
+  content: attr(aria-label);
+  flex: 0 0 auto;   /* a narrow strip squeezes flex items; the TITLE never shrinks */
+  /* Obsidian's app.css uses tab-header ::before/::after as tab-corner
+     curves: absolutely positioned circles CLIPPED to a quarter with
+     clip-path — verified in the shipped app.css, not the harness, whose
+     reset didn't model it. Every one of those properties is taken back
+     here, or the label paints as a microscopic clipped sliver. */
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  clip-path: none;
+  box-shadow: none;
+  background: none;
+  -webkit-mask: none;
+  mask: none;
+  display: block;
+  align-self: center;
+  font-family: var(--after-font-label);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--after-tube);
+  -webkit-text-fill-color: var(--after-tube);
+  text-shadow: none;
+  margin-left: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 16ch;
+}
+/* And the second plate goes: a plugin pane that does render a .view-header
+   in a side dock would repeat the label the tab now carries. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .view-header {
+  display: none;
+}
+
+/* ── §PERSISTENCE — DECAY ON THE WAY OUT ─────────────────────────────────
+   The theme is named for this and it was the one thing never built. A
+   selection that moves leaves its old plate cooling behind it: the base
+   state carries the transition, and the lit state sets transition: none, so
+   turning ON is a beam event — instant — while turning OFF is phosphor
+   physics. Costs nothing at rest; reduced-motion zeroes it. */
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .tree-item-self {
+  transition: background-color 600ms cubic-bezier(0.1, 0.4, 0.3, 1), box-shadow 600ms cubic-bezier(0.1, 0.4, 0.3, 1);
+}
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .tree-item-self
+  :is(.tree-item-inner, .nav-file-title-content, .nav-folder-title-content) {
+  transition: color 600ms cubic-bezier(0.1, 0.4, 0.3, 1);
+}
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.tree-item-self.is-active, .nav-file-title.is-active, .tree-item-self.is-clickable.is-active),
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper):not(.after-tree-stamp)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked)
+  :is(.tree-item-self.is-active, .nav-file-title.is-active) * {
+  transition: none;
+}
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
+  transition: background-color 600ms cubic-bezier(0.1, 0.4, 0.3, 1), box-shadow 600ms cubic-bezier(0.1, 0.4, 0.3, 1);
+}
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-root, .mod-left-split, .mod-right-split) .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
+  transition: none;
+}
+
+/* ── §PROPERTIES — ALL EIGHT, TYPED ──────────────────────────────────────
+   The reference's annotation, verbatim: keys are protected fields so they
+   run dim; multitext becomes reverse chips. The panel is a drawn frame with
+   its title set into the top rule, and the key plates — a card idiom —
+   dissolve into plain dim fields. background-clip is reset alongside
+   background-image, per the standing rule: with one layer a two-value clip
+   list truncates to `text` and the ink vanishes while computed styles keep
+   reporting it. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-container {
+  background: transparent;
+  border: 1px solid var(--after-frame);
+  border-top: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0 12px 10px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-properties-heading {
+  display: flex;
+  align-items: center;
+  border-bottom: none;
+  margin: 0 -12px 6px;
+  padding: 0 0 0 8px;
+  gap: 7px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-properties-heading::after {
+  content: "";
+  display: block;
+  flex: 1 1 auto;
+  min-width: 12px;
+  height: 1px;
+  background-color: var(--after-frame);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-properties-title {
+  font-family: var(--after-font-label);
+  letter-spacing: 0.18em;
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+  text-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-property {
+  border-bottom: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-property-key-input {
+  background-color: transparent;
+  background-image: none;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: none;
+  border-radius: 0;
+  padding: 1px 0;
+  font-family: var(--after-font-label);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+  text-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-property-icon {
+  color: var(--after-prot);
+}
+/* Values are what the machine is showing: normal intensity, no box. The
+   field's extent shows only when it is empty — a dashed run where an
+   unprotected 3270 field kept its underscores. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.metadata-input-longtext, .metadata-input, .metadata-input-text,
+      .metadata-property-value input) {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--after-norm);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.metadata-input-longtext:empty, .metadata-input-longtext:has(> br:only-child)) {
+  border-bottom: 1px dashed color-mix(in srgb, var(--after-prot) 55%, transparent);
+  border-radius: 0;
+  min-width: 16ch;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-property .multi-select-pill {
+  background-color: var(--after-norm);
+  border: none;
+  border-radius: 1px;
+  box-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-property .multi-select-pill .multi-select-pill-content,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-property .multi-select-pill {
+  color: var(--after-tube);
+  -webkit-text-fill-color: var(--after-tube);
+  text-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-add-button {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: var(--after-prot);
+  gap: 3px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-add-button::before { content: "["; }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-add-button::after  { content: "]"; }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-add-button::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-add-button::after {
+  display: block;
+  font-family: var(--after-font-label);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--after-frame);
+  -webkit-text-fill-color: var(--after-frame);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .metadata-add-button:hover { color: var(--after-norm); }
+
+/* ── §HINTS — KEYS IN THE BOTTOM RULE ────────────────────────────────────
+   The dead space at the foot of the file tree carries what a TUI always put
+   there. Painted as a knockout: tube colour over the frame rule, so the
+   hints sit IN the line the way ┤ ├ sets a title into one. The keys are
+   hard-coded to the two bindings the reference draws — new and find — in
+   the reference's own caret notation, which the 3270 face actually has a
+   glyph for (U+2318 falls back to a different font and collides). */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-leaf-content[data-type="file-explorer"])
+  .workspace-tab-container {
+  position: relative;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper)
+  :is(.mod-left-split, .mod-right-split)
+  .workspace-tabs:not(.mod-stacked):has(.workspace-leaf-content[data-type="file-explorer"])
+  .workspace-tab-container::after {
+  content: "^N New  ^F Find";
+  position: absolute;
+  left: 14px;
+  bottom: -7px;
+  padding: 0 7px;
+  background-color: var(--after-tube);
+  font-family: var(--after-font-label);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--after-prot);
+  -webkit-text-fill-color: var(--after-prot);
+  text-shadow: none;
+  pointer-events: none;
+  white-space: pre;
+}
+/* ── §TOGGLES — THE SIDEBAR SWITCHES, BRACKETED ──────────────────────────
+   Both collapse buttons are drawn controls on the tube — the head of the
+   left dock strip and the far end of the editor strip — so they wear the
+   same [ ] every other drawn control wears. The theme already shipped hide
+   toggles for them; these rules only dress what Obsidian renders. */
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0 2px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--after-prot);
+  text-shadow: none;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button .clickable-icon {
+  background: transparent;
+  color: var(--after-prot);
+  padding: 2px;
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button::after {
+  display: block;
+  font-family: var(--after-font-label);
+  font-size: 14.5px;
+  line-height: 1;
+  color: var(--after-frame);
+  -webkit-text-fill-color: var(--after-frame);
+}
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button::before { content: "["; }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button::after  { content: "]"; }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button:hover .clickable-icon { color: var(--after-norm); }
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button:hover::before,
+body.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .sidebar-toggle-button:hover::after {
+  color: var(--after-frame-hi);
+  -webkit-text-fill-color: var(--after-frame-hi);
+}
+@media (max-width: 900px) {
+  body.after-cards:not(.is-mobile) {
+    --after-gutter: 6px;
+    --after-wall-w: 3px;
+    --after-case-reveal: 5px;
+    --after-glass-pad: 4px;
+    --after-spill: 0 0 20px 4px color-mix(in srgb,
+      var(--after-emit) calc(var(--after-tube-glow) * var(--after-screen-on) * 15%), transparent);
+  }
+}
+/* ── §POPOUT — A SECOND, SMALLER CASE ────────────────────────────────────
+   A popout window has no ribbon and no status bar, so the glass neither
+   reserves the rail nor holds a status line at its foot. Everything else —
+   the aperture, the frames, the grammar — is the same machine. */
+body.is-popout-window.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper) .workspace {
+  margin-left: var(--after-case-reveal);
+  padding-bottom: var(--after-glass-pad);
+}
+
+/* ── §BOOT — POWER-ON MOVES THE WHOLE MACHINE ────────────────────────────
+   The boot animation used to warp .workspace — but a transform on an
+   ancestor makes it the containing block for position:fixed, so the rail
+   and the status line would ride the scaling GLASS and snap to the case
+   when it finished. Retargeting the same keyframes at .app-container keeps
+   them fixed relative to a box that starts at the window origin: the whole
+   machine powers on, and nothing snaps. */
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper).after-poweron .workspace {
+  animation: none;
+}
+body.after-anim.after-cards:not(.is-mobile):not(.after-pill-chrome):not(.after-glass-cards):not(.after-wallpaper).after-poweron .app-container {
+  animation: after-appstart 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* prefers-reduced-motion: the global block at the foot of this file zeroes
+   the refresh bar, the flicker and the decay transitions with !important —
+   the artifacts are ambient, so the OS-level preference must beat them.
+   Locally there is one travel to remove: */
+@media (prefers-reduced-motion: reduce) {
+  body:not(.after-ignore-reduced-motion):not(.is-mobile)
+    :is(.side-dock-actions, .side-dock-settings) :is(.clickable-icon, .side-dock-ribbon-action):hover {
+    transform: none;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
    AFTERIMAGE — EDITING SAFETY
    ═══════════════════════════════════════════════════════════════════════════
    Everything an optical effect must never break. These are guarantees, not
@@ -6085,7 +7773,17 @@ body :is(.side-dock-ribbon-action, .workspace-ribbon .clickable-icon) svg {
 .markdown-source-view.mod-cm6 .cm-editor::after,
 .markdown-reading-view::after,
 .workspace-split.mod-left-split .nav-files-container::after,
-.workspace-split.mod-right-split .view-content > *::after {
+.workspace-split.mod-right-split .view-content > *::after,
+/* the tube's two over-content layers cover the ENTIRE glass — every pane,
+   every tab strip, the note — so a missed pointer-events on either would
+   make the whole app unclickable, and it would look like a broken install
+   rather than a theme. The retired per-module hosts stay listed: belt and
+   braces costs nothing and a future rule may revive them. */
+.workspace::before,
+.workspace::after,
+.workspace-tabs::before,
+.workspace-tabs::after,
+.status-bar::before {
   pointer-events: none !important;
 }
 
@@ -6208,6 +7906,16 @@ body.after-scrollbar-grip-custom {
 body.after-flat-edges {
   --after-glass-tl: 0 0 0 0 transparent;
   --after-glass-br: 0 0 0 0 transparent;
+  /* The recessed-cutout bevel is the same idea pointing the other way — a
+     screen set INTO the case rather than a card raised off it — so it has to
+     go flat on the same switch, or "no bevel" would still leave every pane
+     with a lit lip. */
+  --after-recess-top: 0 0 0 0 transparent;
+  --after-recess-lip: 0 0 0 0 transparent;
+  /* The cutout keeps its cut edge — that is the silhouette, not the bevel —
+     and keeps the SPILL, which is emission, not a light-direction cue. Only
+     the occlusion shadow at the mouth goes. */
+  --after-cutout: 0 0 0 1px var(--after-cut-edge), var(--after-spill);
 }
 /* Animation easing — swaps the entrance/transition curve. Default (no class) is the snappy ease-out. */
 body.after-ease-smooth { --after-anim-ease: cubic-bezier(0.65, 0, 0.35, 1); }
@@ -6304,7 +8012,7 @@ settings:
 
   - id: after-creator-note
     title: Starting points
-    description: "Two snapshots you can paste into Style Settings' **Import** control (the import icon at the top of the Style Settings pane). Importing overwrites only Afterimage's own settings, nothing else.\n\n**Full CRT** — the intended look, everything on.\n\n```json\n{\n  \"afterimage@@ai-profile\": \"after-profile-cobalt\",\n  \"afterimage@@ai-body-font\": \"after-font-dos\",\n  \"afterimage@@ai-glyph-raster\": 0.34,\n  \"afterimage@@ai-prose-raster\": 0.22,\n  \"afterimage@@ai-display-raster\": 0.5,\n  \"afterimage@@ai-bloom\": 4,\n  \"afterimage@@ai-ghost\": 0.3,\n  \"afterimage@@ai-rgb-split\": 0,\n  \"afterimage@@after-scanline-strength\": 0.14,\n  \"afterimage@@after-grain-opacity\": 0.06,\n  \"afterimage@@after-rail\": true,\n  \"afterimage@@after-anim\": true\n}\n```\n\n**Quiet** — the structure and typography with the optics dialled right down, for long writing sessions.\n\n```json\n{\n  \"afterimage@@ai-profile\": \"after-profile-mono\",\n  \"afterimage@@ai-body-font\": \"after-font-3270\",\n  \"afterimage@@ai-glyph-raster\": 0.12,\n  \"afterimage@@ai-prose-raster\": 0,\n  \"afterimage@@ai-display-raster\": 0.3,\n  \"afterimage@@ai-bloom\": 0,\n  \"afterimage@@ai-ghost\": 0,\n  \"afterimage@@after-scanline-strength\": 0,\n  \"afterimage@@after-grain-opacity\": 0,\n  \"afterimage@@after-anim\": false\n}\n```"
+    description: "Two snapshots you can paste into Style Settings' **Import** control (the import icon at the top of the Style Settings pane). Importing overwrites only Afterimage's own settings, nothing else.\n\n**Full CRT** — the intended look, everything on.\n\n```json\n{\n  \"afterimage@@after-profile\": \"after-profile-cobalt\",\n  \"afterimage@@after-body-font\": \"after-font-dos\",\n  \"afterimage@@after-prose-raster\": 0.22,\n  \"afterimage@@after-display-raster\": 0.5,\n  \"afterimage@@after-bloom\": 4,\n  \"afterimage@@after-ghost\": 0.3,\n  \"afterimage@@after-rgb-split\": 0,\n  \"afterimage@@after-tube-glow\": 0.5,\n  \"afterimage@@after-tube-scan\": 0.34,\n  \"afterimage@@after-grain-opacity\": 0.06,\n  \"afterimage@@after-rail\": true,\n  \"afterimage@@after-anim\": true\n}\n```\n\n**Quiet** — the structure and typography with the optics dialled right down, for long writing sessions.\n\n```json\n{\n  \"afterimage@@after-profile\": \"after-profile-mono\",\n  \"afterimage@@after-body-font\": \"after-font-3270\",\n  \"afterimage@@after-prose-raster\": 0,\n  \"afterimage@@after-display-raster\": 0.3,\n  \"afterimage@@after-bloom\": 0,\n  \"afterimage@@after-ghost\": 0,\n  \"afterimage@@after-tube-glow\": 0.15,\n  \"afterimage@@after-tube-scan\": 0.12,\n  \"afterimage@@after-grain-opacity\": 0,\n  \"afterimage@@after-anim\": false\n}\n```"
     type: info-text
     markdown: true
   - id: after-mode-heading
@@ -6665,6 +8373,30 @@ settings:
     min: 0
     max: 0.4
     step: 0.01
+  - id: after-tube-glow
+    title: Screen glow
+    description: "How much light spills out of the aperture onto the case around it — the proof the tube is *on*. There is no centre bloom any more (the glyphs emit; panels do not), so this drives the spill alone. Dark mode only: daylight shows an occlusion shadow instead."
+    type: variable-number-slider
+    default: 0.5
+    min: 0
+    max: 1
+    step: 0.05
+  - id: after-tube-vignette
+    title: ↳ Faceplate vignette
+    description: "Corner falloff across the one glass, from the tube's curvature and its shadow mask. This one is the *glass*, not the picture, so it stays on in daylight mode where the glow does not."
+    type: variable-number-slider
+    default: 0.5
+    min: 0
+    max: 1
+    step: 0.05
+  - id: after-tube-scan
+    title: ↳ Scan lines
+    description: "The tube raster: a `multiply` layer sitting OVER everything drawn on the glass, so it darkens the glyphs rather than the gaps between them — which is the whole difference between a tube and a striped film laid on top of one. Deliberately one step coarser than the body-text raster; the two are separate systems on purpose. (The status line sits above it — a 26px strip of dim text under a full raster was mud.)"
+    type: variable-number-slider
+    default: 0.34
+    min: 0
+    max: 1
+    step: 0.05
   - id: after-raster-period
     title: Raster spacing
     description: "Distance from one scan line to the next. **2px is the correct value for the IBM DOS preset** — that font puts exactly one font pixel per screen pixel at 16px, so a 2px period lands every band on a pixel boundary. Other values will look softer."
@@ -6757,8 +8489,8 @@ settings:
     max: 100
     step: 5
   - id: after-panel-grain
-    title: Sidebar texture
-    description: Concrete grain on the side panels.
+    title: Case texture
+    description: Machining grain on the chassis. (The side panels are glass now; the grain moved to the metal.)
     type: class-toggle
     default: true
   - id: after-panel-grain-amount

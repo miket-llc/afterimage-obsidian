@@ -6,7 +6,11 @@
 <link rel="stylesheet" href="reset.css">
 <link rel="stylesheet" href="../../theme.css">
 </head>
-<body class="theme-dark mod-macos is-focused">
+<!-- after-cards is ON by default in Style Settings, and it is what gates the
+     housing / aperture / frame chrome. Without it here the harness was
+     rendering a state almost no user sees, and the two over-content tube
+     layers were never hit-tested. -->
+<body class="theme-dark mod-macos is-focused after-cards">
 <div class="app-container">
  <div class="horizontal-main-container">
   <div class="workspace">
@@ -25,9 +29,15 @@
    </div>
 
    <!-- ══ left sidebar ══ -->
+   <!-- NO .view-header on a side-dock leaf. Obsidian does not build one — checked
+        in the app, where `.mod-left-split .view-header` and `.mod-right-split
+        .view-header` are both absent from the DOM. The harness used to include
+        them, which made the pane-title rule look like it worked in every pane
+        when it can only ever work in the editor. -->
    <div class="workspace-split mod-horizontal mod-left-split">
     <div class="workspace-tabs mod-top mod-top-left-space">
      <div class="workspace-tab-header-container">
+       <div class="sidebar-toggle-button mod-left"><div class="clickable-icon">◧</div></div>
        <div class="workspace-tab-header-container-inner">
          <div class="workspace-tab-header is-active" aria-label="Files"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">◫</div></div></div>
          <div class="workspace-tab-header" aria-label="Search"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">⌕</div></div></div>
@@ -37,7 +47,6 @@
      <div class="workspace-tab-container">
       <div class="workspace-leaf mod-active">
        <div class="workspace-leaf-content" data-type="file-explorer">
-        <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">Files</div></div></div>
         <div class="nav-header"><div class="nav-buttons-container">
           <div class="clickable-icon nav-action-button" aria-label="New note">✚</div>
           <div class="clickable-icon nav-action-button" aria-label="New folder">🗀</div>
@@ -113,6 +122,7 @@
        </div>
       </div>
       <div class="workspace-tab-header-new-tab"><div class="clickable-icon">＋</div></div>
+      <div class="sidebar-toggle-button mod-right"><div class="clickable-icon">◨</div></div>
      </div>
      <div class="workspace-tab-container">
       <div class="workspace-leaf mod-active">
@@ -234,12 +244,11 @@
    <div class="workspace-split mod-horizontal mod-right-split">
     <div class="workspace-tabs mod-top">
      <div class="workspace-tab-header-container"><div class="workspace-tab-header-container-inner">
-       <div class="workspace-tab-header is-active"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">⧉</div></div></div>
-       <div class="workspace-tab-header"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">☰</div></div></div>
+       <div class="workspace-tab-header is-active" aria-label="Backlinks"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">⧉</div></div></div>
+       <div class="workspace-tab-header" aria-label="Outgoing links"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">☰</div></div></div>
      </div></div>
      <div class="workspace-tab-container"><div class="workspace-leaf">
       <div class="workspace-leaf-content" data-type="backlink">
-       <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">Backlinks</div></div></div>
        <div class="view-content">
         <div class="backlink-pane">
          <div class="tree-item-self tree-item-heading">Linked mentions<span class="tree-item-flair">3</span></div>
@@ -253,9 +262,17 @@
       </div>
      </div></div>
     </div>
-    <div class="workspace-tab-container"><div class="workspace-leaf">
+    <!-- Each sidebar pane is its own tab group with its own header, which is what
+         Obsidian builds for a vertically split sidebar. The harness used to hang
+         these two off bare .workspace-tab-container siblings, so they had no tab
+         strip of their own — and any rule scoped to the tab GROUP silently
+         skipped them. -->
+    <div class="workspace-tabs mod-top">
+     <div class="workspace-tab-header-container"><div class="workspace-tab-header-container-inner">
+       <div class="workspace-tab-header is-active" aria-label="Tags"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">#</div></div></div>
+     </div></div>
+     <div class="workspace-tab-container"><div class="workspace-leaf">
      <div class="workspace-leaf-content" data-type="tag">
-      <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">Tags</div></div></div>
       <div class="view-content"><div class="tag-container">
        <div class="tree-item tag-pane-tag"><div class="tree-item-self is-clickable"><div class="tree-item-inner tag-pane-tag-text">waiting</div><div class="tree-item-flair-outer"><span class="tree-item-flair tag-pane-tag-count">1772</span></div></div></div>
        <div class="tree-item tag-pane-tag"><div class="tree-item-self is-clickable"><div class="tree-item-inner tag-pane-tag-text">concept</div><div class="tree-item-flair-outer"><span class="tree-item-flair tag-pane-tag-count">456</span></div></div></div>
@@ -264,9 +281,13 @@
       </div></div>
      </div>
     </div></div>
-    <div class="workspace-tab-container"><div class="workspace-leaf">
+    </div>
+    <div class="workspace-tabs mod-top">
+     <div class="workspace-tab-header-container"><div class="workspace-tab-header-container-inner">
+       <div class="workspace-tab-header is-active" aria-label="Outline"><div class="workspace-tab-header-inner"><div class="workspace-tab-header-inner-icon">⋮</div></div></div>
+     </div></div>
+     <div class="workspace-tab-container"><div class="workspace-leaf">
      <div class="workspace-leaf-content" data-type="outline">
-      <div class="view-header"><div class="view-header-title-container"><div class="view-header-title">Outline</div></div></div>
       <div class="view-content"><div class="outline-view">
        <div class="tree-item"><div class="tree-item-self is-clickable"><div class="tree-item-inner">Heading 1 — the major landmark</div></div></div>
        <div class="tree-item"><div class="tree-item-self is-clickable"><div class="tree-item-inner">Heading 2 — a distinct secondary band</div></div></div>
@@ -274,6 +295,7 @@
       </div></div>
      </div>
     </div></div>
+    </div>
    </div>
 
   </div>

@@ -16,7 +16,11 @@
 .cm-cursor { border-left: 1.2px solid; margin-left: -0.6px; display: block; }
 .cm-selectionBackground { background: #3355aa; }
 </style></head>
-<body class="theme-dark mod-macos is-focused">
+<!-- after-cards is ON by default in Style Settings, and it is what gates the
+     housing / aperture / frame chrome. Without it here the harness was
+     rendering a state almost no user sees, and the two over-content tube
+     layers were never hit-tested. -->
+<body class="theme-dark mod-macos is-focused after-cards">
 <div class="app-container"><div class="horizontal-main-container"><div class="workspace">
  <div class="workspace-split mod-vertical mod-root"><div class="workspace-tabs mod-top">
   <div class="workspace-tab-container"><div class="workspace-leaf mod-active">
